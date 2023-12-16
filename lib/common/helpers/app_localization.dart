@@ -29,13 +29,19 @@ class AppLocalization{
 
   static bool  get isArabic=>localization.currentLocale==const Locale("ar");
 
-
-
   // add your localization keys here
   static const Map<String, dynamic> EN = {
-    "title": 'Localization'
+    "HOME_TAB_TITLE":"Shop",
+    "CATEGORY_TAB_TITLE":"Category",
+    "NEW_TAB_TITLE":"New",
+    "CART_TAB_TITLE":"Cart",
+    "ME_TAB_TITLE":"Me"
   };
   static const Map<String, dynamic> AR = {
-    "title": 'ការធ្វើមូលដ្ឋានីយកម្ម'
+    "HOME_TAB_TITLE":"تسوق",
+    "CATEGORY_TAB_TITLE":"الأقسام",
+    "NEW_TAB_TITLE":"جديد",
+    "CART_TAB_TITLE":"السلة",
+    "ME_TAB_TITLE":"حسابي"
   };
 }

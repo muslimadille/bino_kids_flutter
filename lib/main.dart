@@ -2,10 +2,11 @@ import 'package:bino_kids/applications/mainApplication.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
-import 'package:bino_kids/features/home/view/screens/home_screen.dart';
+import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -37,20 +38,23 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      navigatorKey: AppNavigator().navigatorKey,
-      onGenerateRoute: onGenerateRoute,
-      supportedLocales: const [
-        Locale("en"),
-        Locale("ar"),
-      ],
-      localizationsDelegates: localization.localizationsDelegates,
-      locale: AppLocalization.isArabic ? const Locale("ar") : const Locale("en"),
-      home: HomeScreen(),
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        navigatorKey: AppNavigator().navigatorKey,
+        onGenerateRoute: onGenerateRoute,
+        supportedLocales: const [
+          Locale("en"),
+          Locale("ar"),
+        ],
+        localizationsDelegates: localization.localizationsDelegates,
+        locale: AppLocalization.isArabic ?  Locale("ar") :  Locale("en"),
+        home: HomeTabsScreen(),
+      );
+    });
+
   }
 }
