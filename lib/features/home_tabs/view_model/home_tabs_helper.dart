@@ -1,14 +1,15 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/features/home/view/screen/home_screen.dart';
 import 'package:flutter/material.dart';
+
+
 
 mixin HomeTabsHelper {
   int selectedIndex = 0;
   List<Widget> screens = [
+    HomeScreen(),
     Center(
-      child: Text("shop screen"),
-    ),
-    Center(
-      child: Text("category screen"),
+      child: Text("favorite screen"),
     ),
     Center(
       child: Text("new screen"),
@@ -34,12 +35,12 @@ mixin HomeTabsHelper {
     ),
     BottomNavigationBarItem(
       icon: Icon(
-        Icons.manage_search,
+        Icons.favorite_border,
         color: Colors.grey[400],
       ),
       label: AppLocalization.translate("CATEGORY_TAB_TITLE"),
       activeIcon: const Icon(
-        Icons.manage_search,
+        Icons.favorite,
         color: Colors.black,
       ),
     ),

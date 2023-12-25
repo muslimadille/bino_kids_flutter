@@ -53,12 +53,12 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> with HomeTabsHelper {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.manage_search,
+            Icons.favorite_border,
             color: Colors.grey[400],
           ),
           label: AppLocalization.translate("CATEGORY_TAB_TITLE"),
           activeIcon: const Icon(
-            Icons.manage_search,
+            Icons.favorite,
             color: Colors.black,
           ),
         ),
