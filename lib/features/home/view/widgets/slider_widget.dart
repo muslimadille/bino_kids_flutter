@@ -37,15 +37,17 @@ class _SliderWidgetState extends State<SliderWidget>with BannerSliderHelper {
             },
             children:List.generate(snapshot.data!.data.length, (index){
 
-              return Padding(
+              return Container(
+                width: double.infinity,
+                height: 20.h,
                 padding:  EdgeInsets.symmetric(horizontal: 2.w),
-                child: Image.network(
-                    snapshot.data!.data[index].imagePath??'',
-                  width: double.infinity,
-                  height: 20.h,
-                  fit: BoxFit.cover,
-                  alignment:Alignment.bottomCenter,
-
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    image:DecorationImage(
+                        alignment:Alignment.bottomCenter,
+                        fit: BoxFit.cover,
+                    image: NetworkImage(snapshot.data!.data[index].imagePath??'',))
                 ),
               );
             }) ,

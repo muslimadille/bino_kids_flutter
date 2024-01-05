@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../common/utils/constants/app_font_size.dart';
+import 'subcategories_list_widget.dart';
 
 class CategoryYearsWidget extends StatefulWidget {
   final StreamController<MainCategoriesDataModel?>mainCategoryStreamController;
@@ -76,32 +77,7 @@ class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryY
                     future: getSubCategories(moduleId:snapshot.data!.id,modelAgeId:snapshot.data!.modelAgeForMainPage![index].id  ),
                     builder: (context, subCategorySnapshot) {
                       return subCategorySnapshot.hasData?
-                      Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 2.w),
-                        child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, // Number of columns in the grid
-                            crossAxisSpacing: 2.w, // Spacing between columns
-                            mainAxisSpacing: 2.w, // Spacing between rows
-                          ),
-                          itemCount: subCategorySnapshot.data!.data.length, // Number of items in the grid
-                          itemBuilder: (BuildContext context, int subCategoryIndex) {
-                            return
-                              Column(
-                                children: [
-                                  ClipOval(child: Image.network(
-                                    subCategorySnapshot.data!.data[subCategoryIndex].imageNameList.isNotEmpty?
-                                    subCategorySnapshot.data!.data[subCategoryIndex].imageNameList[0].imagePath:"",
-                                  fit: BoxFit.cover,
-                                  height: 7.h,width:7.h,)),
-                                  SizedBox(height: 0.3.h,),
-                                  Text(subCategorySnapshot.data!.data[subCategoryIndex].name
-                                    ,textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.small),)
-                                ],
-                              );
-                          },
-                        ),
-                      ):SizedBox();
+                      SubcategoriesListWidget(items:subCategorySnapshot.data!.data,):SizedBox();
                     }
                   );
                 }) ,

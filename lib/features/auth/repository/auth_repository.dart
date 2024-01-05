@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/network/network_request.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:bino_kids/common/models/network_request_model.dart';
@@ -16,10 +17,13 @@ class AuthRepository{
               "password":"01111226508",
               "lang":AppLocalization.isArabic?2:1,
               "grant_type":"password",
-              "External":false,
-              "SocailId":"2025051001006289"
+              "External":true,
+              //"SocailId":""
             },
-            networkType: NetworkRequestEnum.put,
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            networkType: NetworkRequestEnum.get,
             showProgress: true,
             dismissProgress: true,
           ),

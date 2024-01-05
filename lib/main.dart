@@ -1,6 +1,7 @@
 import 'package:bino_kids/applications/mainApplication.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
 import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
@@ -10,7 +11,24 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+import 'common/helpers/device_info_details.dart';
+import 'common/widgets/custom_loading.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Future.wait([
+    DeviceInfoDetails().initPlatformState().then((value) async {
+      await Future.wait(
+          [
+            LocalStorage().init().then((value) async {
+
+            }),
+            DeviceInfoDetails().getDeviceInfoMap()
+          ]
+      );
+    })
+  ]);
   runApp(MultiProvider(
     providers: MainApplication.applicationList,
     child: const MyApp(),
@@ -21,8 +39,7 @@ void main() {
     ..maskType = EasyLoadingMaskType.black
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..indicatorWidget = CircularProgressIndicator(color: Colors.black,)
-    ..backgroundColor = Colors.transparent
+    ..indicatorWidget = CustomLoading()..backgroundColor = Colors.transparent
     ..boxShadow = [BoxShadow(color: Colors.transparent)]
     ..indicatorColor = Colors.white
     ..textColor = Colors.white

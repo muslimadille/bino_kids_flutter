@@ -171,8 +171,9 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  onPressed: (){
-                    AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+                  onPressed: ()async{
+                    await login();
+                    AppNavigator().pushAndRemoveAll(routeName: AppRoutes.HOME_SCREEN_ROUTE);
                   },
                   child: SizedBox(
                       width: double.infinity,

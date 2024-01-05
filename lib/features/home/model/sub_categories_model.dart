@@ -40,6 +40,7 @@ class SubCategoryDataModel {
   final int horizontalRowNumber;
   final int verticalRowNumber;
   final bool isDynamic;
+  final String? image;
   final List<ImageNameList> imageNameList;
 
   SubCategoryDataModel({
@@ -52,6 +53,7 @@ class SubCategoryDataModel {
     required this.horizontalRowNumber,
     required this.verticalRowNumber,
     required this.isDynamic,
+    required this.image,
     required this.imageNameList,
   });
 
@@ -66,6 +68,7 @@ class SubCategoryDataModel {
     verticalRowNumber: json["VerticalRowNumber"]??-1,
     isDynamic: json["IsDynamic"]??false,
     imageNameList: List<ImageNameList>.from((json["ImageNameList"]??[]).map((x) => ImageNameList.fromJson(x))),
+    image: json["image"],
   );
 
   Map<String, dynamic> toJson() => {

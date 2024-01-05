@@ -1,5 +1,7 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/features/cart/view/screens/cart_items_screen.dart';
 import 'package:bino_kids/features/home/view/screen/home_screen.dart';
+import 'package:bino_kids/features/profile/view/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,12 +16,8 @@ mixin HomeTabsHelper {
     Center(
       child: Text("new screen"),
     ),
-    Center(
-      child: Text("cart screenn"),
-    ),
-    Center(
-      child: Text("me screenn"),
-    ),
+    CartItemsScreen(),
+  ProfileScreen(),
   ];
   List<BottomNavigationBarItem> tabs = [
     BottomNavigationBarItem(

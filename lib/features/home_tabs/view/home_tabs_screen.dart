@@ -4,13 +4,21 @@ import 'package:bino_kids/features/home_tabs/view_model/home_tabs_helper.dart';
 import 'package:flutter/material.dart';
 
 class HomeTabsScreen extends StatefulWidget {
-  const HomeTabsScreen({Key? key}) : super(key: key);
+  final int? selectedIndex;
+  const HomeTabsScreen({
+    this.selectedIndex,
+    Key? key}) : super(key: key);
 
   @override
   State<HomeTabsScreen> createState() => _HomeTabsScreenState();
 }
 
 class _HomeTabsScreenState extends State<HomeTabsScreen> with HomeTabsHelper {
+  @override
+  void initState() {
+    selectedIndex=widget.selectedIndex??0;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

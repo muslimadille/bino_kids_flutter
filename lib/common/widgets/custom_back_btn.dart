@@ -1,11 +1,13 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomBackBtn extends StatelessWidget {
+  final String? title;
 
-  const CustomBackBtn({Key? key}) : super(key: key);
+  const CustomBackBtn({this.title, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,9 @@ class CustomBackBtn extends StatelessWidget {
           onTap:(){
             AppNavigator().goBack();
           } ,
-            child: Icon(Icons.arrow_back,textDirection:AppLocalization.isArabic?TextDirection.rtl:TextDirection.ltr ,))],),);
+            child: Icon(Icons.arrow_back,textDirection:AppLocalization.isArabic?TextDirection.rtl:TextDirection.ltr ,)),
+        Expanded(child: Text(title??'',textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),)),
+        SizedBox(width: 4.w,)
+      ],),);
   }
 }

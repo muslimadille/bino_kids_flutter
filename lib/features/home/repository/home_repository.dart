@@ -50,11 +50,12 @@ class HomeRepository{
       rethrow;
     }
   }
-  getSubCategories({required int modelAgeId,required int moduleId})async{
+  getSubCategories({ required int? modelAgeId,required int moduleId})async{
     try {
+
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
-            apiCode: ApiCodes.SUB_CATEGORIES_API,
+            apiCode:ApiCodes.SUB_CATEGORIES_API,
             networkType: NetworkRequestEnum.put,
             queryParameters: {
               "modelAgeId":modelAgeId,
@@ -62,6 +63,99 @@ class HomeRepository{
               "moduleId":moduleId,
               'lang':AppLocalization.isArabic?2:1
             },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  getMostWatched()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.GET_MOST_WATCHED,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "lang": AppLocalization.isArabic?2:1,
+              "userRole": 2,
+              "pageIndex": 0,
+              "pageSize": 5,
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  getSuggestions()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.GET_SUGGESTIONS,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "lang": AppLocalization.isArabic?2:1,
+              "userId": 16314,///required
+              "userRole": 2,
+              "pageIndex": 0,
+              "pageSize": 5,
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  getNewArrivals()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.GET_NEW_ARRIVALS,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "lang": AppLocalization.isArabic?2:1,
+              "userRole": 2,
+              "pageIndex": 0,
+              "pageSize": 5,
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  getModelTypes({required int moduleId})async{
+    try {
+
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.GET_MODEL_TYPES,
+            networkType: NetworkRequestEnum.put,
+            data: {
+                "moduleId": moduleId,
+                "lang": AppLocalization.isArabic?2:1,
+                "userRole": 2
+              },
             showProgress: true,
             dismissProgress: true,
           ),

@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/sub_categories_model.dart';
 import 'package:bino_kids/features/home/repository/home_repository.dart';
+import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +32,14 @@ mixin CategoryYearsHelper{
     } on DioException catch (error){
       return null;
     }
+  }
+  onSubcategoryClick(int id,List<SubCategoryDataModel> dataList){
+    AppNavigator().push(
+        routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
+        arguments: ProductsScreenArqumentsModel(
+            selectedcategoryId: id,
+            subcategoriesList: dataList));
+
   }
 
 }
