@@ -35,28 +35,60 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
     return Scaffold(
       key:drawerKey,
       drawer:Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(child:
-            Center(child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 10.w),
-              child: Image.asset("assets/images/app_name_icon.png"),
-            )) ),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(child:
+                  Center(child: Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Image.asset("assets/images/app_name_icon.png"),
+                  )) ),
+                  ListTile(
+                    leading: Icon(Icons.note_alt,color: Colors.black,),
+                    title: Text('About us'),
+                    onTap: () {
+                      Navigator.pop(context); // Close the drawer
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.note_alt,color: Colors.black,),
+                    title: Text('Return privacy policy'),
+                    onTap: () {
+                      // Handle item 2 tap
+                      Navigator.pop(context); // Close the drawer
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.note_alt,color: Colors.black,),
+                    title: Text('Return and exchange policy'),
+                    onTap: () {
+                      // Handle item 2 tap
+                      Navigator.pop(context); // Close the drawer
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.note_alt,color: Colors.black,),
+                    title: Text('Return shipping policy'),
+                    onTap: () {
+                      // Handle item 2 tap
+                      Navigator.pop(context); // Close the drawer
+                    },
+                  ),
+                ],
+              ),
+            ),
             ListTile(
-              title: Text('Item 1'),
+              leading: Icon(Icons.logout,color: Colors.red,),
+              title: Text('Logout',style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700
+              ),),
               onTap: () {
-                // Handle item 1 tap
                 Navigator.pop(context); // Close the drawer
               },
             ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                // Handle item 2 tap
-                Navigator.pop(context); // Close the drawer
-              },
-            ),
+            SizedBox(height: 2.h,)
           ],
         ),
       ),

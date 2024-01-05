@@ -1,4 +1,5 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/profile/view/widgets/profile_devider_widget.dart';
@@ -25,9 +26,11 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
             children: [
             GestureDetector(
               onTap:(){
-                AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                if(AppData.USER_NAME.isEmpty){
+                  AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                }
               },
-                child: Text("SIGNIN/REGISTER >",style: TextStyle(fontSize: AppFontSize.medium
+                child: Text(AppData.USER_NAME.isNotEmpty?"Hi ${AppData.USER_NAME}":"SIGNIN/REGISTER >",style: TextStyle(fontSize: AppFontSize.medium
                     ,fontWeight: FontWeight.w700))),
             GestureDetector(
               onTap: (){
@@ -50,8 +53,8 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
                   color: Colors.grey,
                     fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),),
               ],),
-              SizedBox(height: 2.h,),
-              Row(
+              //SizedBox(height: 2.h,),
+              /*Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(orderIcons.length, (index){
@@ -65,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
                         SizedBox(height:1.h,),
                         Text(orderTitles[index],textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.x_small),)
                       ],),));
-              }),)
+              }),)*/
 
             ],),
         ),

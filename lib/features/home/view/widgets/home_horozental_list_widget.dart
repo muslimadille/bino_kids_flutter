@@ -1,4 +1,6 @@
+import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/view/widgets/product_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +69,11 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
               crossAxisCount: 1,
               itemBuilder: (context, index) {
                 return UnconstrainedBox(
-                  child: ProductItemWidget(productModel: widget.products[index], index: -1,height: 20.h,width:28.w,),
+                  child: GestureDetector(
+                    onTap: (){
+                      AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: widget.products[index].guId.toString());
+                    },
+                      child: ProductItemWidget(productModel: widget.products[index], index: -1,height: 20.h,width:28.w,)),
                 );
               }),
         )

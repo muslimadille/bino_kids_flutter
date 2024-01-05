@@ -1,9 +1,11 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/cart/view/screens/cart_items_screen.dart';
 import 'package:bino_kids/features/home/view/screen/home_screen.dart';
 import 'package:bino_kids/features/product/view/screens/wish_list_screen.dart';
 import 'package:bino_kids/features/profile/view/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 
 
@@ -13,7 +15,15 @@ mixin HomeTabsHelper {
     HomeScreen(),
     WishListScreen(),
     Center(
-      child: Text("new screen"),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
+        children: [
+          Image.asset("assets/images/no_product.png",width: 15.h,height: 15.h,),
+          SizedBox(height: 2.h,),
+          Text("No data found",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)
+        ],),
     ),
     CartItemsScreen(),
   ProfileScreen(),
