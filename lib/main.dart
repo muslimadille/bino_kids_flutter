@@ -5,6 +5,7 @@ import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
 import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
+import 'package:bino_kids/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -93,11 +94,11 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
               data: MediaQuery.of(context).copyWith(
                 textScaleFactor: 1.0,
               ), //set desired text scale factor here
-              child: child??LoginScreen(),
+              child: child??SplashScreen(),
             );
           },
         ),
-        home: LoginScreen(),
+        home: SplashScreen(),
       );
     });
 

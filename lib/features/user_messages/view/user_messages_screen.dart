@@ -16,7 +16,7 @@ class _UserMessagesScreenState extends State<UserMessagesScreen> {
     return Scaffold(
       body:SafeArea(
         child: Column(children: [
-          const CustomBackBtn(
+           CustomBackBtn(
             title:"Notifications",
           ),
           Container(width: double.infinity,color: Colors.grey[200],height: 1,),

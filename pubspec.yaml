@@ -48,6 +48,7 @@ dependencies:
   network_info_plus: ^4.0.1
   connectivity_plus: ^4.0.1
   permission_handler: ^10.3.0
+  flutter_facebook_auth:
 
 
 

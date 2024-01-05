@@ -80,4 +80,29 @@ class ProductRepository{
     }
   }
 
+
+  Future<Response> getWishList() async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.GET_WISH_LIST,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": 16314,
+              "UserRole": 2,
+              "Lang": AppLocalization.isArabic ?2:1,
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+
 }

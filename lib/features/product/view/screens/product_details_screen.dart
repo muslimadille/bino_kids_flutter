@@ -31,6 +31,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   CustomBackBtn(title: "Product details",),
                   Expanded(
                     child: data.modelDetailsModel==null?SizedBox():CustomScrollView(
+                      physics: BouncingScrollPhysics(),
                       slivers: [
                         SliverAppBar(
                     automaticallyImplyLeading:false,
@@ -39,6 +40,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           pinned: true,
                           centerTitle: false,
                           stretch: true,
+                          floating: false,
                           expandedHeight: 50.h,
                           flexibleSpace:  FlexibleSpaceBar(
                             stretchModes: [StretchMode.zoomBackground],

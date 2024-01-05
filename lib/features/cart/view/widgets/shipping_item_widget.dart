@@ -23,7 +23,7 @@ class ShippingItemWidget extends StatelessWidget {
       },
       child: Container(
         margin:  EdgeInsets.symmetric(vertical:0.5.h,horizontal: 2.w),
-        padding:  EdgeInsets.symmetric(vertical:0.5.h,horizontal: 2.w),
+        padding:  EdgeInsets.symmetric(vertical:2.h,horizontal: 2.w),
         decoration: BoxDecoration(
           color: Colors.white,
             border: Border.fromBorderSide(
@@ -38,19 +38,15 @@ class ShippingItemWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Column(children: [
-                Row(children: [
-                  Icon(Icons.home_outlined,size: 5.w,),
+                Row(
+                  children: [
+                  Icon(Icons.home_outlined,size: 6.w,),
                   SizedBox(width:2.w),
-                  Expanded(child: Text("address"))
+                  Expanded(child: Text(model.addressName??""))
                 ],),
-                SizedBox(height: 1.h,),
-                Row(children: [
-                  Icon(Icons.location_city,size: 5.w,),
-                  SizedBox(width:2.w),
-                  Expanded(child: Text("Covernate"))
-                ],)
               ],),
             ),
+            SizedBox(width: 2.w,),
             GestureDetector(child: Icon(isSelected?Icons.radio_button_checked:Icons.radio_button_off),)
           ],
         ),

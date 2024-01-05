@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
         children: [
           Expanded(
             child: ListView(children:  [
-              const CustomBackBtn(),
+               CustomBackBtn(),
               Image.asset(
                   "assets/images/app_name_icon.png",
               height: 8.h,
@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                   ),
                   onPressed: ()async{
                     await login();
-                    AppNavigator().pushAndRemoveAll(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+                    //AppNavigator().pushAndRemoveAll(routeName: AppRoutes.HOME_SCREEN_ROUTE);
                   },
                   child: SizedBox(
                       width: double.infinity,

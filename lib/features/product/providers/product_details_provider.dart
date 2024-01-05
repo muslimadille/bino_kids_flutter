@@ -63,4 +63,5 @@ class ProductDetailsProvider with ChangeNotifier{
 
   }
 
+
 }

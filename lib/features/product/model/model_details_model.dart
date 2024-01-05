@@ -33,8 +33,8 @@ class ModelDetailsModel {
 }
 
 class ModelList {
-  final num id;
-  final dynamic modelType;
+  final num? id;
+  final dynamic? modelType;
   final String? modelTypeName;
   final String? guId;
   final String? productData;
@@ -56,6 +56,10 @@ class ModelList {
   final List<dynamic>? wearWith;
   final List<Similar>? similar;
   final List<ImageList>? imageList;
+  final int wishListId;
+  final bool isFavorite;
+
+
 
   ModelList({
     required this.id,
@@ -81,6 +85,8 @@ class ModelList {
     required this.wearWith,
     required this.similar,
     required this.imageList,
+    required this.isFavorite,
+    required this.wishListId
   });
 
   factory ModelList.fromJson(Map<String, dynamic> json) => ModelList(
@@ -104,9 +110,11 @@ class ModelList {
     size: List<AllSize>.from(json["Size"].map((x) => AllSize.fromJson(x))),
     allSize: List<AllSize>.from(json["AllSize"].map((x) => AllSize.fromJson(x))),
     colors: List<Color>.from(json["Colors"].map((x) => Color.fromJson(x))),
-    wearWith: List<dynamic>.from(json["WearWith"].map((x) => x)),
-    similar: List<Similar>.from(json["Similar"].map((x) => Similar.fromJson(x))),
-    imageList: List<ImageList>.from(json["ImageList"].map((x) => ImageList.fromJson(x))),
+    wearWith:json["WearWith"]==null?[]: List<dynamic>.from(json["WearWith"].map((x) => x)),
+    similar: json["Similar"]==null?[]:List<Similar>.from(json["Similar"].map((x) => Similar.fromJson(x))),
+    imageList: json["ImageList"]==null?[]:List<ImageList>.from(json["ImageList"].map((x) => ImageList.fromJson(x))),
+    isFavorite: json["IsFavorite"]??false,
+    wishListId: json["WishListID"]??-1,
   );
 
   Map<String, dynamic> toJson() => {
@@ -133,6 +141,8 @@ class ModelList {
     "WearWith": List<dynamic>.from(wearWith!.map((x) => x)),
     "Similar": List<dynamic>.from(similar!.map((x) => x.toJson())),
     "ImageList": List<dynamic>.from(imageList!.map((x) => x.toJson())),
+    "IsFavorite": isFavorite,
+    "WishListID": wishListId,
   };
 }
 

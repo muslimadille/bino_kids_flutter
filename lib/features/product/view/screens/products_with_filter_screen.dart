@@ -47,8 +47,8 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
       Row(
         children: [
         Expanded(child: CustomBackBtn(title: subcategoriesList[selectedIndex].name,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.search)),
+          //IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
+          //IconButton(onPressed: (){}, icon: Icon(Icons.search)),
           IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border)),
       ],),
       StreamBuilder<int>(

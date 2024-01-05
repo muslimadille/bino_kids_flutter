@@ -1,11 +1,14 @@
+// To parse this JSON data, do
+//
+//     final loginModel = loginModelFromJson(jsonString);
 
 import 'dart:convert';
 
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
 
-String userModelToJson(UserModel data) => json.encode(data.toJson());
+String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
-class UserModel {
+class LoginModel {
   final String accessToken;
   final String tokenType;
   final int expiresIn;
@@ -22,7 +25,7 @@ class UserModel {
   final String issued;
   final String expires;
 
-  UserModel({
+  LoginModel({
     required this.accessToken,
     required this.tokenType,
     required this.expiresIn,
@@ -40,7 +43,7 @@ class UserModel {
     required this.expires,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
     accessToken: json["access_token"],
     tokenType: json["token_type"],
     expiresIn: json["expires_in"],

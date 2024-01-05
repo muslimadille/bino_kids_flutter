@@ -6,8 +6,11 @@ import 'package:sizer/sizer.dart';
 
 class CustomBackBtn extends StatelessWidget {
   final String? title;
+  bool? hideBtn;
 
-  const CustomBackBtn({this.title, Key? key}) : super(key: key);
+   CustomBackBtn({
+    this.hideBtn,
+    this.title, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class CustomBackBtn extends StatelessWidget {
           onTap:(){
             AppNavigator().goBack();
           } ,
-            child: Icon(Icons.arrow_back,textDirection:AppLocalization.isArabic?TextDirection.rtl:TextDirection.ltr ,)),
+            child: (hideBtn??false)?SizedBox():Icon(Icons.arrow_back,textDirection:AppLocalization.isArabic?TextDirection.rtl:TextDirection.ltr ,)),
         Expanded(child: Text(title??'',textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),)),
         SizedBox(width: 4.w,)
       ],),);

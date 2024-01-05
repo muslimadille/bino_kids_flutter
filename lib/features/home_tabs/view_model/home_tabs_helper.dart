@@ -1,6 +1,7 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/features/cart/view/screens/cart_items_screen.dart';
 import 'package:bino_kids/features/home/view/screen/home_screen.dart';
+import 'package:bino_kids/features/product/view/screens/wish_list_screen.dart';
 import 'package:bino_kids/features/profile/view/profile_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,7 @@ mixin HomeTabsHelper {
   int selectedIndex = 0;
   List<Widget> screens = [
     HomeScreen(),
-    Center(
-      child: Text("favorite screen"),
-    ),
+    WishListScreen(),
     Center(
       child: Text("new screen"),
     ),

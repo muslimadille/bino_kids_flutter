@@ -18,6 +18,9 @@ class ApiCodes{
   static const String GET_ALL_GOVERNATES="Cart/AllGovernorate";
   static const String GET_ALL_ADDERESSES="Users/GetAddressesByUserId";
   static const String SET_ORDER="Cart/addUserOrder";
+  static const String GET_WISH_LIST="WishList/GetAllWishList";
+
+
 
 
 
