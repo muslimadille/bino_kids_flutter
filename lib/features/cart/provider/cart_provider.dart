@@ -95,6 +95,6 @@ class CartProvider with ChangeNotifier{
         totalAfterDiscount: totalPrice.toString(),
         governmentId: addressesListModel!.addressDataModel!.addressList![selectedAddressIndex].governmentId.toString(),
         addressName: addressesListModel!.addressDataModel!.addressList![selectedAddressIndex].addressName??'');
-    AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+    AppNavigator().push(routeName: AppRoutes.ALL_ORDERS_SCREEN_ROUTE);
   }
 }

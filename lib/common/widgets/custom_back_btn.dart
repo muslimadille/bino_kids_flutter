@@ -14,17 +14,24 @@ class CustomBackBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding:EdgeInsets.symmetric(horizontal: 2.w,vertical: 2.h),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
       children: [
-        GestureDetector(
-          onTap:(){
-            AppNavigator().goBack();
-          } ,
-            child: (hideBtn??false)?SizedBox():Icon(Icons.arrow_back,textDirection:AppLocalization.isArabic?TextDirection.rtl:TextDirection.ltr ,)),
-        Expanded(child: Text(title??'',textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),)),
-        SizedBox(width: 4.w,)
-      ],),);
+        Padding(
+    padding:EdgeInsets.symmetric(horizontal: 2.w,vertical: 2.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap:(){
+                  AppNavigator().goBack();
+                } ,
+                  child: (hideBtn??false)?SizedBox():Icon(Icons.arrow_back,textDirection:AppLocalization.isArabic?TextDirection.rtl:TextDirection.ltr ,)),
+              Expanded(child: Text(title??'',textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),)),
+              SizedBox(width: 4.w,)
+            ],),
+        ),
+        Container(color: Colors.grey[200],width: double.infinity,height: 1,)
+      ],
+    );
   }
 }

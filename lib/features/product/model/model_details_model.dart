@@ -195,7 +195,7 @@ class Color {
   final String? colorName;
   final num? arrange;
   final bool? isHidden;
-  final bool? isInWishList;
+   bool? isInWishList;
   final List<AllSize>? sizesOfThisColorList;
 
   Color({
@@ -294,7 +294,7 @@ class Similar {
   final String? modelCode;
   final String? modelTradeMarkName;
   final String? modelAgeName;
-  final bool? isInWishList;
+   bool? isInWishList;
   final num? colorId;
   final bool? isMoreThanThreeColors;
   final dynamic? colorsList;

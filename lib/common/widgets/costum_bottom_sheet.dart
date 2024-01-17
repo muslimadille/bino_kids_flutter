@@ -28,22 +28,21 @@ class CustomBottomSheet{
         builder: (BuildContext context) {
           return SizedBox(
             height: fixedSize,
-            child: Scaffold(
+            child:  Scaffold(
               backgroundColor: Colors.transparent,
               body:Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                        width: double.infinity,
-                        decoration:BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: color,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(radius??0),
-                          ),
+                  const Expanded(
+                    child:SizedBox() ,),
+                  Container(
+                      width: double.infinity,
+                      decoration:BoxDecoration(
+                        color: color,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(radius??0),
                         ),
-                        child: widget
-                    ),
+                      ),
+                      child: widget
                   )
                 ],
               ),

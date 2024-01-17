@@ -109,7 +109,7 @@ class CustomSnakbar {
             ),
             child: ListTile(
               contentPadding: EdgeInsets.all(1.5.h),
-              leading: Icon(Icons.notifications_active,color: AppColors.GREEN_COLOR,size: 5.h,),
+              leading: Icon(Icons.notifications_active,color: AppColors.GREEN_COLOR,size: 5.w,),
               dense: true,
               title: Text(
                 title,

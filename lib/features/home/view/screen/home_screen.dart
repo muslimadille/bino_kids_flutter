@@ -1,8 +1,13 @@
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
+import 'package:bino_kids/features/auth/provider/login_provider.dart';
 import 'package:bino_kids/features/home/model/main_categories_model.dart';
 import 'package:bino_kids/features/home/model/model_types_model.dart';
 import 'package:bino_kids/features/home/model/sub_categories_model.dart';
+import 'package:bino_kids/features/home/view/widgets/Loaing_grid_shimmer.dart';
 import 'package:bino_kids/features/home/view/widgets/category_years_widget.dart';
 import 'package:bino_kids/features/home/view/widgets/home_horozental_list_widget.dart';
 import 'package:bino_kids/features/home/view/widgets/models_types_grid_widget.dart';
@@ -13,6 +18,8 @@ import 'package:bino_kids/features/home/view_model/category_years_helper.dart';
 import 'package:bino_kids/features/home/view_model/home_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import '../widgets/drawer_wiidget.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -34,64 +41,7 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
   Widget build(BuildContext context) {
     return Scaffold(
       key:drawerKey,
-      drawer:Drawer(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  DrawerHeader(child:
-                  Center(child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Image.asset("assets/images/app_name_icon.png"),
-                  )) ),
-                  ListTile(
-                    leading: Icon(Icons.note_alt,color: Colors.black,),
-                    title: Text('About us'),
-                    onTap: () {
-                      Navigator.pop(context); // Close the drawer
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.note_alt,color: Colors.black,),
-                    title: Text('Return privacy policy'),
-                    onTap: () {
-                      // Handle item 2 tap
-                      Navigator.pop(context); // Close the drawer
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.note_alt,color: Colors.black,),
-                    title: Text('Return and exchange policy'),
-                    onTap: () {
-                      // Handle item 2 tap
-                      Navigator.pop(context); // Close the drawer
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.note_alt,color: Colors.black,),
-                    title: Text('Return shipping policy'),
-                    onTap: () {
-                      // Handle item 2 tap
-                      Navigator.pop(context); // Close the drawer
-                    },
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout,color: Colors.red,),
-              title: Text('Logout',style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700
-              ),),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-              },
-            ),
-            SizedBox(height: 2.h,)
-          ],
-        ),
-      ),
+      drawer:HomeDrawerWidget(),
       backgroundColor: Colors.white,
       body:SafeArea(
         child: Column(
@@ -153,27 +103,24 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
                   child: Column(
                     children: [
                       SliderWidget(),
-
-                      StreamBuilder(stream: mainCategoryStreamController.stream, builder: (context,snapshot){
-                        return snapshot.hasData?selectedCategoryIndex>0?
-                         FutureBuilder<ModelTypesModel?>(
-                            future: getModelTypes(moduleId:snapshot.data!.id),
-                            builder: (context, subCategorySnapshot) {
-                              return subCategorySnapshot.hasData?
-                              ModelTypesGridWidget(items:subCategorySnapshot.data!.modelTypes??[],):SizedBox();
-                            }
-                        ):SizedBox():SizedBox();
-                      }),
-                      CategoryYearsWidget(mainCategoryStreamController: mainCategoryStreamController,),
-
+                      StreamBuilder<MainCategoriesDataModel?>(
+                        stream: mainCategoryStreamController.stream,
+                        builder: (context, snapshot) {
+                          return snapshot.hasData?
+                          CategoryYearsWidget(key: UniqueKey(),modelAgeForMainPage: snapshot.data!.modelAgeForMainPage??[],):SizedBox(
+                            height: 30.h,
+                              width: double.infinity,
+                              child: LoadingGridShimmer());
+                        }
+                      ),
                       FutureBuilder(future: getMostWatched(), builder: (context,snapshot){
                         return snapshot.hasData?
-                        HomeHorzontalListWidget(listTitle: 'Most watched', onSeeAllClick: (){}, products: snapshot.data??[],)
+                        HomeHorzontalListWidget(listTitle:tr("most_watched"), onSeeAllClick: (){}, products: snapshot.data??[],)
                             :SizedBox();
                       }),
                       FutureBuilder(future: getSuggestions(), builder: (context,snapshot){
                         return snapshot.hasData?
-                        HomeHorzontalListWidget(listTitle: 'Suggestions', onSeeAllClick: (){}, products:snapshot.data??[],)
+                        HomeHorzontalListWidget(listTitle: tr('Suggestions'), onSeeAllClick: (){}, products:snapshot.data??[],)
                             :SizedBox();
                       })
 

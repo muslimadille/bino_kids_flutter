@@ -4,18 +4,23 @@ import 'dart:convert';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/sub_categories_model.dart';
+import 'package:bino_kids/features/product/model/filter_model.dart';
+import 'package:bino_kids/features/product/model/price_model.dart';
 import 'package:bino_kids/features/product/model/products_with_filter_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../home/model/model_types_model.dart';
 import '../model/product_model.dart';
 import '../repository/product_repository.dart';
 
 mixin productWithFiltersHelper{
+  final GlobalKey<ScaffoldState> drawerKey =  GlobalKey<ScaffoldState>();
   late final ScrollController categoryController;
   final List<SubCategoryDataModel> subcategoriesList=[];
    bool isModelType=false;
+   Filters? filters;
+   Price?prices;
+  Map<String, List<int>> selectedFilters={};
 
   late final StreamController<int> categoryStreamController;
   late final StreamController<List<ProductModel>?> productsStreamController;
@@ -27,10 +32,10 @@ mixin productWithFiltersHelper{
   onInit()async{
     initSelectedCategory();
     categoryStreamController=StreamController<int>.broadcast();
-    productsStreamController=StreamController<List<ProductModel>?>();
+    productsStreamController=StreamController<List<ProductModel>?>.broadcast();
     categoryController=ScrollController();
     scrollToIndex();
-    getProducts();
+    getProducts(selectedFilters: {});
   }
   onDispose(){
     categoryStreamController.close();
@@ -45,15 +50,18 @@ mixin productWithFiltersHelper{
   }
   onSelectCategory(int index){
     selectedIndex=index;
+    selectedFilters={};
     selectedCategoryId=subcategoriesList[index].id;
     categoryStreamController.add(index);
-    getProducts();
+    getProducts(selectedFilters: {});
     scrollToIndex();
   }
-  getProducts()async{
+  getProducts({required Map<String, List<int>> selectedFilters})async{
     productsStreamController.add(null);
-    final response=await ProductRepository().getProductsWithFilter(modelTypeID: subcategoriesList[selectedIndex].id);
+    final response=await ProductRepository().getProductsWithFilter(modelTypeID: subcategoriesList[selectedIndex].id,selectedFilters: selectedFilters);
     ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
+    filters=productsWithFilterModel.filters;
+    prices=productsWithFilterModel.price;
     productsStreamController.add(productsWithFilterModel.modelList);
   }
    initSelectedCategory(){

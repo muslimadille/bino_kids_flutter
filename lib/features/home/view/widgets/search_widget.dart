@@ -15,8 +15,8 @@ class HomeSearchWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: AppLocalization.isArabic?
-              BorderRadius.only(topRight:Radius.circular(8),bottomRight:Radius.circular(8))
-                  :BorderRadius.only(topLeft:Radius.circular(8),bottomLeft:Radius.circular(8)),
+              BorderRadius.only(topRight:Radius.circular(5),bottomRight:Radius.circular(5))
+                  :BorderRadius.only(topLeft:Radius.circular(5),bottomLeft:Radius.circular(5)),
 
             ),
           height:5.h,
@@ -27,8 +27,8 @@ class HomeSearchWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: AppLocalization.isArabic?
-            BorderRadius.only(topLeft:Radius.circular(8),bottomLeft:Radius.circular(8)):
-              BorderRadius.only(topRight:Radius.circular(8),bottomRight:Radius.circular(8))
+            BorderRadius.only(topLeft:Radius.circular(5),bottomLeft:Radius.circular(5)):
+              BorderRadius.only(topRight:Radius.circular(5),bottomRight:Radius.circular(5))
           ),
           height:5.h,
           padding: EdgeInsets.all(2.w),

@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
-import 'package:bino_kids/features/home/model/model_types_model.dart';
-import 'package:bino_kids/features/home/model/sub_categories_model.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
+import 'package:bino_kids/features/product/view/widgets/filtter_widget.dart';
 import 'package:bino_kids/features/product/view/widgets/product_item_widget.dart';
 import 'package:bino_kids/features/product/view_model/product_with_filters_helper.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,21 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(body: Column(
+    return  Scaffold(
+      key:drawerKey,
+      drawer:StreamBuilder<List<ProductModel>?>(
+        stream: productsStreamController.stream,
+        builder: (context, snapshot) {
+          return filters!=null?FilterWidget(
+            selectedFilters: selectedFilters,
+            filters:filters!,price: prices!,
+            onDone:(values){
+            selectedFilters=values;
+            getProducts(selectedFilters:selectedFilters );
+          } ,):SizedBox();
+        }
+      ),
+      body: Column(
         children: [
           SizedBox(height: 5.h,),
       Row(
@@ -49,7 +65,9 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
         Expanded(child: CustomBackBtn(title: subcategoriesList[selectedIndex].name,)),
           //IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
           //IconButton(onPressed: (){}, icon: Icon(Icons.search)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border)),
+          IconButton(onPressed: (){
+            AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 1);
+          }, icon: Icon(Icons.favorite_border)),
       ],),
       StreamBuilder<int>(
         stream: categoryStreamController.stream,
@@ -73,17 +91,8 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
                   width: 20.w,
                   height: 13.h,
                   decoration: BoxDecoration(
-                    color: isSelected?Colors.black:Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: Offset(0,0), // changes position of shadow
-                      ),
-                    ],
-
+                    color: isSelected?Colors.black:Colors.grey[200],
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,9 +100,10 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
                       Expanded(
                         child: Container(
                           width: double.infinity,
+                          margin: EdgeInsets.all(1),
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.only(topRight:Radius.circular(8),topLeft:Radius.circular(8) ),
+                              borderRadius: BorderRadius.only(topRight:Radius.circular(5),topLeft:Radius.circular(5) ),
                               image: DecorationImage(
                                   fit: BoxFit.fitHeight,
                                   image: subcategoriesList[index].imageNameList.isEmpty?
@@ -122,13 +132,17 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
               children: [
               GestureDetector(
                 onTap: (){
-
+                  if(drawerKey.currentState!.isDrawerOpen){
+                    drawerKey.currentState!.closeDrawer();
+                  }else{
+                    drawerKey.currentState!.openDrawer();
+                  }
                 },
                 child: Row(children: [
-                  Container(color: Colors.grey[200],width:1,height: 3.h,),
+                  Container(color: Colors.grey[300],width:1,height: 3.h,),
                   SizedBox(width: 5.w,),
-                  Text("Filter",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600),),
-                  Icon(Icons.filter_alt_outlined,color: Colors.grey,),
+                  Text(tr("Filter"),style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),),
+                  Icon(Icons.filter_alt_outlined,color: Colors.black,),
                 ],),
               )
             ],),
@@ -139,19 +153,23 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
               stream: productsStreamController.stream,
               builder: (context, snapshot) {
                 return snapshot.hasData?
-                MasonryGridView.count(
-                  padding: EdgeInsets.only(top: 1.h),
-                    shrinkWrap: true,
-                    itemCount:snapshot.data!.length ,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 2,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: (){
-                          onItemClick(modelId: snapshot.data![index].guId.toString());
-                        },
-                          child: ProductItemWidget(index: index, productModel: snapshot.data![index],));
-                    }):SizedBox();
+                Container(
+                  color:Colors.grey[200],
+                  child: MasonryGridView.count(
+                    padding: EdgeInsets.only(top: 1.h),
+                      shrinkWrap: true,
+                      itemCount:snapshot.data!.length ,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing:0,
+                      crossAxisCount: 2,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: (){
+                            onItemClick(modelId: snapshot.data![index].guId.toString());
+                          },
+                            child: ProductItemWidget(index: index, productModel: snapshot.data![index],));
+                      }),
+                ):SizedBox();
               }
             ),
           )

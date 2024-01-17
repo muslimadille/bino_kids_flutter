@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/cart/provider/cart_provider.dart';
 import 'package:bino_kids/features/cart/view/widgets/shipping_item_widget.dart';
@@ -12,6 +13,7 @@ class SelectAddressBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(builder: (context,dataModel,_){
       return Container(
+        height: 60.h,
         padding:  EdgeInsets.symmetric(vertical:2.h,horizontal: 2.w),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -21,7 +23,7 @@ class SelectAddressBottomSheet extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Shipping to",style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),),
+            Text(tr("Shipping_to"),style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),),
             SizedBox(height: 1.h,),
             (dataModel.addressesListModel!.addressDataModel!.addressList??[]).isNotEmpty?Expanded(child: ListView.builder(
               itemCount: (dataModel.addressesListModel!.addressDataModel!.addressList??[]).length,

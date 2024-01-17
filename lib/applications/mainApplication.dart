@@ -18,6 +18,9 @@ class MainApplication{
         create: (context) => WishListProvider()),
     ChangeNotifierProvider<LoginProvider>(
         create: (context) => LoginProvider()),
+    ChangeNotifierProvider<ProductDetailsProvider>(
+        create: (context) => ProductDetailsProvider()),
+
 
   ];
 }

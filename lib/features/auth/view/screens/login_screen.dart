@@ -14,14 +14,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> with LoginHelper{
-  late final TextEditingController emailCotroller;
-  late final TextEditingController passwordCotroller;
-  bool showIcone=false;
+
 
   @override
   void initState() {
-    emailCotroller=TextEditingController();
-     passwordCotroller=TextEditingController();
+    onInit();
+  }
+  @override
+  void dispose() {
+    onDispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

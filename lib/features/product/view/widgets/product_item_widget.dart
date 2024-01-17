@@ -1,7 +1,12 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
+import 'package:bino_kids/features/product/providers/product_details_provider.dart';
+import 'package:bino_kids/features/product/view/screens/poduct_details_bottom_sheet_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ProductItemWidget extends StatefulWidget {
@@ -9,11 +14,14 @@ class ProductItemWidget extends StatefulWidget {
   final ProductModel productModel;
   final double? height;
   final double? width;
+  final double?scale;
+
   const ProductItemWidget({
     required this.index,
     required this.productModel,
     this.height,
     this.width,
+    this.scale,
     Key? key}) : super(key: key);
 
   @override
@@ -25,19 +33,11 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
   Widget build(BuildContext context) {
     return UnconstrainedBox(
       child: Container(
-        width: widget.width??45.w,
-        height: widget.height??(widget.index.isOdd?35.h:30.h),
+        width: (widget.width ?? 48.w)*(widget.scale??1),
+        height: (widget.height ?? (widget.index.isOdd ? 35.h : 30.h))*(widget.scale??1),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
-              spreadRadius:2,
-              blurRadius:5,
-              offset: Offset(0,0), // changes position of shadow
-            ),
-          ],
+          borderRadius: BorderRadius.circular(5),
 
         ),
         child: Column(
@@ -46,39 +46,76 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             Expanded(
               child: Container(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10) ),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(widget.productModel.imageUrl??''))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(margin: EdgeInsets.all(2.w),
-                        padding: EdgeInsets.all(2.w),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[200], // You can set your desired color
-                        ),
-                        child: Icon(Icons.add_shopping_cart,size: 5.w,))
-                  ],),
+                decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
+                    fit: BoxFit.cover, image: NetworkImage(widget.productModel.imageUrl ?? ''))),
               ),
             ),
-            SizedBox(height: 1.h,),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 2.w),
-              child: Text(widget.productModel.priceAfter!=null?(widget.productModel.priceAfter.toString()+"EGP"):"",style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+            Container(height: 1,color: Colors.grey[200],width: double.infinity,),
+            SizedBox(
+              height: (1.h)*(widget.scale??1),
             ),
-            SizedBox(height: 0.5.h,),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 2.w),
-              child: Text(widget.productModel.description??widget.productModel.productData??'',style: TextStyle(
-                  color:Colors.grey,
-                  fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: Text(
+                    widget.productModel.priceAfter != null ? (widget.productModel.priceAfter.toString() + tr("EGP")) : "",
+                    style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_small*(widget.scale??1), fontWeight: FontWeight.w700),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: Text(
+                    widget.productModel.priceBefore != null ? (widget.productModel.priceAfter.toString() + tr("EGP")) : "",
+                    style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small*(widget.scale??1), fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough,),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 2.h,),
-          ],),
+            SizedBox(
+              height: 0.5.h*(widget.scale??1),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Text(
+                      widget.productModel.description ?? widget.productModel.productData ?? '',
+                      style: TextStyle(color: Colors.black, fontSize: AppFontSize.x_x_small*(widget.scale??1), fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                    onTap: () async{
+                      context.read<ProductDetailsProvider>().onInit(true);
+                      await context.read<ProductDetailsProvider>().getModelDetails(modelId: widget.productModel.guId ?? '');
+                      CustomBottomSheet().displayModalBottomSheet(widget: ProductDetailsBottomSheetWidget());
+                    },
+                    child: Container(
+                        margin: EdgeInsets.all(2.w),
+                        padding: EdgeInsets.symmetric(vertical:0.5.h*(widget.scale??1),horizontal: 5.w*(widget.scale??1)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                            border: Border.fromBorderSide(
+                                BorderSide(
+                                    width:1,
+                                    color:Colors.black
+                                )
+                            )
+                        ),
+                        child: Icon(
+                          Icons.add_shopping_cart,
+                          size: 4.w*(widget.scale??1),
+                        )))
+              ],
+            ),
+            SizedBox(
+              height: 1.h*(widget.scale??1),
+            ),
+          ],
+        ),
       ),
     );
   }

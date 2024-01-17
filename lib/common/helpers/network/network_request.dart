@@ -32,7 +32,9 @@ class NetworkRequest with NetworkExceptionHandler {
   bool canMakeRequest = true;
   bool isInNewTokenProcess = false;
 
+
   Future sendAppRequest(
+
       {required NetworkRequestModel networkParameters,
       required NetworkExceptionModel exceptionParameters}) async {
 
@@ -67,7 +69,9 @@ class NetworkRequest with NetworkExceptionHandler {
           EasyLoading.dismiss();
           canBack = true;
         }
-
+        if(response.data["status"].toString()=="0"){
+          CustomSnakbar().appSnackBar(text:response.data["message"].toString() , isFaild: true);
+        }
         return response;
       } on DioException catch (dioError) {
         log("******Error************(serviceId:${networkParameters.apiCode})*****(statusCode:${dioError.response?.statusCode}:${dioError.response?.statusMessage})\n${dioError.response}");
@@ -82,11 +86,12 @@ class NetworkRequest with NetworkExceptionHandler {
         if ((exceptionParameters.showError??false) && errorMessage != null) {
           canMakeRequest = false;
           CustomSnakbar().hideSnackbar();
-          CustomSnakbar().appSnackBar(text: errorMessage, isFaild: true);
+          CustomSnakbar().appSnackBar(text: dioError.response!=null?dioError.response!.data['message'].toString():errorMessage, isFaild: true);
           Future.delayed(const Duration(seconds: 3), () {
             canMakeRequest = true;
           });
         }
+
 
         if (networkParameters.rethrowError??false) {
           rethrow;

@@ -1,6 +1,7 @@
 import 'package:bino_kids/applications/mainApplication.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/helpers/cash_helper.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
@@ -60,11 +61,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with MyAppHelper {
 
+
   @override
   void initState() {
     super.initState();
     AppLocalization().onInit();
     localization.onTranslatedLanguage = (local) {
+      CashHelper.reset();
       setState(() {});
     };
   }
@@ -76,6 +79,7 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
     ]);
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
+        key:UniqueKey(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),

@@ -1,15 +1,21 @@
+import 'dart:convert';
+
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/network/network_request.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:bino_kids/common/models/network_request_model.dart';
 import 'package:bino_kids/common/utils/constants/api_codes.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/eums/network_request_enum.dart';
 import 'package:dio/dio.dart';
 
 class HomeRepository{
   Future<Response> getBanner() async {
+    
+
     try {
-      final response = await NetworkRequest().sendAppRequest(
+      final  response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
             apiCode: ApiCodes.BANNER_API,
             networkType: NetworkRequestEnum.put,
@@ -63,8 +69,8 @@ class HomeRepository{
               "moduleId":moduleId,
               'lang':AppLocalization.isArabic?2:1
             },
-            showProgress: true,
-            dismissProgress: true,
+            showProgress: false,
+            dismissProgress: false,
           ),
           exceptionParameters: const NetworkExceptionModel(
               dismissProgress: true, showError: true));
@@ -105,8 +111,8 @@ class HomeRepository{
             networkType: NetworkRequestEnum.put,
             data: {
               "lang": AppLocalization.isArabic?2:1,
-              "userId": 16314,///required
-              "userRole": 2,
+              "userId": AppData.USER_ID,///required
+              "userRole": AppData.USER_ROLE,
               "pageIndex": 0,
               "pageSize": 5,
             },

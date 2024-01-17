@@ -19,6 +19,19 @@ class ApiCodes{
   static const String GET_ALL_ADDERESSES="Users/GetAddressesByUserId";
   static const String SET_ORDER="Cart/addUserOrder";
   static const String GET_WISH_LIST="WishList/GetAllWishList";
+  static const String CHAGE_FAVOUTITE="WishList/ToggleFavorite";
+
+
+
+
+  static const String GET_ABOUT_US="Policies/AboutUs";
+  static const String GET_PRIVACY_POLICY="Policies/returnPrivacyPolicy";
+  static const String GET_RETURN_AND_EXCHANGE_POLICY="Policies/ReturnAndExchangePolicy";
+  static const String GET_RETURN_SHIPPING_POLICY="Policies/ReturnShippingPolicy";
+
+  static const String GET_OREDERS="Requests/GetUserRequests";
+
+
 
 
 

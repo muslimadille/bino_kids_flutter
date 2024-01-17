@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
@@ -28,14 +29,14 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
       margin: EdgeInsets.only(top: 1.h),
       padding: EdgeInsets.only(top: 1.h,left: 1.w,right: 1.w),
       decoration: BoxDecoration(
-        borderRadius:BorderRadius.only(topLeft:Radius.circular(10),topRight:Radius.circular(10)),
+        borderRadius:BorderRadius.only(topLeft:Radius.circular(5),topRight:Radius.circular(5)),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: [0.0,0.5],
+          stops: [0.0,0.9],
           colors: [
             Colors.black,
-            Colors.white,
+            Colors.grey.withOpacity(0.2),
           ],
         ),
       ),
@@ -44,22 +45,18 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
           mainAxisAlignment:MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              padding: EdgeInsets.symmetric(vertical:2.w,horizontal: 5.w),
-              margin: EdgeInsets.all(2.w),
-              child: Text(widget.listTitle,style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),),),
+
+              padding: EdgeInsets.symmetric(vertical:2.w,horizontal: 2.w),
+              child: Text(widget.listTitle,style: TextStyle(color: Colors.white,fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),),),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: 3.w),
-              child: Text("See All",style:TextStyle(color: Colors.white,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),),
+              child: Text(tr("see_all"),style:TextStyle(color: Colors.white,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
             ),
 
           ],
         ),
         Container(
-          height: 22.h,
+          height: 25.h,
           width: double.infinity,
           child: MasonryGridView.count(
               shrinkWrap: true,
@@ -73,7 +70,9 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
                     onTap: (){
                       AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: widget.products[index].guId.toString());
                     },
-                      child: ProductItemWidget(productModel: widget.products[index], index: -1,height: 20.h,width:28.w,)),
+                      child: ProductItemWidget(
+                        scale: 0.8,
+                        productModel: widget.products[index], index: -1,height: 30.h,width:40.w,)),
                 );
               }),
         )

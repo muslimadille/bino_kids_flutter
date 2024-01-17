@@ -6,6 +6,7 @@ import 'package:bino_kids/common/helpers/network/network_request.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:bino_kids/common/models/network_request_model.dart';
 import 'package:bino_kids/common/utils/constants/api_codes.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/eums/network_request_enum.dart';
 import 'package:dio/dio.dart';
 
@@ -23,8 +24,8 @@ class CartRepository{
             networkType: NetworkRequestEnum.put,
             data: jsonEncode({
               "Lang": AppLocalization.isArabic?2:1,
-              "UserId": 16314,
-              "UserRole": 2,
+              "UserId": AppData.USER_ID,
+              "UserRole": AppData.USER_ROLE,
               "ColorId": colorId,
               "sizeId": sizeId,
               "ID": id,
@@ -52,8 +53,8 @@ class CartRepository{
             networkType: NetworkRequestEnum.put,
             data: {
               "Lang": AppLocalization.isArabic?2:1,
-              "UserId": 16314,
-              "UserRole": 2,
+              "UserId": AppData.USER_ID,
+              "UserRole":AppData.USER_ROLE,
             },
             showProgress: true,
             dismissProgress: true,
@@ -97,7 +98,7 @@ class CartRepository{
             data: {
               "Model": {
                 "ID": id,
-                "UserId": 16314,
+                "UserId": AppData.USER_ID,
                 "ModelId": modelId,
               },
               "Lang": AppLocalization.isArabic?2:1
@@ -125,8 +126,8 @@ class CartRepository{
               "AddressName": addressName,
               "GovernmentId": governmentId,
               "TotalAfterDiscount": totalAfterDiscount,
-              "UserId": 16314,
-              "UserRole": 2,
+              "UserId": AppData.USER_ID,
+              "UserRole":AppData.USER_ROLE,
             },
             showProgress: true,
             dismissProgress: true,

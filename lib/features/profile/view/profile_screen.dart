@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
@@ -30,11 +31,11 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
                   AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
                 }
               },
-                child: Text(AppData.USER_NAME.isNotEmpty?"Hi ${AppData.USER_NAME}":"SIGNIN/REGISTER >",style: TextStyle(fontSize: AppFontSize.medium
+                child: Text(AppData.USER_NAME.isNotEmpty?"${tr("Hi")} ${AppData.USER_NAME}":"SIGNIN/REGISTER >",style: TextStyle(fontSize: AppFontSize.medium
                     ,fontWeight: FontWeight.w700))),
             GestureDetector(
               onTap: (){
-                ///go to settings
+                goTOSettings();
               },
                 child: Icon(Icons.settings_outlined,size: 6.w,))
 
@@ -48,13 +49,18 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                Text("My Orders",style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w500),),
-                Text("View All >",style: TextStyle(
-                  color: Colors.grey,
-                    fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),),
+                Text(tr("My_orders"),style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w500),),
+                GestureDetector(
+                  onTap: (){
+                    gotoOrders();
+                  },
+                  child: Text(tr("View_All"),style: TextStyle(
+                    color: Colors.grey,
+                      fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),),
+                ),
               ],),
-              //SizedBox(height: 2.h,),
-              /*Row(
+              SizedBox(height: 2.h,),
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(orderIcons.length, (index){
@@ -68,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
                         SizedBox(height:1.h,),
                         Text(orderTitles[index],textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.x_small),)
                       ],),));
-              }),)*/
+              }),)
 
             ],),
         ),

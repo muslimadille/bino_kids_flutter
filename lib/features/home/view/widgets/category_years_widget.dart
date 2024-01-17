@@ -10,14 +10,15 @@ import '../../../../common/utils/constants/app_font_size.dart';
 import 'subcategories_list_widget.dart';
 
 class CategoryYearsWidget extends StatefulWidget {
-  final StreamController<MainCategoriesDataModel?>mainCategoryStreamController;
-  const CategoryYearsWidget({required this.mainCategoryStreamController,Key? key}) : super(key: key);
+  final List<ModelAgeForMainPage> modelAgeForMainPage;
+  const CategoryYearsWidget({required this.modelAgeForMainPage,Key? key}) : super(key: key);
 
   @override
   State<CategoryYearsWidget> createState() => _CategoryYearsWidgetState();
 }
 
 class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryYearsHelper {
+
 
 
   @override
@@ -27,65 +28,52 @@ class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryY
   }
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<MainCategoriesDataModel?>(
-        stream: widget.mainCategoryStreamController.stream,
-      builder: (context, snapshot) {
-        return snapshot.hasData?
-        (snapshot.data!.modelAgeForMainPage??[]).isNotEmpty?
-        Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 5.h,
-              padding: EdgeInsets.symmetric(horizontal: 2.w),
-              child: ListView(
-                  scrollDirection:Axis.horizontal ,
-                  children: List.generate((snapshot.data!.modelAgeForMainPage??[]).length, (index){
-                    return Padding(
-                      padding:  EdgeInsets.all(2.w),
-                      child: GestureDetector(
-                        onTap: ()async{
-                          await onItemClick(index: index);
-                          setState(() {});
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(snapshot.data!.modelAgeForMainPage![index].text,style:
-                            TextStyle(color:selectedIndex==index?Colors.black:Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w500),),
-                            SizedBox(height: 0.3.h,),
-                            Container(color: selectedIndex==index?Colors.black:Colors.transparent,height:2,width:snapshot.data!.modelAgeForMainPage![index].text.length*2.2.w
-                              ,)
-                          ],),
-                      ),
-                    );
-                  })),
-            ),
-            Container(
-              height: 32.h,
-              width: double.infinity,
-              child: PageView(
-                controller: pageController,
-                onPageChanged: (currentpage) {
-                  setState(() {
-                    selectedIndex=currentpage;
-                  });
-                },
-                children:List.generate(snapshot.data!.modelAgeForMainPage!.length, (index){
-
-                  return FutureBuilder<SubCategoriesModel?>(
-                    future: getSubCategories(moduleId:snapshot.data!.id,modelAgeId:snapshot.data!.modelAgeForMainPage![index].id  ),
-                    builder: (context, subCategorySnapshot) {
-                      return subCategorySnapshot.hasData?
-                      SubcategoriesListWidget(items:subCategorySnapshot.data!.data,):SizedBox();
-                    }
-                  );
-                }) ,
-              ),
-            )
-          ],
-        ):SizedBox():SizedBox();
-      }
-    );
+    return widget.modelAgeForMainPage.isNotEmpty?
+    Column(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 5.h,
+          padding: EdgeInsets.symmetric(horizontal: 2.w),
+          child: ListView(
+              scrollDirection:Axis.horizontal ,
+              children: List.generate(widget.modelAgeForMainPage.length, (index){
+                return Padding(
+                  padding:  EdgeInsets.all(2.w),
+                  child: GestureDetector(
+                    onTap: ()async{
+                      await onItemClick(index: index);
+                      setState(() {});
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(widget.modelAgeForMainPage[index].text,style:
+                        TextStyle(color:selectedIndex==index?Colors.black:Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w500),),
+                        SizedBox(height: 0.3.h,),
+                        Container(color: selectedIndex==index?Colors.black:Colors.transparent,height:2,width:widget.modelAgeForMainPage[index].text.length*2.2.w
+                          ,)
+                      ],),
+                  ),
+                );
+              })),
+        ),
+        Container(
+          height: 32.h,
+          width: double.infinity,
+          child: PageView(
+            controller: pageController,
+            onPageChanged: (currentpage) {
+              setState(() {
+                selectedIndex=currentpage;
+              });
+            },
+            children:List.generate(widget.modelAgeForMainPage.length, (subcategoryindex){
+              return SubcategoriesListWidget(moduleId: widget.modelAgeForMainPage[subcategoryindex].moduleId,modelAgeId:widget.modelAgeForMainPage[subcategoryindex].id);
+            }) ,
+          ),
+        )
+      ],
+    ):SizedBox();
   }
 }

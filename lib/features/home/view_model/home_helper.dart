@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/helpers/cash_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/main_categories_model.dart';
 import 'package:bino_kids/features/home/model/model_types_model.dart';
@@ -32,11 +34,23 @@ mixin HomeHelper{
 
   Future <MainCategoriesModel?>getMainCategories()async{
     try{
+      categories.clear();
+      if(CashHelper.mainCategoriesModel!=null){
+        Future.delayed(Duration(microseconds: 1)).then((value) {
+          categories.addAll(CashHelper.mainCategoriesModel!.data);
+          selectedCategoryIndex=0;
+          mainCategoryStreamController.add(categories[selectedCategoryIndex]);
+        });
+
+        return CashHelper.mainCategoriesModel!;
+      }
       final response=await HomeRepository().getMainCategories();
       MainCategoriesModel mainCategoriesModel=mainCategoriesModelFromJson(jsonEncode(response.data));
       categories.addAll(mainCategoriesModel.data);
-      mainCategoryStreamController.add(mainCategoriesModel.data[0]);
       selectedCategoryIndex=0;
+      mainCategoryStreamController.add(mainCategoriesModel.data[0]);
+
+      CashHelper.mainCategoriesModel=mainCategoriesModel;
       return mainCategoriesModel;
     } on DioException catch (error){
       return null;
@@ -44,8 +58,12 @@ mixin HomeHelper{
   }
   Future <List<ProductModel>?>getMostWatched()async{
     try{
+      if(CashHelper.homeMostWatched!=null){
+        return CashHelper.homeMostWatched!.modelList;
+      }
       final response=await HomeRepository().getMostWatched();
       ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
+      CashHelper.homeMostWatched=productsWithFilterModel;
       return productsWithFilterModel.modelList;
     } on DioException catch (error){
       return null;
@@ -53,8 +71,12 @@ mixin HomeHelper{
   }
   Future <List<ProductModel>?>getSuggestions()async{
     try{
+      if(CashHelper.homeSuggestions !=null){
+        return CashHelper.homeSuggestions!.modelList;
+      }
       final response=await HomeRepository().getSuggestions();
       ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
+      CashHelper.homeSuggestions=productsWithFilterModel;
       return productsWithFilterModel.modelList;
     } on DioException catch (error){
       return null;

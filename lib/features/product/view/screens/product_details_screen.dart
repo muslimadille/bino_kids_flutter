@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
@@ -20,7 +21,7 @@ class ProductDetailsScreen extends StatelessWidget {
         create: (context) => ProductDetailsProvider(),
         builder: (buildContext,_) {
           WidgetsBinding.instance.addPostFrameCallback((_){
-            buildContext.read<ProductDetailsProvider>().onInit();
+            buildContext.read<ProductDetailsProvider>().onInit(false);
             buildContext.read<ProductDetailsProvider>().getModelDetails(modelId: modelId);
           });
 
@@ -28,10 +29,10 @@ class ProductDetailsScreen extends StatelessWidget {
             builder: (context, data,_) {
               return Column(
                 children: [
-                  CustomBackBtn(title: "Product details",),
+                  CustomBackBtn(title:tr("Product_details"),),
                   Expanded(
                     child: data.modelDetailsModel==null?SizedBox():CustomScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics:const BouncingScrollPhysics(),
                       slivers: [
                         SliverAppBar(
                     automaticallyImplyLeading:false,
@@ -105,15 +106,15 @@ class ProductDetailsScreen extends StatelessWidget {
                                 children: List.generate((data.modelDetailsModel!.modelList!.colors??[]).length, (index) {
                                 return GestureDetector(
                                   onTap: (){
-                                    data.onSelectColor(index);
+                                    data.onSelectColor(index,false);
                                   },
                                   child: Container(
-                                    height: 5.h,
-                                      width: 5.h,
+                                    height: 3.h,
+                                      width: 3.h,
                                       margin: EdgeInsets.all(1.w),
                                       decoration: BoxDecoration(
                                           color: Colors.grey[200],
-                                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                                          borderRadius: BorderRadius.all(Radius.circular(50)),
                                           border: index==data.selectedColorIndex?Border.fromBorderSide(
                                               BorderSide(
                                                   width:1,
@@ -122,7 +123,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                           ):null,
                                           image:DecorationImage(
                                               alignment:Alignment.bottomCenter,
-                                              fit: BoxFit.fitHeight,
+                                              fit: BoxFit.cover,
                                               image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
                                       )
                                   ),
@@ -133,7 +134,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 children: List.generate((data.modelDetailsModel!.modelList!.size??[]).length, (index) {
                                   return GestureDetector(
                                     onTap: (){
-                                      data.onSelectSize(index);
+                                      data.onSelectSize(index,false);
                                     },
                                     child: Container(
                                         margin: EdgeInsets.all(1.w),
@@ -160,13 +161,19 @@ class ProductDetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
+                  data.modelDetailsModel==null?SizedBox():Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(width: 4.w,),
-                      IconButton(onPressed: (){},
+                      IconButton(onPressed: (){
+                        data.changeFavourite();
+                      },
                           padding: EdgeInsets.zero,
-                          icon:Center(child: Icon(Icons.favorite_border,color: Colors.black,size: 4.5.h,)) ),
+                          icon:Center(child: Icon(
+                            (data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].isInWishList??false)?
+                            Icons.favorite:
+                            Icons.favorite_border,color:
+                          Colors.black,size: 4.5.h,)) ),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 3.w),

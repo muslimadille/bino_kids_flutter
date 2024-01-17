@@ -13,8 +13,8 @@ class AuthRepository{
           networkParameters: NetworkRequestModel(
             apiCode: ApiCodes.LOGIN_API,
             data: {
-              "mobileNumber":"01111226508",
-              "password":"01111226508",
+              "mobileNumber":mobileNumber/*"01111226508"*/,
+              "password":password/*"01111226508"*/,
               "lang":AppLocalization.isArabic?2:1,
               "grant_type":"password",
               "External":true,
