@@ -12,6 +12,8 @@ class AppRoutes{
 
   static const String ALL_ORDERS_SCREEN_ROUTE="ALL_ORDERS_SCREEN_ROUTE";
   static const String SETTINGS_SCREEN_ROUTE="SETTINGS_SCREEN_ROUTE";
+  static const String SEARCH_SCREEN_ROUTE="SEARCH_SCREEN_ROUTE";
+
 
 
 

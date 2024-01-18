@@ -1,6 +1,8 @@
 
 import 'dart:convert';
 
+import 'package:bino_kids/features/product/model/model_details_model.dart';
+
 ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
 
 String productModelToJson(ProductModel data) => json.encode(data.toJson());
@@ -24,6 +26,8 @@ class ProductModel {
   final num? colorId;
   final bool? isMoreThanThreeColors;
   final dynamic? colorsList;
+  final List<Color>? colors;
+
 
   ProductModel({
     required this.id,
@@ -44,6 +48,7 @@ class ProductModel {
     required this.colorId,
     required this.isMoreThanThreeColors,
     required this.colorsList,
+    required this.colors
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -65,6 +70,7 @@ class ProductModel {
     colorId: json["ColorId"]??-1,
     isMoreThanThreeColors: json["IsMoreThanThreeColors"]??false,
     colorsList: json["ColorsList"]??[],
+    colors: json["AllColor"]==null?[]:List<Color>.from(json["AllColor"].map((x) => Color.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -86,6 +92,7 @@ class ProductModel {
     "ColorId": colorId,
     "IsMoreThanThreeColors": isMoreThanThreeColors,
     "ColorsList": colorsList,
+    "Colors": List<dynamic>.from(colors!.map((x) => x.toJson())),
   };
 }
 

@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter_localization/flutter_localization.dart';
+
+import '../utils/constants/app_data.dart';
+import 'local_storage.dart';
 final FlutterLocalization localization = FlutterLocalization.instance;
 tr(String key){
   return AppLocalization.translate(key);
@@ -23,14 +26,27 @@ class AppLocalization{
       ],
       initLanguageCode: 'en',
     );
-
+    _initLocal();
   }
 
   static  String translate(String key){
     return (isArabic?AR[key]??key:EN[key]??key);
   }
-  static changeLanguage(String localKey){
-    localization.translate(localKey);
+  static changeLanguage(String localKey)async{
+    LocalStorage().putInBox(key: AppData.LANG_STORAGE_KEY, value: localKey);
+    AppData.CURRENT_LANG=localKey;
+    String code=localization.currentLocale!.languageCode.toString();
+     localization.translate(localKey);
+  }
+   _initLocal(){
+    AppData.CURRENT_LANG=LocalStorage().getFromBox(key: AppData.LANG_STORAGE_KEY)??"en";
+    String code=localization.currentLocale!.languageCode.toString();
+    if(code=="ar"){
+      localization.translate("en");
+    }
+    Future.delayed(Duration(milliseconds: 3)).then((value){
+      localization.translate(AppData.CURRENT_LANG);
+    });
   }
 
   static bool  get isArabic=>localization.currentLocale==const Locale("ar");
@@ -57,7 +73,13 @@ class AppLocalization{
     "Filter":"Filter",
     "price":"Price",
     "clear":"clear",
-    "Done":"Done"
+    "Done":"Done",
+    "new_order":"New Order",
+    "confirmed_order":"Order Confirmed",
+    "delivering_order":"Delivering",
+    "delivered_order":"Order Delivered",
+    "canceled_order":"Order Canceled",
+    "no_data":"No Items Found"
   };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
@@ -80,9 +102,13 @@ class AppLocalization{
     "Filter":"خيارات العرض",
     "price":"السعر",
     "clear":"مسح",
-    "Done":"تطبيق"
-
-
+    "Done":"تطبيق",
+    "new_order":"طلب جديد",
+    "confirmed_order":"تم تأكيد",
+    "delivering_order":"جاري التوصيل",
+    "delivered_order":"تم التوصيل",
+    "canceled_order":"طلب  ملغي",
+    "no_data":"لا يوجد عناصر متاحة"
 
   };
 }

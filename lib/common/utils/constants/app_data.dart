@@ -3,9 +3,12 @@ class AppData{
   static const String USER_ID_STORAGE_KEY="USER_ID_STORAGE_KEY";
   static const String USER_ROLE_STORAGE_KEY="USER_ROLE_STORAGE_KEY";
   static const String USER_NAME_STORAGE_KEY="USER_NAME_STORAGE_KEY";
+  static const String LANG_STORAGE_KEY="LANG_STORAGE_KEY";
+
   static  String USER_ID="";
   static  String USER_ROLE="";
   static  String USER_NAME="";
+  static  String CURRENT_LANG="en";
 
 
   static const int ALL_CATEGORY_ID=0;

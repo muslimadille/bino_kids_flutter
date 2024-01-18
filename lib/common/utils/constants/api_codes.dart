@@ -20,6 +20,13 @@ class ApiCodes{
   static const String SET_ORDER="Cart/addUserOrder";
   static const String GET_WISH_LIST="WishList/GetAllWishList";
   static const String CHAGE_FAVOUTITE="WishList/ToggleFavorite";
+  static const String DELETE_ALL_WISH_LIST="WishList/DeleteAll";
+  static const String ADD_ALL_WISH_LIST_TO_CART="Cart/AddAllItemsToCartFromWishList";
+  static const String DELETE_WISH_LIST_ITEM="WishList/Delete";
+
+
+
+
 
 
 
@@ -30,6 +37,10 @@ class ApiCodes{
   static const String GET_RETURN_SHIPPING_POLICY="Policies/ReturnShippingPolicy";
 
   static const String GET_OREDERS="Requests/GetUserRequests";
+  static const String GET_SEARCH="Search/MainSearch";
+
+
+
 
 
 

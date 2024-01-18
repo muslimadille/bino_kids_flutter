@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../user_messages/view/widgets/no_data_widget.dart';
+
 class WishListScreen extends StatelessWidget {
   const WishListScreen({Key? key}) : super(key: key);
 
@@ -22,12 +24,16 @@ class WishListScreen extends StatelessWidget {
             children: [
               Expanded(child: CustomBackBtn(title: tr('Wish_List'),)),
               //IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
-              IconButton(onPressed: (){}, icon: Icon(Icons.add_shopping_cart)),
-              IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+              IconButton(onPressed: (){
+                dataModel.addAllWishListToCart();
+              }, icon: Icon(Icons.add_shopping_cart)),
+              IconButton(onPressed: (){
+                dataModel.deleteAllWishList();
+              }, icon: Icon(Icons.delete)),
             ],),
            Expanded(
           child: dataModel.wishlisModel!=null?
-              Container(
+          dataModel.wishlisModel!.modelList.isNotEmpty?Container(
                 color: Colors.grey[200],
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 0.7.h),
@@ -36,10 +42,10 @@ class WishListScreen extends StatelessWidget {
                     itemBuilder: (context,index){
                   return WishListItemWidget(model:dataModel.wishlisModel!.modelList[index],
                     onDelete: (ModelList model) {
-
+                      dataModel.deleteWishListItem(model.wishListId.toString());
                     },);
                 }),
-              )
+              ):NoDataWidget()
           :SizedBox(),
         )
         ],);

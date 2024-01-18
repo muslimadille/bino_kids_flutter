@@ -11,6 +11,7 @@ import 'package:bino_kids/features/profile/view/about_us_screen.dart';
 import 'package:bino_kids/features/profile/view/privacy_policy_screen.dart';
 import 'package:bino_kids/features/profile/view/return_policy_screen.dart';
 import 'package:bino_kids/features/profile/view/shipping_policy_screen.dart';
+import 'package:bino_kids/features/search/view/screens/search_screen.dart';
 import 'package:bino_kids/features/settings/view/screens/settings_screen.dart';
 import 'package:bino_kids/features/user_messages/view/user_messages_screen.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +54,13 @@ import 'package:flutter/material.dart';
         return MaterialPageRoute(builder: (_) => const ShippingPolicyScreen());
 
       case AppRoutes.ALL_ORDERS_SCREEN_ROUTE:
-        return MaterialPageRoute(builder: (_) => const AllOrdersScreen());
+        return MaterialPageRoute(builder: (_) =>  AllOrdersScreen(params:routeSettings.arguments as OrderScreenParams,));
 
       case AppRoutes.SETTINGS_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => const SettingScreen());
+
+      case AppRoutes.SEARCH_SCREEN_ROUTE:
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
 
       default:
         return MaterialPageRoute(builder: (_) =>  const HomeTabsScreen());

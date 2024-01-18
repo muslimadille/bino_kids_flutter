@@ -9,13 +9,17 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class AllOrdersScreen extends StatelessWidget {
-  const AllOrdersScreen({Key? key}) : super(key: key);
+  final OrderScreenParams params;
+  const AllOrdersScreen({
+    required this.params,
+    Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OrderProvider>(
         create: (context) => OrderProvider(),
     builder: (buildContext,_) {
+      buildContext.read<OrderProvider>().type=params.orderType.toInt();
       buildContext.read<OrderProvider>().getAllOrders();
           return Consumer<OrderProvider>(builder: (ctx,dataModel,_){
             return Scaffold(body:
@@ -23,19 +27,24 @@ class AllOrdersScreen extends StatelessWidget {
                 Column(children: [
                   Row(
                     children: [
-                      Expanded(child: CustomBackBtn(title:  tr("My_orders"),)),
+                      Expanded(child: CustomBackBtn(title: params.title.isNotEmpty?params.title: tr("My_orders"),)),
                        IconButton(onPressed: (){
                          AppNavigator().pushAndRemoveAll(routeName: AppRoutes.HOME_SCREEN_ROUTE);
                        }, icon: Icon(Icons.home_filled)),
                     ],),
                   Expanded(child:
                   (dataModel.orders)!=null?ListView.builder(
-                    itemCount: dataModel.orders!.requests!.length,
+                    itemCount: dataModel.requests.length,
                       itemBuilder: (ctx,index){
-                    return OrderItemWidget(orderDataModel: dataModel.orders!.requests![index],);
+                    return OrderItemWidget(orderDataModel: dataModel.requests[index],);
                   }):SizedBox())
                 ],),),);
           });
     });
   }
+}
+class OrderScreenParams{
+  final String title;
+  final num orderType;
+  OrderScreenParams({required this.title,required this.orderType});
 }

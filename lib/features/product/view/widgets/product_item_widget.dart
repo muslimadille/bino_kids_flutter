@@ -44,10 +44,39 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(widget.productModel.imageUrl ?? ''))),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
+                        fit: BoxFit.cover, image: NetworkImage(widget.productModel.imageUrl ?? ''))),
+                  ),
+                  Positioned(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: List.generate((widget.productModel.colors??[]).length, (index) {
+                      return Container(
+                          height: 3.h,
+                          width: 3.h,
+                          margin: EdgeInsets.all(1.w),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                              border: Border.fromBorderSide(
+                                  BorderSide(
+                                      width:1,
+                                      color:Colors.black
+                                  )
+                              ),
+                              image:DecorationImage(
+                                  alignment:Alignment.bottomCenter,
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(widget.productModel.colors![index].imageURL??''))
+                          )
+                      );
+                    }),))
+                ],
               ),
             ),
             Container(height: 1,color: Colors.grey[200],width: double.infinity,),

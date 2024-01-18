@@ -197,6 +197,7 @@ class Color {
   final bool? isHidden;
    bool? isInWishList;
   final List<AllSize>? sizesOfThisColorList;
+  final String imageURL;
 
   Color({
     required this.id,
@@ -213,6 +214,7 @@ class Color {
     required this.isHidden,
     required this.isInWishList,
     required this.sizesOfThisColorList,
+    required this.imageURL,
   });
 
   factory Color.fromJson(Map<String, dynamic> json) => Color(
@@ -229,7 +231,8 @@ class Color {
     arrange: json["Arrange"],
     isHidden: json["IsHidden"],
     isInWishList: json["IsInWishList"],
-    sizesOfThisColorList: List<AllSize>.from(json["SizesOfThisColorList"].map((x) => AllSize.fromJson(x))),
+    sizesOfThisColorList: json["SizesOfThisColorList"]==null?[]:List<AllSize>.from(json["SizesOfThisColorList"].map((x) => AllSize.fromJson(x))),
+    imageURL: json["ImageURL"]??''
   );
 
   Map<String, dynamic> toJson() => {
@@ -247,6 +250,7 @@ class Color {
     "IsHidden": isHidden,
     "IsInWishList": isInWishList,
     "SizesOfThisColorList": List<dynamic>.from(sizesOfThisColorList!.map((x) => x.toJson())),
+    "ImageURL":imageURL
   };
 }
 

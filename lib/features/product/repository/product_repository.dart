@@ -128,6 +128,71 @@ class ProductRepository{
       rethrow;
     }
   }
+  Future<Response> deleteAllWishList() async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.DELETE_ALL_WISH_LIST,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": AppData.USER_ID,
+              "Lang": AppLocalization.isArabic ?2:1,
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response> addAllWishListToCart() async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.ADD_ALL_WISH_LIST_TO_CART,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": AppData.USER_ID,
+              "Lang": AppLocalization.isArabic ?2:1,
+              "UserRole":AppData.USER_ROLE
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response> deleteWishListItem(String id) async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.DELETE_WISH_LIST_ITEM,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": AppData.USER_ID,
+              "Lang": AppLocalization.isArabic ?2:1,
+              "WishListId":id
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
 
 
 }

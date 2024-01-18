@@ -63,16 +63,16 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(orderIcons.length, (index){
+                children: List.generate(orderTaps.length, (index){
                 return Expanded(
                     child: GestureDetector(
                       onTap: (){
-                        AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                        gotoOrders(type: index,title:orderTaps[index].title );
                       },
                       child: Column(children: [
-                        Image.asset(orderIcons[index],width: 6.w,height: 6.w,),
+                        Image.asset(orderTaps[index].icon,width: 6.w,height: 6.w,),
                         SizedBox(height:1.h,),
-                        Text(orderTitles[index],textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.x_small),)
+                        Text(orderTaps[index].title,textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.small),)
                       ],),));
               }),)
 

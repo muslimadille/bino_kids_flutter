@@ -11,4 +11,16 @@ class WishListProvider with ChangeNotifier{
     wishlisModel=wishlisModelFromJson(jsonEncode(response.data));
     notifyListeners();
   }
+  deleteAllWishList()async{
+    final response=await ProductRepository().deleteAllWishList();
+    getWishList();
+  }
+  addAllWishListToCart()async{
+    final response=await ProductRepository().addAllWishListToCart();
+    getWishList();
+  }
+  deleteWishListItem(String id)async{
+    final response=await ProductRepository().deleteWishListItem(id);
+    getWishList();
+  }
 }
