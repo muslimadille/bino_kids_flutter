@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
                   AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
                 }
               },
-                child: Text(AppData.USER_NAME.isNotEmpty?"${tr("Hi")} ${AppData.USER_NAME}":"SIGNIN/REGISTER >",style: TextStyle(fontSize: AppFontSize.medium
+                child: Text(AppData.USER_NAME.isNotEmpty?"${tr("Hi")} ${AppData.USER_NAME}":tr("SIGNIN/REGISTER >"),style: TextStyle(fontSize: AppFontSize.medium
                     ,fontWeight: FontWeight.w700))),
             GestureDetector(
               onTap: (){

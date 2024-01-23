@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -59,7 +60,7 @@ class _PromoCodeWidgetState extends State<PromoCodeWidget> {
              disabledBorder: InputBorder.none,
              contentPadding: EdgeInsets.zero,
              isDense:true,
-             hintText: "Apply Coupon"
+             hintText: tr("Apply Coupon")
          ),
          keyboardType: TextInputType.emailAddress ,
          cursorColor: Colors.black,
@@ -91,7 +92,7 @@ class _PromoCodeWidgetState extends State<PromoCodeWidget> {
           child: SizedBox(
             width: 20.w,
               child: Text(
-                "Apply",
+                tr("Apply"),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,

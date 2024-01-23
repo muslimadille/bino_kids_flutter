@@ -115,3 +115,4 @@ class BannerDataModel {
     "FirstPageName": firstPageName,
   };
 }
+

@@ -1,3 +1,4 @@
+import 'package:bino_kids/features/home/extentions/banner_model_extention.dart';
 import 'package:bino_kids/features/home/model/banner_model.dart';
 import 'package:bino_kids/features/home/view_model/banner_slider_helper.dart';
 import 'package:flutter/material.dart';
@@ -37,17 +38,22 @@ class _SliderWidgetState extends State<SliderWidget>with BannerSliderHelper {
             },
             children:List.generate(snapshot.data!.data.length, (index){
 
-              return Container(
-                width: double.infinity,
-                height: 20.h,
-                padding:  EdgeInsets.symmetric(horizontal: 2.w),
-                decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    image:DecorationImage(
-                        alignment:Alignment.bottomCenter,
-                        fit: BoxFit.cover,
-                    image: NetworkImage(snapshot.data!.data[index].imagePath??'',))
+              return GestureDetector(
+                onTap: (){
+                  snapshot.data!.data[index].onClick();
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 20.h,
+                  padding:  EdgeInsets.symmetric(horizontal: 2.w),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      image:DecorationImage(
+                          alignment:Alignment.bottomCenter,
+                          fit: BoxFit.cover,
+                      image: NetworkImage(snapshot.data!.data[index].imagePath??'',))
+                  ),
                 ),
               );
             }) ,

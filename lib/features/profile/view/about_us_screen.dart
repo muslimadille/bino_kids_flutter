@@ -22,6 +22,7 @@ class AboutUsScreen extends StatelessWidget with PolicyHelper  {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomBackBtn(title:"About us" ,),
+                Container(color: Colors.grey[200],width: double.infinity,height: 1,),
                 Expanded(
                   child: FutureBuilder<PrivacyModel?>(
                       future: getAboutUs(),

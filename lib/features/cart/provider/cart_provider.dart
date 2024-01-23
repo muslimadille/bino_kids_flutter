@@ -5,6 +5,7 @@ import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/features/cart/model/cart_items_respose_model.dart';
 import 'package:bino_kids/features/cart/repository/cart_repository.dart';
+import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
 import 'package:bino_kids/features/profile/model/addresses_list_model.dart';
 import 'package:bino_kids/features/profile/repository/profile_repository.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class CartProvider with ChangeNotifier{
     totalPrice=0;
     totalDiscount=0;
     for(CartModelList item in cartItemsResponseModel!.modelList??[]){
-      if(item.isSelected??false){
+      if(true){
        totalPrice=totalPrice+((item.price??0)*(item.quantity??0));
        totalDiscount=totalDiscount+((item.price??0)*promoDiscountPercent);
       }
@@ -95,6 +96,6 @@ class CartProvider with ChangeNotifier{
         totalAfterDiscount: totalPrice.toString(),
         governmentId: addressesListModel!.addressDataModel!.addressList![selectedAddressIndex].governmentId.toString(),
         addressName: addressesListModel!.addressDataModel!.addressList![selectedAddressIndex].addressName??'');
-    AppNavigator().push(routeName: AppRoutes.ALL_ORDERS_SCREEN_ROUTE);
+    AppNavigator().push(routeName: AppRoutes.ALL_ORDERS_SCREEN_ROUTE,arguments:OrderScreenParams(title:'', orderType: -1) );
   }
 }

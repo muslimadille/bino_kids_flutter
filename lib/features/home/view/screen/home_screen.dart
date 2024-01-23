@@ -19,6 +19,7 @@ import 'package:bino_kids/features/home/view_model/home_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../common/utils/constants/app_data.dart';
 import '../widgets/drawer_wiidget.dart';
 
 
@@ -97,37 +98,39 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
               ),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 2.w,right: 2.w),
-                  child: Column(
-                    children: [
-                      SliderWidget(),
-                      StreamBuilder<MainCategoriesDataModel?>(
-                        stream: mainCategoryStreamController.stream,
-                        builder: (context, snapshot) {
-                          return snapshot.hasData?
-                          CategoryYearsWidget(key: UniqueKey(),modelAgeForMainPage: snapshot.data!.modelAgeForMainPage??[],):SizedBox(
-                            height: 30.h,
-                              width: double.infinity,
-                              child: LoadingGridShimmer());
-                        }
-                      ),
-                      FutureBuilder(future: getMostWatched(), builder: (context,snapshot){
+              child:Padding(
+                padding:  EdgeInsets.all(2.w),
+                child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                    SliverToBoxAdapter(child:SliderWidget()),
+                      SliverToBoxAdapter(child:StreamBuilder<MainCategoriesDataModel?>(
+                          stream: mainCategoryStreamController.stream,
+                          builder: (context, snapshot) {
+                            return snapshot.hasData?
+                            CategoryYearsWidget(key: UniqueKey(),modelAgeForMainPage: snapshot.data!.modelAgeForMainPage??[],):SizedBox(
+                                height: 30.h,
+                                width: double.infinity,
+                                child: LoadingGridShimmer());
+                          }
+                      ),),
+                      SliverToBoxAdapter(child:FutureBuilder(future: getMostWatched(), builder: (context,snapshot){
                         return snapshot.hasData?
                         HomeHorzontalListWidget(listTitle:tr("most_watched"), onSeeAllClick: (){}, products: snapshot.data??[],)
                             :SizedBox();
-                      }),
-                      FutureBuilder(future: getSuggestions(), builder: (context,snapshot){
-                        return snapshot.hasData?
-                        HomeHorzontalListWidget(listTitle: tr('Suggestions'), onSeeAllClick: (){}, products:snapshot.data??[],)
-                            :SizedBox();
-                      })
+                      }),),
+                      SliverToBoxAdapter(child:Visibility(
+                        visible: AppData.USER_NAME.isNotEmpty,
+                        child: FutureBuilder(future: getSuggestions(), builder: (context,snapshot){
+                          return snapshot.hasData?
+                          HomeHorzontalListWidget(listTitle: tr('Suggestions'), onSeeAllClick: (){}, products:snapshot.data??[],)
+                              :SizedBox();
+                        }),
+                      )),
 
-                  ],
-                  ),
-                ),
-              ),
+                    ]),
+              )
+
             ),
           ],
         ),

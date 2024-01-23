@@ -1,6 +1,7 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
+import 'package:bino_kids/features/auth/view/screens/register_screen.dart';
 import 'package:bino_kids/features/cart/view/screens/cart_items_screen.dart';
 import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
@@ -61,6 +62,8 @@ import 'package:flutter/material.dart';
 
       case AppRoutes.SEARCH_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
+      case AppRoutes.REGISTER_SCREEN_ROUTE:
+        return MaterialPageRoute(builder: (_) => const RegisterScreen());
 
       default:
         return MaterialPageRoute(builder: (_) =>  const HomeTabsScreen());

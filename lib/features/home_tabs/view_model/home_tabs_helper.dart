@@ -14,17 +14,6 @@ mixin HomeTabsHelper {
   List<Widget> screens = [
     HomeScreen(),
     WishListScreen(),
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-
-        children: [
-          Image.asset("assets/images/no_product.png",width: 15.h,height: 15.h,),
-          SizedBox(height: 2.h,),
-          Text("No data found",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)
-        ],),
-    ),
     CartItemsScreen(),
   ProfileScreen(),
   ];
@@ -51,17 +40,7 @@ mixin HomeTabsHelper {
         color: Colors.black,
       ),
     ),
-    BottomNavigationBarItem(
-      icon: Icon(
-        Icons.new_releases_outlined,
-        color: Colors.grey[400],
-      ),
-      label: AppLocalization.translate("NEW_TAB_TITLE"),
-      activeIcon: const Icon(
-        Icons.new_releases_sharp,
-        color: Colors.black,
-      ),
-    ),
+
     BottomNavigationBarItem(
       icon: Icon(
         Icons.shopping_cart_outlined,

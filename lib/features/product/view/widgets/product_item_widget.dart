@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
@@ -34,7 +36,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     return UnconstrainedBox(
       child: Container(
         width: (widget.width ?? 48.w)*(widget.scale??1),
-        height: (widget.height ?? (widget.index.isOdd ? 35.h : 30.h))*(widget.scale??1),
+        height: (widget.height ?? ( 35.h+(Random().nextDouble()*5.h)))*(widget.scale??1),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -45,37 +47,44 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
           children: [
             Expanded(
               child: Stack(
-                fit: StackFit.expand,
+                alignment: Alignment.bottomRight,
                 children: [
                   Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
                         fit: BoxFit.cover, image: NetworkImage(widget.productModel.imageUrl ?? ''))),
                   ),
                   Positioned(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                    bottom: 0,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 0.5.w),
+                        decoration:BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(50)),),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: List.generate((widget.productModel.colors??[]).length, (index) {
-                      return Container(
-                          height: 3.h,
-                          width: 3.h,
-                          margin: EdgeInsets.all(1.w),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
-                              border: Border.fromBorderSide(
-                                  BorderSide(
-                                      width:1,
-                                      color:Colors.black
-                                  )
-                              ),
-                              image:DecorationImage(
-                                  alignment:Alignment.bottomCenter,
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(widget.productModel.colors![index].imageURL??''))
-                          )
-                      );
-                    }),))
+                    children: List.generate((widget.productModel.colors??[]).length>4?4:(widget.productModel.colors??[]).length, (index) {
+                        return Container(
+                            height: 2.h,
+                            width: 2.h,
+                            margin: EdgeInsets.all(1.w),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                border: Border.fromBorderSide(
+                                    BorderSide(
+                                        width:1,
+                                        color:Colors.black
+                                    )
+                                ),
+                                image:DecorationImage(
+                                    alignment:Alignment.bottomCenter,
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(widget.productModel.colors![index].imageURL??''))
+                            )
+                        );
+                    }),),
+                      ))
                 ],
               ),
             ),

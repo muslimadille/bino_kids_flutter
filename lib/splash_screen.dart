@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper{
     if(isLogin){
       AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
     }else{
-      AppNavigator().pushReplacement(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+      AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
     }
   }
   @override

@@ -32,6 +32,7 @@ class AllOrdersScreen extends StatelessWidget {
                          AppNavigator().pushAndRemoveAll(routeName: AppRoutes.HOME_SCREEN_ROUTE);
                        }, icon: Icon(Icons.home_filled)),
                     ],),
+                  Container(color: Colors.grey[200],width: double.infinity,height: 1,),
                   Expanded(child:
                   (dataModel.orders)!=null?ListView.builder(
                     itemCount: dataModel.requests.length,

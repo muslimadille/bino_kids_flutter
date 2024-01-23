@@ -26,6 +26,7 @@ mixin productWithFiltersHelper{
   late final StreamController<List<ProductModel>?> productsStreamController;
 
   int? selectedCategoryId;
+  String?selectedCategoryName;
   int selectedIndex=0;
   int pageIndex=0;
   int pageSize=20;
@@ -34,7 +35,10 @@ mixin productWithFiltersHelper{
     categoryStreamController=StreamController<int>.broadcast();
     productsStreamController=StreamController<List<ProductModel>?>.broadcast();
     categoryController=ScrollController();
-    scrollToIndex();
+    if(subcategoriesList.isNotEmpty){
+      scrollToIndex();
+    }
+
     getProducts(selectedFilters: {});
   }
   onDispose(){
@@ -58,14 +62,14 @@ mixin productWithFiltersHelper{
   }
   getProducts({required Map<String, List<int>> selectedFilters})async{
     productsStreamController.add(null);
-    final response=await ProductRepository().getProductsWithFilter(modelTypeID: subcategoriesList[selectedIndex].id,selectedFilters: selectedFilters);
+    final response=await ProductRepository().getProductsWithFilter(modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
     ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
     filters=productsWithFilterModel.filters;
     prices=productsWithFilterModel.price;
     productsStreamController.add(productsWithFilterModel.modelList);
   }
    initSelectedCategory(){
-    if(selectedCategoryId!=null){
+    if(selectedCategoryId!=null&&subcategoriesList.isNotEmpty){
       selectedIndex=subcategoriesList.indexOf(subcategoriesList.singleWhere((element) => element.id==selectedCategoryId));
     } else{
       selectedIndex=0;

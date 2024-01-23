@@ -1,5 +1,7 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -86,28 +88,36 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                                   onTap: (){
                                     data.onSelectColor(index,true);
                                   },
-                                  child: Container(
-                                      height: 3.h,
-                                      width: 3.h,
-                                      margin: EdgeInsets.all(1.w),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                                          border: index==data.selectedColorIndex?Border.fromBorderSide(
-                                              BorderSide(
-                                                  width:1,
-                                                  color:Colors.black
-                                              )
-                                          ):null,
-                                          image:DecorationImage(
-                                              alignment:Alignment.bottomCenter,
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
-                                      )
+                                  child: Padding(
+                                    padding:  EdgeInsets.all(1.w),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                            height: 3.h,
+                                            width: 3.h,
+                                            margin: EdgeInsets.all(1.w),
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                                border: index==data.selectedColorIndex?Border.fromBorderSide(
+                                                    BorderSide(
+                                                        width:1,
+                                                        color:Colors.black
+                                                    )
+                                                ):null,
+                                                image:DecorationImage(
+                                                    alignment:Alignment.bottomCenter,
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
+                                            )
+                                        ),
+                                        Text(data.modelDetailsModel!.modelList!.colors![index].colorName??'')
+                                      ],
+                                    ),
                                   ),
                                 );
                               }),),
-                            Text("Sizes:",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
+                            Text(tr("Sizes:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
                             Wrap(
                               children: List.generate((data.modelDetailsModel!.modelList!.size??[]).length, (index) {
                                 return GestureDetector(
@@ -144,7 +154,12 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                   children: [
                     SizedBox(width: 4.w,),
                     IconButton(onPressed: (){
-                      data.changeFavourite();
+                      if(AppData.USER_NAME.isEmpty){
+                        AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                      }else{
+                        data.changeFavourite();
+                      }
+
                     },
                         padding: EdgeInsets.zero,
                         icon:Center(child: Icon(
@@ -168,12 +183,16 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                             ),
                           ),
                           onPressed: ()async{
-                            await data.addItemToCart();
+                            if(AppData.USER_NAME.isEmpty){
+                              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                            }else{
+                              await data.addItemToCart();
+                            }
                           },
                           child: SizedBox(
                               width: double.infinity,
                               child: Text(
-                                "ADD TO CART",
+                                tr("ADD TO CART"),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,

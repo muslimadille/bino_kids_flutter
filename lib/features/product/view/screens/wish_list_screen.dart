@@ -31,7 +31,8 @@ class WishListScreen extends StatelessWidget {
                 dataModel.deleteAllWishList();
               }, icon: Icon(Icons.delete)),
             ],),
-           Expanded(
+          Container(color: Colors.grey[200],width: double.infinity,height: 1,),
+          Expanded(
           child: dataModel.wishlisModel!=null?
           dataModel.wishlisModel!.modelList.isNotEmpty?Container(
                 color: Colors.grey[200],

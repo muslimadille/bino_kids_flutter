@@ -52,7 +52,7 @@ class WishListItemWidget extends StatelessWidget {
                   children: [
                   Padding(
                     padding:  EdgeInsets.only(top:1.h),
-                    child: Text("Colors:",style: TextStyle(fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
+                    child: Text(tr("Colors:"),style: TextStyle(fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
                   ),
                   Expanded(
                     child: Wrap(
@@ -83,7 +83,7 @@ class WishListItemWidget extends StatelessWidget {
                   children: [
                   Padding(
                     padding:  EdgeInsets.only(top:1.h),
-                    child: Text("Sizes:",style: TextStyle(fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
+                    child: Text(tr("Sizes:"),style: TextStyle(fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
                   ),
                   Expanded(
                     child: Wrap(

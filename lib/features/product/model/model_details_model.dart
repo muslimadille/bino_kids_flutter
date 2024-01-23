@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:bino_kids/features/product/model/product_model.dart';
+
 ModelDetailsModel modelDetailsModelFromJson(String str) => ModelDetailsModel.fromJson(json.decode(str));
 
 String modelDetailsModelToJson(ModelDetailsModel data) => json.encode(data.toJson());
@@ -54,7 +56,7 @@ class ModelList {
   final List<AllSize>? allSize;
   final List<Color>? colors;
   final List<dynamic>? wearWith;
-  final List<Similar>? similar;
+  final List<ProductModel>? similar;
   final List<ImageList>? imageList;
   final int wishListId;
   final bool isFavorite;
@@ -111,7 +113,7 @@ class ModelList {
     allSize: List<AllSize>.from(json["AllSize"].map((x) => AllSize.fromJson(x))),
     colors: List<Color>.from(json["Colors"].map((x) => Color.fromJson(x))),
     wearWith:json["WearWith"]==null?[]: List<dynamic>.from(json["WearWith"].map((x) => x)),
-    similar: json["Similar"]==null?[]:List<Similar>.from(json["Similar"].map((x) => Similar.fromJson(x))),
+    similar: json["Similar"]==null?[]:List<ProductModel>.from(json["Similar"].map((x) => ProductModel.fromJson(x))),
     imageList: json["ImageList"]==null?[]:List<ImageList>.from(json["ImageList"].map((x) => ImageList.fromJson(x))),
     isFavorite: json["IsFavorite"]??false,
     wishListId: json["WishListID"]??-1,

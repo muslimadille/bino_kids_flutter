@@ -35,4 +35,26 @@ class AuthRepository{
       rethrow;
     }
   }
+  Future<Response> register(Map<String,dynamic>data) async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.REGISTER,
+            data: data,
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            networkType: NetworkRequestEnum.put,
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
 }

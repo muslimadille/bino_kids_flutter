@@ -72,7 +72,7 @@ class SelectAddressBottomSheet extends StatelessWidget {
                 child: SizedBox(
                     width:double.infinity,
                     child: Text(
-                      "Set Order",
+                      tr("Set Order"),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,

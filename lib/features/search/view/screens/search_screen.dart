@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5) ),
                       ),
-                      child: Text("${model.searchKeys[index].nodeName}/${model.searchKeys[index].moduleName}",style: TextStyle(color: model.selectedModel==model.searchKeys[index]?Colors.white:Colors.black,fontSize: AppFontSize.small),textAlign: TextAlign.center,),),
+                      child: Text("${model.searchKeys[index].searchName}",style: TextStyle(color: model.selectedModel==model.searchKeys[index]?Colors.white:Colors.black,fontSize: AppFontSize.small),textAlign: TextAlign.center,),),
                   );
                 }),),
             ),

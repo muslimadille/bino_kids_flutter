@@ -72,7 +72,7 @@ class ProductDetailsProvider with ChangeNotifier{
         colorId: (modelDetailsModel!.modelList!.colorId??0).toInt(),
         sizeId: (modelDetailsModel!.modelList!.size![selectedSizeIndex].id??0).toInt(),
         id: modelDetailsModel!.modelList!.id??0);
-    AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 3);
+    AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 2);
 
   }
   changeFavourite()async{

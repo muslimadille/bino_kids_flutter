@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../common/helpers/app_localization.dart';
 import '../../provider/cart_provider.dart';
 import '../widgets/promo_code_widget.dart';
 
@@ -24,7 +25,7 @@ class CartItemsScreen extends StatelessWidget {
           Padding(
             padding:  EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
             child: Row(children: [
-              Text("Cart",style:TextStyle(color: Colors.black,fontSize: AppFontSize.medium,fontWeight: FontWeight.w700)),
+              Text(tr("Cart"),style:TextStyle(color: Colors.black,fontSize: AppFontSize.medium,fontWeight: FontWeight.w700)),
               SizedBox(width: 1.w,),
               Visibility(
                 visible: (dataModel.cartItemsResponseModel!.modelList??[]).isNotEmpty,
@@ -39,10 +40,10 @@ class CartItemsScreen extends StatelessWidget {
               ),
               Expanded(child: SizedBox()),
               Visibility(
-                  visible: (dataModel.cartItemsResponseModel!.modelList??[]).isNotEmpty,
-                  child: Text("All",style:TextStyle(color: Colors.black,fontSize: AppFontSize.medium,fontWeight: FontWeight.w700))),
+                  visible: false/*(dataModel.cartItemsResponseModel!.modelList??[]).isNotEmpty*/,
+                  child: Text(tr("All"),style:TextStyle(color: Colors.black,fontSize: AppFontSize.medium,fontWeight: FontWeight.w700))),
               Visibility(
-                visible: (dataModel.cartItemsResponseModel!.modelList??[]).isNotEmpty,
+                visible:false /*(dataModel.cartItemsResponseModel!.modelList??[]).isNotEmpty*/,
                 child: IconButton(onPressed: (){
                   dataModel.onSelectAll();
                 }, icon: Icon(
@@ -75,9 +76,9 @@ class CartItemsScreen extends StatelessWidget {
             child:
           Column(children: [
             SizedBox(height: 2.h,),
-            Text("${dataModel.totalPrice} EGP",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_medium,fontWeight: FontWeight.w700),),
+            Text("${dataModel.totalPrice} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_medium,fontWeight: FontWeight.w700),),
             Visibility(visible: dataModel.totalDiscount>0,
-                child: Text("Save ${dataModel.totalDiscount} EGP",style: TextStyle(color: Colors.orange,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),)),
+                child: Text("${tr("save")} ${dataModel.totalDiscount} ${tr("EGP")}",style: TextStyle(color: Colors.orange,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),)),
             SizedBox(height: 2.h,),
             PromoCodeWidget(onClick: (value){},),
             SizedBox(height: 1.h,),
@@ -105,7 +106,7 @@ class CartItemsScreen extends StatelessWidget {
                       child: SizedBox(
                           width: 25.w,
                           child: Text(
-                            "Order",
+                            tr("Order"),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,

@@ -32,13 +32,13 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
       margin:EdgeInsets.symmetric(vertical: 0.3.h,horizontal: 2.w),
       child: Row(
         children: [
-        GestureDetector(
-          onTap: (){
-            widget.item.isSelected =!(widget.item.isSelected??false);
-            widget.onSelect(widget.item);
-          },
-          child: Icon(widget.item.isSelected??false?
-            Icons.check_circle:Icons.radio_button_off,color: Colors.black,),),
+        // GestureDetector(
+        //   onTap: (){
+        //     widget.item.isSelected =!(widget.item.isSelected??false);
+        //     widget.onSelect(widget.item);
+        //   },
+        //   child: Icon(widget.item.isSelected??false?
+        //     Icons.check_circle:Icons.radio_button_off,color: Colors.black,),),
         SizedBox(width: 1.w,),
         Image.network(widget.item.imageUrl??'',
           width:10.h,

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/model/products_with_filter_model.dart';
 import 'package:bino_kids/features/product/repository/product_repository.dart';
@@ -22,7 +24,12 @@ class SearchProvider with ChangeNotifier{
   onSelectModel(SearchDataModel? model){
      selectedModel=model;
      notifyListeners();
-     getProducts();
+     if(selectedModel!.modelGuid!="00000000-0000-0000-0000-000000000000"){
+    AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: (selectedModel!.modelGuid).toString());
+    }else{
+       getProducts();
+     }
+
   }
   getProducts()async{
     final response=await ProductRepository().getProductsWithFilter(modelTypeID:selectedModel!.nodeId,moduleId:selectedModel!.moduleId);

@@ -1,6 +1,10 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
+import 'package:bino_kids/features/home/view/widgets/home_horozental_list_widget.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +34,7 @@ class ProductDetailsScreen extends StatelessWidget {
               return Column(
                 children: [
                   CustomBackBtn(title:tr("Product_details"),),
+                  Container(color: Colors.grey[200],width: double.infinity,height: 1,),
                   Expanded(
                     child: data.modelDetailsModel==null?SizedBox():CustomScrollView(
                       physics:const BouncingScrollPhysics(),
@@ -94,42 +99,78 @@ class ProductDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                             Row(children: [
-                              Text("${data.modelDetailsModel!.modelList!.priceAfterDiscount} EGP",style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),),
+                              Text("${data.modelDetailsModel!.modelList!.priceAfterDiscount} EGP",style: TextStyle(color: Colors.red,fontSize: AppFontSize.medium,fontWeight: FontWeight.w800),),
                               SizedBox(width: 3.w,),
                               Text("${data.modelDetailsModel!.modelList!.priceBeforeDiscount} EGP",style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)
                             ],),
                               SizedBox(height: 1.5.h),
-                              Text(data.modelDetailsModel!.modelList!.modelDiscriptionName??"",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
+                              Text(data.modelDetailsModel!.modelList!.modelDiscriptionName??"",style: TextStyle(fontSize: AppFontSize.large,fontWeight: FontWeight.w800),),
                               SizedBox(height: 1.5.h),
-                              Text("Colors:",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
+                              Row(
+                                children: [
+                                  Text("${tr("code")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                  Text((data.modelDetailsModel!.modelList!.modelCode??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                                ],
+                              ),
+                              SizedBox(height: 1.5.h),
+                              Row(
+                                children: [
+                                  Text("${tr("Brand")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                  Text((data.modelDetailsModel!.modelList!.modelTradeMarkName??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                                ],
+                              ),
+                              SizedBox(height: 1.5.h),
+                              Row(
+                                children: [
+                                  Text("${tr("material")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                  Text((data.modelDetailsModel!.modelList!.modelMaterialName??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                                ],
+                              ),
+                              SizedBox(height: 1.5.h),
+                              Row(
+                                children: [
+                                  Text("${tr("Age Group")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                  Text((data.modelDetailsModel!.modelList!.modelAgeName??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                                ],
+                              ),
+                              SizedBox(height: 1.5.h),
+                              Text(tr("Colors:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
                               Wrap(
                                 children: List.generate((data.modelDetailsModel!.modelList!.colors??[]).length, (index) {
                                 return GestureDetector(
                                   onTap: (){
                                     data.onSelectColor(index,false);
                                   },
-                                  child: Container(
-                                    height: 3.h,
-                                      width: 3.h,
-                                      margin: EdgeInsets.all(1.w),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                                          border: index==data.selectedColorIndex?Border.fromBorderSide(
-                                              BorderSide(
-                                                  width:1,
-                                                  color:Colors.black
-                                              )
-                                          ):null,
-                                          image:DecorationImage(
-                                              alignment:Alignment.bottomCenter,
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
-                                      )
+                                  child: Padding(
+                                    padding:  EdgeInsets.all(1.w),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                            height: 3.h,
+                                            width: 3.h,
+                                            margin: EdgeInsets.all(1.w),
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                                border: index==data.selectedColorIndex?Border.fromBorderSide(
+                                                    BorderSide(
+                                                        width:1,
+                                                        color:Colors.black
+                                                    )
+                                                ):null,
+                                                image:DecorationImage(
+                                                    alignment:Alignment.bottomCenter,
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
+                                            )
+                                        ),
+                                        Text(data.modelDetailsModel!.modelList!.colors![index].colorName??'')
+                                      ],
+                                    ),
                                   ),
                                 );
                               }),),
-                              Text("Sizes:",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
+                              Text(tr("Sizes:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
                               Wrap(
                                 children: List.generate((data.modelDetailsModel!.modelList!.size??[]).length, (index) {
                                   return GestureDetector(
@@ -152,7 +193,17 @@ class ProductDetailsScreen extends StatelessWidget {
                                       child: Text(data.modelDetailsModel!.modelList!.size![index].name??"",style: TextStyle(color: index==data.selectedSizeIndex?Colors.white:Colors.black,fontSize: AppFontSize.x_small),textAlign: TextAlign.center,),
                                     ),
                                   );
-                                }),)
+                                }),),
+
+                              Visibility(
+                                  visible: data.modelDetailsModel!.modelList!.similar!.isNotEmpty,
+                                  child:
+                                  HomeHorzontalListWidget(
+                                  showSeeAll:false,
+                                    scrollDirection: Axis.horizontal,
+                                    listTitle: tr('Similar'), onSeeAllClick: (){}, products:data.modelDetailsModel!.modelList!.similar??[],)
+
+                              )
 
 
 
@@ -166,7 +217,12 @@ class ProductDetailsScreen extends StatelessWidget {
                     children: [
                       SizedBox(width: 4.w,),
                       IconButton(onPressed: (){
-                        data.changeFavourite();
+                        if(AppData.USER_NAME.isEmpty){
+                          AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                        }else{
+                          data.changeFavourite();
+                        }
+
                       },
                           padding: EdgeInsets.zero,
                           icon:Center(child: Icon(
@@ -190,12 +246,16 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: ()async{
-                            await data.addItemToCart();
+                            if(AppData.USER_NAME.isEmpty){
+                              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                            }else{
+                              await data.addItemToCart();
+                            }
                           },
                           child: SizedBox(
                               width: double.infinity,
                               child: Text(
-                                "ADD TO CART",
+                                tr("ADD TO CART"),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
@@ -208,7 +268,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ),
 
-                  ],)
+                  ],),
+                  SizedBox(height: 1.5.h),
                 ],
               );
             }

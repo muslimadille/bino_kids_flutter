@@ -62,18 +62,18 @@ class SearchDataModel {
   });
 
   factory SearchDataModel.fromJson(Map<String, dynamic> json) => SearchDataModel(
-    moduleId: json["moduleId"],
-    moduleName: json["moduleName"],
-    sectionId: json["sectionId"],
-    sectionName: json["sectionName"],
-    nodeId: json["nodeId"],
-    nodeName: json["nodeName"],
-    modelId: json["modelId"],
-    modelGuid: json["modelGuid"],
-    modelCode: json["modelCode"],
-    url: json["url"],
-    searchName: json["searchName"],
-    toPage: json["toPage"],
+    moduleId: json["moduleId"]??-1,
+    moduleName: json["moduleName"]??"",
+    sectionId: json["sectionId"]??-1,
+    sectionName: json["sectionName"]??"",
+    nodeId: json["nodeId"]??-1,
+    nodeName: json["nodeName"]??"",
+    modelId: json["modelId"]??"",
+    modelGuid: json["modelGuid"]??"",
+    modelCode: json["modelCode"]??"",
+    url: json["url"]??"",
+    searchName: json["searchName"]??"",
+    toPage: json["toPage"]??-1,
   );
 
   Map<String, dynamic> toJson() => {

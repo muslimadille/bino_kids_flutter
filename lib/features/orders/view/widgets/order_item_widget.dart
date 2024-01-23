@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/orders/model/order_list_model.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class OrderItemWidget extends StatelessWidget {
             children: [
             Icon(Icons.home_outlined,color: Colors.black,size:5.w,),
             SizedBox(width: 2.w,),
-            Text("Address:",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+            Text(tr("Address:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
               Expanded(child: Text(orderDataModel.address??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
           ],),
@@ -47,7 +48,7 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               Icon(Icons.date_range,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text("Date:",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Date:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
               Expanded(child: Text(orderDataModel.purchaseDate??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
             ],),
@@ -61,7 +62,7 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               Icon(Icons.sticky_note_2_rounded,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text("Bill Status:",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Bill Status:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
               Expanded(child: Text((orderDataModel.prushaseStatus??0)==0?"New order":"Delivered",style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
             ],),
@@ -74,7 +75,7 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               Icon(Icons.confirmation_number_outlined,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text("Bill number:",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Bill number:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
               Expanded(child: Text((orderDataModel.purchaseCode??0).toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
             ],),
@@ -87,7 +88,7 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               Icon(Icons.align_horizontal_left_sharp,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text("Total:",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Total:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
               Expanded(child: Text((orderDataModel.totalAmount??0).toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
             ],),
@@ -100,7 +101,7 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               Icon(Icons.local_shipping_outlined,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text("Charge value:",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Charge value:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
               Expanded(child: Text((orderDataModel.chargeValue??0).toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
             ],),
@@ -118,7 +119,7 @@ class OrderItemWidget extends StatelessWidget {
         child: Row(children: [
           Icon(Icons.notification_important_outlined,color: Colors.white,size:5.w,),
         SizedBox(width: 2.w,),
-        Text("Stock notes: ",style: TextStyle(color: Colors.white,fontSize: AppFontSize.small,fontWeight: FontWeight.w700),),
+        Text(tr("Stock notes: "),style: TextStyle(color: Colors.white,fontSize: AppFontSize.small,fontWeight: FontWeight.w700),),
           Text(orderDataModel.stockNotes??'',style: TextStyle(color: Colors.white,fontSize: AppFontSize.small,fontWeight: FontWeight.w700),),
       ],),)
     ],),);

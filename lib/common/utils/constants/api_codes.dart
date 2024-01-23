@@ -23,6 +23,8 @@ class ApiCodes{
   static const String DELETE_ALL_WISH_LIST="WishList/DeleteAll";
   static const String ADD_ALL_WISH_LIST_TO_CART="Cart/AddAllItemsToCartFromWishList";
   static const String DELETE_WISH_LIST_ITEM="WishList/Delete";
+  static const String REGISTER="Users/createNewAccount";
+
 
 
 

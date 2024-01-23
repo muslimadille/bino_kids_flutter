@@ -30,7 +30,6 @@ class CustomBackBtn extends StatelessWidget {
               SizedBox(width: 4.w,)
             ],),
         ),
-        Container(color: Colors.grey[200],width: double.infinity,height: 1,)
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:bino_kids/applications/home_provider.dart';
 import 'package:bino_kids/features/auth/provider/login_provider.dart';
+import 'package:bino_kids/features/auth/provider/register_provider.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
 import 'package:bino_kids/features/product/providers/wish_list_provider.dart';
 import 'package:bino_kids/features/search/provider/search_provider.dart';

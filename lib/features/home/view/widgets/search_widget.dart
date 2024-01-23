@@ -27,7 +27,7 @@ class HomeSearchWidget extends StatelessWidget {
               ),
             height:5.h,
               padding: EdgeInsets.only(top:3.w,left: 4.w,right:4.w),
-              child: Text("boys",style: TextStyle(color: Colors.grey),)),
+              child: Text(tr("search"),style: TextStyle(color: Colors.grey),)),
         ),
         Container(
             decoration: BoxDecoration(

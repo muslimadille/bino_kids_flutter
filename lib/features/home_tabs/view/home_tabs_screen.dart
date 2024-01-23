@@ -1,5 +1,8 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home_tabs/view_model/home_tabs_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +31,30 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> with HomeTabsHelper {
       elevation: 20,
       currentIndex: selectedIndex,
       onTap: (int index){
+        if(AppData.USER_NAME.isEmpty){
+          switch(index){
+            case 0:{
+              setState(() {
+                selectedIndex=index;
+              });
+            }
+            case 1:{
+              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+            }
+            case 2:{
+              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+            }
+            case 3:{
+              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+            }
+
+          }
+        }else{
           setState(() {
             selectedIndex=index;
           });
+        }
+
       },
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: TextStyle(
@@ -70,17 +94,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> with HomeTabsHelper {
             color: Colors.black,
           ),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.new_releases_outlined,
-            color: Colors.grey[400],
-          ),
-          label: AppLocalization.translate("NEW_TAB_TITLE"),
-          activeIcon: const Icon(
-            Icons.new_releases_sharp,
-            color: Colors.black,
-          ),
-        ),
+
         BottomNavigationBarItem(
           icon: Icon(
             Icons.shopping_cart_outlined,

@@ -90,7 +90,7 @@ class HomeRepository{
               "lang": AppLocalization.isArabic?2:1,
               "userRole": 2,
               "pageIndex": 0,
-              "pageSize": 5,
+              "pageSize": 150,
             },
             showProgress: true,
             dismissProgress: true,
@@ -114,7 +114,7 @@ class HomeRepository{
               "userId": AppData.USER_ID,///required
               "userRole": AppData.USER_ROLE,
               "pageIndex": 0,
-              "pageSize": 5,
+              "pageSize": 150,
             },
             showProgress: true,
             dismissProgress: true,

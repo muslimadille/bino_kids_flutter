@@ -1,7 +1,9 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
+import 'package:bino_kids/features/auth/provider/login_provider.dart';
 import 'package:bino_kids/features/auth/view_model/login_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -29,8 +31,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-      child: Column(
+      body: Column(
         children: [
           Expanded(
             child: ListView(children:  [
@@ -40,19 +41,20 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
               height: 8.h,
                 fit: BoxFit.fitHeight,
               ),
-              SizedBox(height: 5.h,),
+              SizedBox(height: 3.h,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal:3.w,vertical: 1.h),
                 child:
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Text("Mobile number or email address",style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.grey),),
+                Text(tr("user_name_field_title"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
                   SizedBox(height:1.h),
                   Container(
                     height: 5.h,
                       decoration: BoxDecoration(
                           color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(5),
                           border: Border.fromBorderSide(
                               BorderSide(
                                   width:1,
@@ -108,12 +110,13 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                     ),
                   ),
                   SizedBox(height:1.h),
-                  Text("Password",style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.grey),),
+                  Text(tr("Password"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
                   SizedBox(height:1.h),
                   Container(
                     height: 5.h,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(5),
                         border: Border.fromBorderSide(
                             BorderSide(
                                 width:1,
@@ -160,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                   )
               ],),),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 3.w),
+                padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -170,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                     disabledMouseCursor: SystemMouseCursors.forbidden,
                     padding: EdgeInsets.symmetric(vertical:2.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   onPressed: ()async{
@@ -180,10 +183,42 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                   child: SizedBox(
                       width: double.infinity,
                       child: Text(
-                        "CONTINUE",
+                        tr("Login"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
+                            fontSize: AppFontSize.x_x_small,
+                            fontWeight: FontWeight.w700
+                        ),
+                      )
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor:Colors.white,
+                    disabledBackgroundColor: Colors.grey,
+                    disabledForegroundColor: Colors.grey,
+                    disabledMouseCursor: SystemMouseCursors.forbidden,
+                    padding: EdgeInsets.symmetric(vertical:2.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      side: BorderSide(width: 1,color: Colors.black)
+                    ),
+                  ),
+                  onPressed: ()async{
+                    AppNavigator().push(routeName: AppRoutes.REGISTER_SCREEN_ROUTE);
+                  },
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        tr("Register"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.black,
                             fontSize: AppFontSize.x_x_small,
                             fontWeight: FontWeight.w700
                         ),
@@ -196,42 +231,22 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                 Expanded(child: Container(height: 1,color: Colors.grey[400],)),
                 Padding(
                   padding:  EdgeInsets.symmetric(horizontal: 1.w),
-                  child: Text("Or join with",style: TextStyle(color: Colors.grey),),
+                  child: Text(tr("Or join with"),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w700),),
                 ),
                 Expanded(child: Container(height: 1,color: Colors.grey[400],))
 
               ],),),
               SizedBox(height:2.h,),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 3.w),
-                padding: EdgeInsets.all(3.w),
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.fromBorderSide(
-                        BorderSide(
-                            width:1,
-                            color:Colors.grey
-                        )
-                    )
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(width:20.w),
-                  Image.asset("assets/images/google.png",
-                    height: 3.h,
-                    width: 3.h,
-                  ),
-                  SizedBox(width: 5.w,),
-                  Text("Continue with Google",style: TextStyle(fontSize:AppFontSize.x_x_small),)
-                ],
-              )),
-              SizedBox(height: 1.5.h,),
-              Container(
+              InkWell(
+                onTap: (){
+                  LoginProvider().onSoialClick();
+                },
+                child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 3.w),
                   padding: EdgeInsets.all(3.w),
                   decoration: BoxDecoration(
                       color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(5),
                       border: Border.fromBorderSide(
                           BorderSide(
                               width:1,
@@ -243,14 +258,46 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(width:20.w),
-                      Image.asset("assets/images/facebook.png",
-                        height: 3.h,
-                        width: 3.h,
-                      ),
-                      SizedBox(width: 5.w,),
-                      Text("Continue with Facebook",style: TextStyle(fontSize:AppFontSize.x_x_small),)
-                    ],
-                  ))
+                    Image.asset("assets/images/google.png",
+                      height: 3.h,
+                      width: 3.h,
+                    ),
+                    SizedBox(width: 5.w,),
+                    Text(tr("Continue with Google"),style:TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
+                  ],
+                )),
+              ),
+              SizedBox(height: 1.5.h,),
+              InkWell(
+                onTap: (){
+                  LoginProvider().onSoialClick();
+                },
+                child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 3.w),
+                    padding: EdgeInsets.all(3.w),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.fromBorderSide(
+                            BorderSide(
+                                width:1,
+                                color:Colors.grey
+                            )
+                        )
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width:20.w),
+                        Image.asset("assets/images/facebook.png",
+                          height: 3.h,
+                          width: 3.h,
+                        ),
+                        SizedBox(width: 5.w,),
+                        Text(tr("Continue with Facebook"),style: TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
+                      ],
+                    )),
+              )
 
 
             ],),
@@ -261,22 +308,20 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
            Row(
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
-             Text("By continunig,you are agree to our "),
-             Text("Privacy ",style: TextStyle(color: Color(0xff003498)),),
+             Text(tr("By continuing,you are agree to our ")),
+             Text(tr("Privacy "),style: TextStyle(color: Color(0xff003498)),),
            ],),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("And "),
-                Text("Term&conditions",style: TextStyle(color: Color(0xff003498))),
+                Text(tr("And ")),
+                Text(tr("Term&conditions"),style: TextStyle(color: Color(0xff003498))),
               ],
             ),
             ],),
-          SizedBox(height: 2.h,),
+          SizedBox(height: 5.h,),
 
         ],
-      ),
-
-    ),);
+      ),);
   }
 }

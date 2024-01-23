@@ -10,6 +10,7 @@ import 'package:bino_kids/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-        ),
+        fontFamily: GoogleFonts.getFont('Tajawal').fontFamily,),
         navigatorKey: AppNavigator().navigatorKey,
         onGenerateRoute: onGenerateRoute,
         supportedLocales: const [

@@ -16,6 +16,7 @@ class SettingScreen extends StatelessWidget {
       body: SafeArea(child:
       Column(children: [
         CustomBackBtn(title: tr("Settings"),),
+        Container(color: Colors.grey[200],width: double.infinity,height: 1,),
         Expanded(child: Container(
           color: Colors.grey[200],
           child: ListView(children: [

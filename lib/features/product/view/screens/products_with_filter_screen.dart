@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
@@ -13,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../common/utils/constants/app_data.dart';
 import '../../model/product_model.dart';
 
 class ProductWithFiltersScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class ProductWithFiltersScreen extends StatefulWidget {
 class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with productWithFiltersHelper {
   @override
   void initState() {
-    subcategoriesList.addAll(widget.dataModel.subcategoriesList);
+    subcategoriesList.addAll(widget.dataModel.subcategoriesList??[]);
     selectedCategoryId=widget.dataModel.selectedcategoryId;
     onInit();
     super.initState();
@@ -62,90 +62,97 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
           SizedBox(height: 5.h,),
       Row(
         children: [
-        Expanded(child: CustomBackBtn(title: subcategoriesList[selectedIndex].name,)),
+        Expanded(child: CustomBackBtn(title: widget.dataModel.selectedcategoryName??subcategoriesList[selectedIndex].name,)),
           //IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
           //IconButton(onPressed: (){}, icon: Icon(Icons.search)),
           IconButton(onPressed: (){
-            AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 1);
+            if(AppData.USER_NAME.isEmpty){
+              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+            }else{
+              AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 1);
+            }
           }, icon: Icon(Icons.favorite_border)),
       ],),
-      StreamBuilder<int>(
+          Container(color: Colors.grey[200],width: double.infinity,height: 1,),
+          Visibility(
+            visible: (widget.dataModel.subcategoriesList??[]).isNotEmpty,
+            child: StreamBuilder<int>(
         stream: categoryStreamController.stream,
         builder: (context, snapshot) {
-          return SizedBox(
-            height: 13.h,
-            width: double.infinity,
-            child: ListView.builder(
-                controller: categoryController,
-                padding: EdgeInsets.all(2.w),
-                scrollDirection:Axis.horizontal,
-                itemCount:widget.dataModel.subcategoriesList.length ,
-                itemBuilder: (context,index){
-                  bool isSelected=(selectedIndex==index);
-              return GestureDetector(
-                onTap: (){
-                  onSelectCategory(index);
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 2.w),
-                  width: 20.w,
-                  height: 13.h,
-                  decoration: BoxDecoration(
-                    color: isSelected?Colors.black:Colors.grey[200],
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(topRight:Radius.circular(5),topLeft:Radius.circular(5) ),
-                              image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: subcategoriesList[index].imageNameList.isEmpty?
-                                  NetworkImage(subcategoriesList[index].image??'')
-                                      :NetworkImage(subcategoriesList[index].imageNameList.isNotEmpty?
-                                  subcategoriesList[index].imageNameList[0].imagePath:""))),
+            return SizedBox(
+              height: 13.h,
+              width: double.infinity,
+              child: ListView.builder(
+                  controller: categoryController,
+                  padding: EdgeInsets.all(2.w),
+                  scrollDirection:Axis.horizontal,
+                  itemCount:(widget.dataModel.subcategoriesList??[]).length ,
+                  itemBuilder: (context,index){
+                    bool isSelected=(selectedIndex==index);
+                return GestureDetector(
+                  onTap: (){
+                    onSelectCategory(index);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 2.w),
+                    width: 20.w,
+                    height: 13.h,
+                    decoration: BoxDecoration(
+                      color: isSelected?Colors.black:Colors.grey[200],
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(topRight:Radius.circular(5),topLeft:Radius.circular(5) ),
+                                image: DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: subcategoriesList[index].imageNameList.isEmpty?
+                                    NetworkImage(subcategoriesList[index].image??'')
+                                        :NetworkImage(subcategoriesList[index].imageNameList.isNotEmpty?
+                                    subcategoriesList[index].imageNameList[0].imagePath:""))),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 2.w,vertical: 1.h),
-                        child: Text(subcategoriesList[index].name,textAlign: TextAlign.center,style:
-                        TextStyle(color: isSelected?Colors.white:Colors.black,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
-                      ),
-                    ],),
-                ),
-              );
-            }),
-          );
+                        Padding(
+                          padding:  EdgeInsets.symmetric(horizontal: 2.w,vertical: 1.h),
+                          child: Text(subcategoriesList[index].name,textAlign: TextAlign.center,style:
+                          TextStyle(color: isSelected?Colors.white:Colors.black,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),),
+                        ),
+                      ],),
+                  ),
+                );
+              }),
+            );
         }
       ),
+          ),
           Container(color: Colors.grey[200],height: 1.h,width: double.infinity,),
           Padding(
             padding:  EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-              GestureDetector(
-                onTap: (){
-                  if(drawerKey.currentState!.isDrawerOpen){
-                    drawerKey.currentState!.closeDrawer();
-                  }else{
-                    drawerKey.currentState!.openDrawer();
-                  }
-                },
-                child: Row(children: [
-                  Container(color: Colors.grey[300],width:1,height: 3.h,),
-                  SizedBox(width: 5.w,),
-                  Text(tr("Filter"),style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),),
-                  Icon(Icons.filter_alt_outlined,color: Colors.black,),
-                ],),
-              )
-            ],),
+            child: GestureDetector(
+              onTap: (){
+                if(drawerKey.currentState!.isDrawerOpen){
+                  drawerKey.currentState!.closeDrawer();
+                }else{
+                  drawerKey.currentState!.openDrawer();
+                }
+              },
+              child: Row(children: [
+                Icon(Icons.filter_alt_outlined,color: Colors.black,),
+                Text(tr("Filter"),style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: AppFontSize.x_small),),
+                SizedBox(width: 5.w,),
+                Container(color: Colors.grey[300],width:1,height: 3.h,),
+
+
+
+              ],),
+            )
           ),
           Container(color: Colors.grey[200],height: 1.h,width: double.infinity,),
           Expanded(
