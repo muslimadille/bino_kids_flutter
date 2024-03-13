@@ -45,7 +45,7 @@ class HomeRepository{
               "lang":AppLocalization.isArabic?2:1,
               "isComapnyUser":false
             },
-            showProgress: true,
+            showProgress: false,
             dismissProgress: true,
           ),
           exceptionParameters: const NetworkExceptionModel(
@@ -92,7 +92,7 @@ class HomeRepository{
               "pageIndex": 0,
               "pageSize": 150,
             },
-            showProgress: true,
+            showProgress: false,
             dismissProgress: true,
           ),
           exceptionParameters: const NetworkExceptionModel(
@@ -139,7 +139,7 @@ class HomeRepository{
               "pageIndex": 0,
               "pageSize": 5,
             },
-            showProgress: true,
+            showProgress: false,
             dismissProgress: true,
           ),
           exceptionParameters: const NetworkExceptionModel(
@@ -162,7 +162,7 @@ class HomeRepository{
                 "lang": AppLocalization.isArabic?2:1,
                 "userRole": 2
               },
-            showProgress: true,
+            showProgress: false,
             dismissProgress: true,
           ),
           exceptionParameters: const NetworkExceptionModel(

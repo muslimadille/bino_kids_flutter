@@ -7,6 +7,8 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:sizer/sizer.dart';
 
+import '../../../common/helpers/app_localization.dart';
+
 class ReturnPolicyScreen extends StatelessWidget with PolicyHelper  {
   const ReturnPolicyScreen({
     Key? key}) : super(key: key);
@@ -21,7 +23,7 @@ class ReturnPolicyScreen extends StatelessWidget with PolicyHelper  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomBackBtn(title:"Return and exchange policy" ,),
+                CustomBackBtn(title:tr("return_policy") ,),
                 Expanded(
                   child: FutureBuilder<PrivacyModel?>(
                       future: getExchangePolicy(),

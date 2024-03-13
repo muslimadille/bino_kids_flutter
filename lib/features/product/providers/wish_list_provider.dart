@@ -23,4 +23,15 @@ class WishListProvider with ChangeNotifier{
     final response=await ProductRepository().deleteWishListItem(id);
     getWishList();
   }
+  editWishListItem({
+    required num modelId,
+    required num sizeId,
+    required num colorId,
+    required num wishListId
+
+  })async{
+    final response=await ProductRepository().editWishListItem(
+        modelId: modelId, sizeId: sizeId, colorId: colorId,wishListId: wishListId);
+    //getWishList();
+  }
 }

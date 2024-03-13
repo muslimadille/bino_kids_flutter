@@ -30,6 +30,27 @@ class ProfileRepository{
       rethrow;
     }
   }
+  Future<Response>deleteAccount()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.DELETE_ACCOUNT,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": AppData.USER_ID,
+              "Lang": AppLocalization.isArabic?2:1
+            },
+            showProgress: false,
+            dismissProgress: false,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: false, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
   Future<Response>getAboutUs()async{
     try {
       final response = await NetworkRequest().sendAppRequest(
@@ -110,4 +131,25 @@ class ProfileRepository{
       rethrow;
     }
   }
+  Future<Response>getCustomerServiceNumber()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.CUSTOMER_SERVICE_NUMBER_API,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "Lang":2
+            },
+            showProgress: false,
+            dismissProgress: false,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: false, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
 }

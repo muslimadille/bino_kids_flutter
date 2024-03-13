@@ -42,7 +42,10 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> with HomeTabsHelper {
               AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
             }
             case 2:{
-              AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+              setState(() {
+                selectedIndex=index;
+              });
+              //AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
             }
             case 3:{
               AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);

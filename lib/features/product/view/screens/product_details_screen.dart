@@ -4,6 +4,7 @@ import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
+import 'package:bino_kids/features/cart/provider/cart_provider.dart';
 import 'package:bino_kids/features/home/view/widgets/home_horozental_list_widget.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
 import 'package:flutter/material.dart';
@@ -59,9 +60,14 @@ class ProductDetailsScreen extends StatelessWidget {
                                     data.onChangeImage(index);
                                   },
                                   children:List.generate(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList().length, (index){
-                                    return Image(
-                                      image: NetworkImage(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
-                                      fit: BoxFit.cover,
+                                    return InkWell(
+                                      onTap: (){
+                                        AppNavigator().push(routeName: AppRoutes.IMAGES_SCREEN_ROUTE,arguments:data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList() );
+                                      },
+                                      child: Image(
+                                        image: NetworkImage(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
+                                        fit: BoxFit.cover,
+                                      ),
                                     );
                                   }) ,
                                 ),
@@ -246,11 +252,13 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: ()async{
-                            if(AppData.USER_NAME.isEmpty){
+                            await data.addItemToCart();
+
+                            /*if(AppData.USER_NAME.isEmpty){
                               AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
                             }else{
                               await data.addItemToCart();
-                            }
+                            }*/
                           },
                           child: SizedBox(
                               width: double.infinity,

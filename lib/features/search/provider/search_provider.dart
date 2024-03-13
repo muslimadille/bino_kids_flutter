@@ -13,6 +13,11 @@ class SearchProvider with ChangeNotifier{
   List<SearchDataModel> searchKeys=[];
   SearchDataModel? selectedModel;
   List<ProductModel> modelList=[];
+  onInit(){
+    searchKeys.clear();
+    selectedModel=null;
+    modelList.clear();
+  }
 
   getSearch({required String searchWord})async{
     final response=await SearchRepository().getSearch(searchWord:searchWord);
@@ -24,16 +29,21 @@ class SearchProvider with ChangeNotifier{
   onSelectModel(SearchDataModel? model){
      selectedModel=model;
      notifyListeners();
-     if(selectedModel!.modelGuid!="00000000-0000-0000-0000-000000000000"){
+     if(selectedModel!.toPage==1){
     AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: (selectedModel!.modelGuid).toString());
-    }else{
+    }else if(selectedModel!.toPage==2){
        getProducts();
+     }else if(selectedModel!.toPage==3){
+       notifyListeners();
      }
 
   }
   getProducts()async{
-    final response=await ProductRepository().getProductsWithFilter(modelTypeID:selectedModel!.nodeId,moduleId:selectedModel!.moduleId);
-    ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
+    modelList.clear();
+    notifyListeners();
+    final response=await ProductRepository().getProductsWithFilter(
+        modelTypeID:selectedModel!.nodeId,moduleId:selectedModel!.moduleId,);
+    ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
     modelList.clear();
     modelList.addAll(productsWithFilterModel.modelList??[]);
     notifyListeners();

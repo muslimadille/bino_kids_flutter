@@ -9,6 +9,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../home/view/widgets/subcategories_list_widget.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
@@ -21,6 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
+    context.read<SearchProvider>().onInit();
     super.initState();
   }
   @override
@@ -66,8 +69,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 }),),
             ),
-            Expanded(
-              child: Container(
+            model.selectedModel!=null?Expanded(
+              child: model.selectedModel!.toPage==3?
+        SubcategoriesListWidget(moduleId: model.selectedModel!.moduleId,modelAgeId:0):
+              Container(
                 color:Colors.grey[200],
                 child: MasonryGridView.count(
                     padding: EdgeInsets.only(top: 1.h),
@@ -84,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: ProductItemWidget(index: index, productModel: model.modelList[index],));
                     }),
               ),
-            )
+            ):SizedBox()
 
         ],);
       }

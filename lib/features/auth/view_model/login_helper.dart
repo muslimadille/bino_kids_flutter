@@ -6,6 +6,7 @@ import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/top_snackbar_custom/top_snack_bar.dart';
 import 'package:bino_kids/features/auth/model/login_model.dart';
+import 'package:bino_kids/features/auth/model/verify_user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,7 @@ mixin LoginHelper{
         AppData.USER_ID=loginModel.userId;
         AppData.USER_NAME=loginModel.userName;
         AppData.USER_ROLE=loginModel.userRole;
+        AppData.IS_VERIFIED_USER=loginModel.isVerified=="True";
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
 
       } on DioException catch (error){
@@ -53,5 +55,22 @@ mixin LoginHelper{
       AppData.USER_ROLE=await LocalStorage().getFromBox(key: AppData.USER_ROLE_STORAGE_KEY)??"";
     }
     return id.isNotEmpty;
+  }
+  verifyUser(String code)async{
+
+      try{
+        final response=await AuthRepository().verifyUser(code);
+        VerifyUserModel verifyUserModel=verifyUserModelFromJson(jsonEncode(response.data));
+        if(verifyUserModel.status!=0){
+          AppData.IS_VERIFIED_USER=true;
+          CustomSnakbar().appSnackBar(isFaild: false,text: 'تم تفعيل الحساب بنجاح');
+          AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+        }else{
+          CustomSnakbar().appSnackBar(isFaild: true,text:verifyUserModel.message);
+        }
+      } on DioException catch (error){
+      }
+
+
   }
 }

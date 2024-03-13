@@ -2,6 +2,7 @@ import 'package:bino_kids/applications/mainApplication.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/cash_helper.dart';
+import 'package:bino_kids/common/helpers/hive_helper.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
@@ -11,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import 'common/helpers/device_info_details.dart';
 import 'common/widgets/custom_loading.dart';
 
@@ -32,6 +33,7 @@ void main() async{
       );
     })
   ]);
+  HiveHelper().initAdaptors();
   runApp(MultiProvider(
     providers: MainApplication.applicationList,
     child: const MyApp(),

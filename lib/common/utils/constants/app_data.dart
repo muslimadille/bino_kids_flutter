@@ -8,7 +8,10 @@ class AppData{
   static  String USER_ID="";
   static  String USER_ROLE="";
   static  String USER_NAME="";
+  static  bool IS_VERIFIED_USER=false;
   static  String CURRENT_LANG="en";
+  static  String CUSTOMER_SERVICE_NUMBER="";
+
 
 
   static const int ALL_CATEGORY_ID=0;
@@ -21,8 +24,11 @@ class AppData{
   static const int ALL_NEW_ARRIVALS_ID=7;
   static const int ALL_DAY_OF_THE_DEAL_ID=8;
 
-
-
+  ///hive
+  static const String hive_Main_Categories="hive_Main_Categories";
+  static const String hive_Model_Types="hive_Model_Types";
+  static const String hive_Model_details_Types="hive_Model_details_Types";
+  static const String hive_Models_list_Types="hive_Models_list_Types";
 
 
 

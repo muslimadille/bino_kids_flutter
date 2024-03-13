@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/helpers/hive_helper.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/sub_categories_model.dart';
 import 'package:bino_kids/features/product/model/filter_model.dart';
@@ -21,6 +24,9 @@ mixin productWithFiltersHelper{
    Filters? filters;
    Price?prices;
   Map<String, List<int>> selectedFilters={};
+  int?moduleId;
+  int?modelAgeId;
+  int?modelGenderId;
 
   late final StreamController<int> categoryStreamController;
   late final StreamController<List<ProductModel>?> productsStreamController;
@@ -38,7 +44,6 @@ mixin productWithFiltersHelper{
     if(subcategoriesList.isNotEmpty){
       scrollToIndex();
     }
-
     getProducts(selectedFilters: {});
   }
   onDispose(){
@@ -56,21 +61,53 @@ mixin productWithFiltersHelper{
     selectedIndex=index;
     selectedFilters={};
     selectedCategoryId=subcategoriesList[index].id;
+    modelGenderId=subcategoriesList[index].modelGenderId;
     categoryStreamController.add(index);
     getProducts(selectedFilters: {});
     scrollToIndex();
   }
   getProducts({required Map<String, List<int>> selectedFilters})async{
     productsStreamController.add(null);
-    final response=await ProductRepository().getProductsWithFilter(modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
-    ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
-    filters=productsWithFilterModel.filters;
-    prices=productsWithFilterModel.price;
-    productsStreamController.add(productsWithFilterModel.modelList);
+    String boxName= (AppData.hive_Models_list_Types+(AppLocalization.isArabic?"ar":"en")+
+        modelAgeId.toString()+moduleId.toString()+modelGenderId.toString()+
+        (subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId).toString()+jsonEncode(selectedFilters));
+
+    if(await HiveHelper().isExists(boxName:boxName )){
+      ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
+      filters=productsWithFilterModel.filters;
+      prices=productsWithFilterModel.price;
+      productsStreamController.add(productsWithFilterModel.modelList);
+      final response=await ProductRepository().getProductsWithFilter(
+        showLoader: false,
+          modelAgeId: modelAgeId,
+          moduleId: moduleId,
+          modelGender: subcategoriesList[selectedIndex].modelGenderId,
+          modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
+
+      productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+
+      await HiveHelper().deleteBoxes(boxName);
+      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
+
+    }else{
+      final response=await ProductRepository().getProductsWithFilter(
+          modelAgeId: modelAgeId,
+          moduleId: moduleId,
+          modelGender: subcategoriesList[selectedIndex].modelGenderId,
+          modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
+      ProductsWithFilterModel? productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+      await HiveHelper().deleteBoxes(boxName);
+      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
+      filters=productsWithFilterModel.filters;
+      prices=productsWithFilterModel.price;
+      productsStreamController.add(productsWithFilterModel.modelList);
+    }
+
   }
    initSelectedCategory(){
     if(selectedCategoryId!=null&&subcategoriesList.isNotEmpty){
-      selectedIndex=subcategoriesList.indexOf(subcategoriesList.singleWhere((element) => element.id==selectedCategoryId));
+      selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&element.name==selectedCategoryName).first);
+      modelGenderId=subcategoriesList[selectedIndex].modelGenderId;
     } else{
       selectedIndex=0;
     }

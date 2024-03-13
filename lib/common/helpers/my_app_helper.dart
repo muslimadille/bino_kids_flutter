@@ -1,11 +1,17 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
+import 'package:bino_kids/features/auth/view/screens/otp_screen.dart';
 import 'package:bino_kids/features/auth/view/screens/register_screen.dart';
+import 'package:bino_kids/features/branches/view/screens/branches_screen.dart';
 import 'package:bino_kids/features/cart/view/screens/cart_items_screen.dart';
+import 'package:bino_kids/features/cart/view/screens/complete_order_screen.dart';
+import 'package:bino_kids/features/cart/view/screens/payment_screen.dart';
 import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
+import 'package:bino_kids/features/product/model/model_details_model.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
+import 'package:bino_kids/features/product/view/screens/images_screen.dart';
 import 'package:bino_kids/features/product/view/screens/product_details_screen.dart';
 import 'package:bino_kids/features/product/view/screens/products_with_filter_screen.dart';
 import 'package:bino_kids/features/profile/view/about_us_screen.dart';
@@ -64,7 +70,16 @@ import 'package:flutter/material.dart';
         return MaterialPageRoute(builder: (_) => const SearchScreen());
       case AppRoutes.REGISTER_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
-
+      case AppRoutes.IMAGES_SCREEN_ROUTE:
+        return MaterialPageRoute(builder: (_) =>  ImagesScreen(imageList: routeSettings.arguments as List<ImageList>));
+      case AppRoutes.PAYMENT_SCREEN_ROUT:
+        return MaterialPageRoute(builder: (_) =>  PaymentScreen(url: routeSettings.arguments as String));
+      case AppRoutes.OTP_SCREEN_ROUT:
+        return MaterialPageRoute(builder: (_) =>  OtpScreen());
+      case AppRoutes.BRANCHES_SCREEN_ROUT:
+        return MaterialPageRoute(builder: (_) =>  BranchesScreen());
+      case AppRoutes.COMPLETE_ORDER_SCREEN_ROUT:
+        return MaterialPageRoute(builder: (_) =>  CompleteOrderScreen());
       default:
         return MaterialPageRoute(builder: (_) =>  const HomeTabsScreen());
     }

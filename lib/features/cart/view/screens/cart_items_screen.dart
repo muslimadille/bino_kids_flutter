@@ -1,4 +1,5 @@
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/cart/view/widgets/cart_list_item_widget.dart';
 import 'package:bino_kids/features/cart/view/widgets/empty_cart_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../common/helpers/app_localization.dart';
+import '../../../../common/helpers/app_navigator.dart';
 import '../../provider/cart_provider.dart';
 import '../widgets/promo_code_widget.dart';
 
@@ -80,8 +82,6 @@ class CartItemsScreen extends StatelessWidget {
             Visibility(visible: dataModel.totalDiscount>0,
                 child: Text("${tr("save")} ${dataModel.totalDiscount} ${tr("EGP")}",style: TextStyle(color: Colors.orange,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),)),
             SizedBox(height: 2.h,),
-            PromoCodeWidget(onClick: (value){},),
-            SizedBox(height: 1.h,),
             Row(
               mainAxisAlignment:MainAxisAlignment.end,
               children: [
@@ -101,7 +101,7 @@ class CartItemsScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: ()async{
-                        dataModel.gotoSelectAddress();
+                        AppNavigator().push(routeName: AppRoutes.COMPLETE_ORDER_SCREEN_ROUT);
                       },
                       child: SizedBox(
                           width: 25.w,

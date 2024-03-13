@@ -58,11 +58,15 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                               itemBuilder: (ctx,index){
                                 return Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 1.w),
-                                  child: Image(
-                                    image: NetworkImage(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
-                                    fit: BoxFit.cover,
-                                    height: 25.h,
-                                    width: 30.w,
+                                  child: InkWell(
+                                    onTap: (){
+                                      AppNavigator().push(routeName: AppRoutes.IMAGES_SCREEN_ROUTE,arguments:data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList() );
+                                    },child: Image(
+                                      image: NetworkImage(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
+                                      fit: BoxFit.cover,
+                                      height: 25.h,
+                                      width: 30.w,
+                                    ),
                                   ),
                                 );
                               }):SizedBox(),
@@ -79,7 +83,35 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                               Text("${data.modelDetailsModel!.modelList!.priceBeforeDiscount} ${tr("EGP")}",style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)
                             ],),
                             SizedBox(height: 1.5.h),
-                            Text(data.modelDetailsModel!.modelList!.modelDiscriptionName??"",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
+                            Text(data.modelDetailsModel!.modelList!.modelDiscriptionName??"",style: TextStyle(fontSize: AppFontSize.large,fontWeight: FontWeight.w800),),
+                            SizedBox(height: 1.h),
+                            Row(
+                              children: [
+                                Text("${tr("code")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                Text((data.modelDetailsModel!.modelList!.modelCode??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                              ],
+                            ),
+                            SizedBox(height: 1.h),
+                            Row(
+                              children: [
+                                Text("${tr("Brand")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                Text((data.modelDetailsModel!.modelList!.modelTradeMarkName??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                              ],
+                            ),
+                            SizedBox(height: 1.h),
+                            Row(
+                              children: [
+                                Text("${tr("material")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                Text((data.modelDetailsModel!.modelList!.modelMaterialName??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                              ],
+                            ),
+                            SizedBox(height: 1.h),
+                            Row(
+                              children: [
+                                Text("${tr("Age Group")}: ",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                Text((data.modelDetailsModel!.modelList!.modelAgeName??""),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),),
+                              ],
+                            ),
                             SizedBox(height: 1.5.h),
                             Text("Colors:",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
                             Wrap(
@@ -183,11 +215,12 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                             ),
                           ),
                           onPressed: ()async{
-                            if(AppData.USER_NAME.isEmpty){
+                            await data.addItemToCart();
+                           /* if(AppData.USER_NAME.isEmpty){
                               AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
                             }else{
                               await data.addItemToCart();
-                            }
+                            }*/
                           },
                           child: SizedBox(
                               width: double.infinity,

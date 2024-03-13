@@ -11,9 +11,9 @@ import 'package:sizer/sizer.dart';
 
 mixin HomeTabsHelper {
   int selectedIndex = 0;
-  List<Widget> screens = [
+   final List<Widget> screens = [
     HomeScreen(),
-    WishListScreen(),
+    WishListScreen(showBack: true,),
     CartItemsScreen(),
   ProfileScreen(),
   ];

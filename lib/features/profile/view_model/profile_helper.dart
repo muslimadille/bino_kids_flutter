@@ -2,6 +2,7 @@ import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
+import 'package:bino_kids/features/profile/repository/profile_repository.dart';
 
 mixin ProfileHelper{
 
@@ -21,8 +22,13 @@ mixin ProfileHelper{
   goTOSettings(){
     AppNavigator().push(routeName: AppRoutes.SETTINGS_SCREEN_ROUTE);
   }
+  deleteAccount()async{
+    await ProfileRepository().deleteAccount();
+    AppNavigator().pushAndRemoveAll(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+  }
 
 }
+
 class OrderTabType{
   final String title;
   final String icon;

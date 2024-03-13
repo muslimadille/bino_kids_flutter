@@ -1,14 +1,24 @@
-
+import 'package:hive/hive.dart';
 import 'dart:convert';
 
-MainCategoriesModel mainCategoriesModelFromJson(String str) => MainCategoriesModel.fromJson(json.decode(str));
+part 'main_categories_model.g.dart';
 
-String mainCategoriesModelToJson(MainCategoriesModel data) => json.encode(data.toJson());
+MainCategoriesModel mainCategoriesModelFromJson(String str) =>
+    MainCategoriesModel.fromJson(json.decode(str));
 
-class MainCategoriesModel {
-  final int status;
-  final String message;
-  final List<MainCategoriesDataModel> data;
+String mainCategoriesModelToJson(MainCategoriesModel data) =>
+    json.encode(data.toJson());
+
+@HiveType(typeId: 0)
+class MainCategoriesModel extends HiveObject {
+  @HiveField(0)
+  int status;
+
+  @HiveField(1)
+  String message;
+
+  @HiveField(2)
+  List<MainCategoriesDataModel> data;
 
   MainCategoriesModel({
     required this.status,
@@ -16,11 +26,13 @@ class MainCategoriesModel {
     required this.data,
   });
 
-  factory MainCategoriesModel.fromJson(Map<String, dynamic> json) => MainCategoriesModel(
-    status: json["status"]??-1,
-    message: json["message"]??'',
-    data: List<MainCategoriesDataModel>.from((json["Data"]??[]).map((x) => MainCategoriesDataModel.fromJson(x))),
-  );
+  factory MainCategoriesModel.fromJson(Map<String, dynamic> json) =>
+      MainCategoriesModel(
+        status: json["status"] ?? -1,
+        message: json["message"] ?? '',
+        data: List<MainCategoriesDataModel>.from((json["Data"] ?? [])
+            .map((x) => MainCategoriesDataModel.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
     "status": status,
@@ -29,10 +41,16 @@ class MainCategoriesModel {
   };
 }
 
-class MainCategoriesDataModel {
-  final int id;
-  final String name;
-  final List<ModelAgeForMainPage>? modelAgeForMainPage;
+@HiveType(typeId: 1)
+class MainCategoriesDataModel extends HiveObject {
+  @HiveField(0)
+  int id;
+
+  @HiveField(1)
+  String name;
+
+  @HiveField(2)
+  List<ModelAgeForMainPage>? modelAgeForMainPage;
 
   MainCategoriesDataModel({
     required this.id,
@@ -40,26 +58,47 @@ class MainCategoriesDataModel {
     required this.modelAgeForMainPage,
   });
 
-  factory MainCategoriesDataModel.fromJson(Map<String, dynamic> json) => MainCategoriesDataModel(
-    id: json["ID"]??-1,
-    name: json["Name"]??"",
-    modelAgeForMainPage: json["modelAgeForMainPage"] == null ? [] : List<ModelAgeForMainPage>.from(json["modelAgeForMainPage"]!.map((x) => ModelAgeForMainPage.fromJson(x))).reversed.toList(),
-  );
+  factory MainCategoriesDataModel.fromJson(Map<String, dynamic> json) =>
+      MainCategoriesDataModel(
+        id: json["ID"] ?? -1,
+        name: json["Name"] ?? "",
+        modelAgeForMainPage: json["modelAgeForMainPage"] == null
+            ? []
+            : List<ModelAgeForMainPage>.from(json["modelAgeForMainPage"]
+            .map((x) => ModelAgeForMainPage.fromJson(x))),
+      );
+
   Map<String, dynamic> toJson() => {
     "ID": id,
     "Name": name,
-    "modelAgeForMainPage": modelAgeForMainPage == null ? [] : List<dynamic>.from(modelAgeForMainPage!.map((x) => x.toJson())),
+    "modelAgeForMainPage": modelAgeForMainPage == null
+        ? []
+        : List<dynamic>.from(modelAgeForMainPage!.map((x) => x.toJson())),
   };
 }
 
-class ModelAgeForMainPage {
-  final int id;
-  final String arName;
-  final String enName;
-  final String text;
-  final int moduleId;
-  final int arrangement;
-  final String guidId;
+@HiveType(typeId: 2)
+class ModelAgeForMainPage extends HiveObject {
+  @HiveField(0)
+  int id;
+
+  @HiveField(1)
+  String arName;
+
+  @HiveField(2)
+  String enName;
+
+  @HiveField(3)
+  String text;
+
+  @HiveField(4)
+  int moduleId;
+
+  @HiveField(5)
+  int arrangement;
+
+  @HiveField(6)
+  String guidId;
 
   ModelAgeForMainPage({
     required this.id,
@@ -71,15 +110,16 @@ class ModelAgeForMainPage {
     required this.guidId,
   });
 
-  factory ModelAgeForMainPage.fromJson(Map<String, dynamic> json) => ModelAgeForMainPage(
-    id: json["ID"]??-1,
-    arName: json["ArName"]??'',
-    enName: json["EnName"]??'',
-    text: json["text"]??'',
-    moduleId: json["ModuleID"]??-1,
-    arrangement: json["Arrangement"]??-1,
-    guidId: json["guidId"]??-1,
-  );
+  factory ModelAgeForMainPage.fromJson(Map<String, dynamic> json) =>
+      ModelAgeForMainPage(
+        id: json["ID"] ?? -1,
+        arName: json["ArName"] ?? '',
+        enName: json["EnName"] ?? '',
+        text: json["text"] ?? '',
+        moduleId: json["ModuleID"] ?? -1,
+        arrangement: json["Arrangement"] ?? -1,
+        guidId: json["guidId"] ?? -1,
+      );
 
   Map<String, dynamic> toJson() => {
     "ID": id,

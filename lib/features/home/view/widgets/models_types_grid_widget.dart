@@ -34,6 +34,7 @@ class ModelTypesGridWidget extends StatelessWidget {
                     routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
                     arguments: ProductsScreenArqumentsModel(
                         selectedcategoryId: items[subCategoryIndex].id,
+                        selectedcategoryName:items[subCategoryIndex].name ,
                         subcategoriesList: items));
               },
               child: Column(

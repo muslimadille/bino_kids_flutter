@@ -4,10 +4,12 @@ import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
+import 'package:bino_kids/features/cart/view/widgets/cart_float_btn.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
 import 'package:bino_kids/features/product/view/widgets/filtter_widget.dart';
 import 'package:bino_kids/features/product/view/widgets/product_item_widget.dart';
 import 'package:bino_kids/features/product/view_model/product_with_filters_helper.dart';
+import 'package:bino_kids/features/user_messages/view/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sizer/sizer.dart';
@@ -31,6 +33,10 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
   void initState() {
     subcategoriesList.addAll(widget.dataModel.subcategoriesList??[]);
     selectedCategoryId=widget.dataModel.selectedcategoryId;
+    selectedCategoryName=widget.dataModel.selectedcategoryName;
+    moduleId=widget.dataModel.moduleId;
+    modelAgeId=widget.dataModel.modelAgeid;
+    modelGenderId=widget.dataModel.modelGenderId;
     onInit();
     super.initState();
   }
@@ -45,6 +51,7 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
   Widget build(BuildContext context) {
     return  Scaffold(
       key:drawerKey,
+      floatingActionButton: CartFloatBtn(),
       drawer:StreamBuilder<List<ProductModel>?>(
         stream: productsStreamController.stream,
         builder: (context, snapshot) {
@@ -62,7 +69,13 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
           SizedBox(height: 5.h,),
       Row(
         children: [
-        Expanded(child: CustomBackBtn(title: widget.dataModel.selectedcategoryName??subcategoriesList[selectedIndex].name,)),
+        Expanded(child:
+        StreamBuilder<int>(
+            stream: categoryStreamController.stream,
+            builder: (context, snapshot) {
+              return  CustomBackBtn(title: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].name:widget.dataModel.selectedcategoryName??"",);
+          }
+        )),
           //IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
           //IconButton(onPressed: (){}, icon: Icon(Icons.search)),
           IconButton(onPressed: (){
@@ -160,7 +173,7 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
               stream: productsStreamController.stream,
               builder: (context, snapshot) {
                 return snapshot.hasData?
-                Container(
+                snapshot.data!.isNotEmpty?Container(
                   color:Colors.grey[200],
                   child: MasonryGridView.count(
                     padding: EdgeInsets.only(top: 1.h),
@@ -176,7 +189,8 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
                           },
                             child: ProductItemWidget(index: index, productModel: snapshot.data![index],));
                       }),
-                ):SizedBox();
+                ):NoDataWidget()
+                    :SizedBox();
               }
             ),
           )

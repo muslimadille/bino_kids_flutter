@@ -18,7 +18,7 @@ class ProductItemWidget extends StatefulWidget {
   final double? width;
   final double?scale;
 
-  const ProductItemWidget({
+   ProductItemWidget({
     required this.index,
     required this.productModel,
     this.height,
@@ -31,6 +31,32 @@ class ProductItemWidget extends StatefulWidget {
 }
 
 class _ProductItemWidgetState extends State<ProductItemWidget> {
+  int selectedColorIndex=0;
+  @override
+  void didUpdateWidget(covariant ProductItemWidget oldWidget) {
+    if((widget.productModel.colors??[]).length>1){
+      selectedColorIndex=widget.productModel.colors!.indexOf(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).first);
+    }else{
+      selectedColorIndex=0;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
+  void didChangeDependencies() {
+    if((widget.productModel.colors??[]).length>1){
+      selectedColorIndex=widget.productModel.colors!.indexOf(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).first);
+    }else{
+      selectedColorIndex=0;
+    }    super.didChangeDependencies();
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    if((widget.productModel.colors??[]).length>1){
+      selectedColorIndex=widget.productModel.colors!.indexOf(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).first);
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return UnconstrainedBox(
@@ -51,7 +77,8 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 children: [
                   Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
-                        fit: BoxFit.cover, image: NetworkImage(widget.productModel.imageUrl ?? ''))),
+                        fit: BoxFit.cover, image: NetworkImage((widget.productModel.colors??[]).isNotEmpty?
+                        widget.productModel.colors![selectedColorIndex].imageURL ?? '':widget.productModel.imageUrl??""))),
                   ),
                   Positioned(
                     bottom: 0,
@@ -64,27 +91,35 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                           mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: List.generate((widget.productModel.colors??[]).length>4?4:(widget.productModel.colors??[]).length, (index) {
-                        return Container(
-                            height: 2.h,
-                            width: 2.h,
-                            margin: EdgeInsets.all(1.w),
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                                border: Border.fromBorderSide(
-                                    BorderSide(
-                                        width:1,
-                                        color:Colors.black
-                                    )
-                                ),
-                                image:DecorationImage(
-                                    alignment:Alignment.bottomCenter,
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(widget.productModel.colors![index].imageURL??''))
-                            )
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+                              selectedColorIndex=index;
+                            });
+                          },
+                          child: Container(
+                              height: 2.h,
+                              width: 2.h,
+                              margin: EdgeInsets.all(1.w),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  border: Border.fromBorderSide(
+                                      BorderSide(
+                                          width:1,
+                                          color:Colors.black
+                                      )
+                                  ),
+                                  image:DecorationImage(
+                                      alignment:Alignment.bottomCenter,
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(widget.productModel.colors![index].imageURL??''))
+                              )
+                          ),
                         );
                     }),),
-                      ))
+                      )),
+
                 ],
               ),
             ),
@@ -104,35 +139,84 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.w),
                   child: Text(
-                    widget.productModel.priceBefore != null ? (widget.productModel.priceAfter.toString() + tr("EGP")) : "",
+                    (widget.productModel.priceBefore??0)>0 ? (widget.productModel.priceBefore.toString() + tr("EGP")) : "",
                     style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small*(widget.scale??1), fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough,),
                   ),
                 ),
               ],
             ),
+
             SizedBox(
-              height: 0.5.h*(widget.scale??1),
+              height: 0.3.h*(widget.scale??1),
             ),
             Row(
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
-                    child: Text(
-                      widget.productModel.description ?? widget.productModel.productData ?? '',
-                      style: TextStyle(color: Colors.black, fontSize: AppFontSize.x_x_small*(widget.scale??1), fontWeight: FontWeight.w800),
+                    padding:  EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Visibility(
+                              visible: (widget.productModel.isInTodaysDeal??false)||(widget.productModel.isInNewArrival??false)||(widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0),
+                              child: Container(
+                                padding: EdgeInsets.only(top:2.w,left: 2.w,right: 2.w,bottom:1.w),
+                                  decoration: BoxDecoration(
+                                      color: (widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0)?Colors.red:(widget.productModel.isInNewArrival??false)?Colors.green:(widget.productModel.isInTodaysDeal??false)?Colors.orangeAccent:Colors.red,
+                                      borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Text(
+                                      (widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0)?tr("Sale"):(widget.productModel.isInNewArrival??false)?tr("New"):
+                                      (widget.productModel.isInTodaysDeal??false)?tr("today_deal"):"",
+                                  textAlign: TextAlign.center,
+
+                                  style: TextStyle(color: Colors.white,fontSize: 10.sp,height:0.8),),
+
+                              ),
+                            ),
+                            SizedBox(width: 2.w,),
+                            Text(
+                              widget.productModel.description ?? widget.productModel.productData ?? '',
+                              style: TextStyle(color: Colors.black, fontSize: AppFontSize.x_x_small*(widget.scale??1), fontWeight: FontWeight.w800),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 0.5.h*(widget.scale??1),
+                        ),
+                        Row(
+                          children: [
+                            Text("${tr("Brand")}: ",style: TextStyle(fontSize: AppFontSize.small*(widget.scale??1),fontWeight: FontWeight.w800),),
+                            Text((widget.productModel.modelTradeMarkName??""),style: TextStyle(fontSize: AppFontSize.small*(widget.scale??1),fontWeight: FontWeight.w500),),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("${tr("material")}: ",style: TextStyle(fontSize: AppFontSize.small*(widget.scale??1),fontWeight: FontWeight.w800),),
+                            Text((widget.productModel.material??""),style: TextStyle(fontSize: AppFontSize.small*(widget.scale??1),fontWeight: FontWeight.w500),),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("${tr("Age Group")}: ",style: TextStyle(fontSize: AppFontSize.small*(widget.scale??1),fontWeight: FontWeight.w800),),
+                            Text((widget.productModel.modelAgeName??""),style: TextStyle(fontSize: AppFontSize.small,fontWeight: FontWeight.w500),),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 GestureDetector(
                     onTap: () async{
                       context.read<ProductDetailsProvider>().onInit(true);
-                      await context.read<ProductDetailsProvider>().getModelDetails(modelId: widget.productModel.guId ?? '');
+                      context.read<ProductDetailsProvider>().getModelDetails(modelId: widget.productModel.guId ?? '');
                       CustomBottomSheet().displayModalBottomSheet(widget: ProductDetailsBottomSheetWidget());
                     },
                     child: Container(
                         margin: EdgeInsets.all(2.w),
-                        padding: EdgeInsets.symmetric(vertical:0.5.h*(widget.scale??1),horizontal: 5.w*(widget.scale??1)),
+                        padding: EdgeInsets.symmetric(vertical:0.3.h*(widget.scale??1),horizontal: 3.w*(widget.scale??1)),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(50),

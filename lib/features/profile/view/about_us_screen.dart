@@ -1,4 +1,5 @@
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/profile/model/privacy_model.dart';
 import 'package:bino_kids/features/profile/view_model/policy_helper.dart';
@@ -21,7 +22,7 @@ class AboutUsScreen extends StatelessWidget with PolicyHelper  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomBackBtn(title:"About us" ,),
+                CustomBackBtn(title:tr("about_us") ,),
                 Container(color: Colors.grey[200],width: double.infinity,height: 1,),
                 Expanded(
                   child: FutureBuilder<PrivacyModel?>(

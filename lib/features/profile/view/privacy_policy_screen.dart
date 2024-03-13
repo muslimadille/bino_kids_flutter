@@ -1,4 +1,5 @@
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/profile/model/privacy_model.dart';
 import 'package:bino_kids/features/profile/view_model/policy_helper.dart';
@@ -21,7 +22,7 @@ class PrivacyPolicyScreen extends StatelessWidget with PolicyHelper  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomBackBtn(title:"Privacy policy" ,),
+                CustomBackBtn(title:tr("privacy_policy") ,),
                 Expanded(
                   child: FutureBuilder<PrivacyModel?>(
                       future: getPrivacyPolicy(),

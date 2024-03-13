@@ -11,7 +11,8 @@ import 'subcategories_list_widget.dart';
 
 class CategoryYearsWidget extends StatefulWidget {
   final List<ModelAgeForMainPage> modelAgeForMainPage;
-  const CategoryYearsWidget({required this.modelAgeForMainPage,Key? key}) : super(key: key);
+  final int moduleId;
+   CategoryYearsWidget({required this.modelAgeForMainPage,required this.moduleId,Key? key}) : super(key: key);
 
   @override
   State<CategoryYearsWidget> createState() => _CategoryYearsWidgetState();
@@ -19,7 +20,11 @@ class CategoryYearsWidget extends StatefulWidget {
 
 class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryYearsHelper {
 
-
+@override
+  void didChangeDependencies() {
+  setState(() {});
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
@@ -31,9 +36,17 @@ class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryY
     return widget.modelAgeForMainPage.isNotEmpty?
     Column(
       children: [
+        Row(children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 4.w),
+              decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),)
+        ],),
         Container(
           width: double.infinity,
-          height: 5.h,
+          height: 5.6.h,
           padding: EdgeInsets.symmetric(horizontal: 2.w),
           child: ListView(
               scrollDirection:Axis.horizontal ,
@@ -69,7 +82,7 @@ class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryY
               });
             },
             children:List.generate(widget.modelAgeForMainPage.length, (subcategoryindex){
-              return SubcategoriesListWidget(moduleId: widget.modelAgeForMainPage[subcategoryindex].moduleId,modelAgeId:widget.modelAgeForMainPage[subcategoryindex].id);
+              return SubcategoriesListWidget(moduleId: widget.moduleId,modelAgeId:widget.modelAgeForMainPage[subcategoryindex].id);
             }) ,
           ),
         )

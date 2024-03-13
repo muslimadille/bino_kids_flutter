@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/cash_helper.dart';
+import 'package:bino_kids/common/helpers/hive_helper.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/main_categories_model.dart';
 import 'package:bino_kids/features/home/model/model_types_model.dart';
@@ -11,6 +13,7 @@ import 'package:bino_kids/features/home/model/sub_categories_model.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/model/products_with_filter_model.dart';
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 
 import '../repository/home_repository.dart';
 
@@ -34,23 +37,26 @@ mixin HomeHelper{
 
   Future <MainCategoriesModel?>getMainCategories()async{
     try{
+      MainCategoriesModel mainCategoriesModel;
       categories.clear();
-      if(CashHelper.mainCategoriesModel!=null){
-        Future.delayed(Duration(microseconds: 1)).then((value) {
-          categories.addAll(CashHelper.mainCategoriesModel!.data);
-          selectedCategoryIndex=0;
-          mainCategoryStreamController.add(categories[selectedCategoryIndex]);
-        });
-
-        return CashHelper.mainCategoriesModel!;
+      if(await HiveHelper().isExists(boxName: AppData.hive_Main_Categories+(AppLocalization.isArabic?"ar":"en"))){
+        categories.addAll((await HiveHelper().getBoxes<MainCategoriesModel>(AppData.hive_Main_Categories+(AppLocalization.isArabic?"ar":"en")) as MainCategoriesModel).data);
+        selectedCategoryIndex=0;
+        mainCategoryStreamController.add(categories[0]);
+        final response=await HomeRepository().getMainCategories();
+         mainCategoriesModel=mainCategoriesModelFromJson(jsonEncode(response.data));
+        await HiveHelper().deleteBoxes(AppData.hive_Main_Categories+(AppLocalization.isArabic?"ar":"en"));
+        await HiveHelper().addBoxes<MainCategoriesModel>(mainCategoriesModel, AppData.hive_Main_Categories+(AppLocalization.isArabic?"ar":"en"));
+      }else{
+        final response=await HomeRepository().getMainCategories();
+         mainCategoriesModel=mainCategoriesModelFromJson(jsonEncode(response.data));
+        await HiveHelper().deleteBoxes(AppData.hive_Main_Categories+(AppLocalization.isArabic?"ar":"en"));
+        await HiveHelper().addBoxes<MainCategoriesModel>(mainCategoriesModel, AppData.hive_Main_Categories+(AppLocalization.isArabic?"ar":"en"));
+        categories.addAll(mainCategoriesModel.data);
+        selectedCategoryIndex=0;
+        mainCategoryStreamController.add(mainCategoriesModel.data[0]);
       }
-      final response=await HomeRepository().getMainCategories();
-      MainCategoriesModel mainCategoriesModel=mainCategoriesModelFromJson(jsonEncode(response.data));
-      categories.addAll(mainCategoriesModel.data);
-      selectedCategoryIndex=0;
-      mainCategoryStreamController.add(mainCategoriesModel.data[0]);
 
-      CashHelper.mainCategoriesModel=mainCategoriesModel;
       return mainCategoriesModel;
     } on DioException catch (error){
       return null;
@@ -62,7 +68,7 @@ mixin HomeHelper{
         return CashHelper.homeMostWatched!.modelList;
       }
       final response=await HomeRepository().getMostWatched();
-      ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
+      ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
       CashHelper.homeMostWatched=productsWithFilterModel;
       return productsWithFilterModel.modelList;
     } on DioException catch (error){
@@ -92,9 +98,13 @@ mixin HomeHelper{
     }
   }
   Future <ModelTypesModel?>getModelTypes({required int moduleId})async{
+    ModelTypesModel modelTypesModel;
     try{
+      if(await HiveHelper().isExists(boxName: AppData.hive_Model_Types+moduleId.toString())){
+        modelTypesModel=await HiveHelper().getBoxes<ModelTypesModel>(AppData.hive_Model_Types+moduleId.toString()) as ModelTypesModel;
+      }
       final response=await HomeRepository().getModelTypes( moduleId: moduleId);
-      ModelTypesModel modelTypesModel=modelTypesModelFromJson(jsonEncode(response.data));
+       modelTypesModel=modelTypesModelFromJson(jsonEncode(response.data));
       return modelTypesModel;
     } on DioException catch (error){
       return null;

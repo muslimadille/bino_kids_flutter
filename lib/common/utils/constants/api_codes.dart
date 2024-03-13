@@ -5,7 +5,7 @@ class ApiCodes{
   static const String BANNER_API = 'Banner/BannerData';
   static const String MAIN_CATEGORIES_API = 'Menus/FirstMenu';
   static const String SUB_CATEGORIES_API='Menus/ModelAgeSecondMenu';
-  static const String GET_PRODUCTS_WITH_FILTERS='ModelType/GetModelByModelType';
+  static const String GET_PRODUCTS_WITH_FILTERS='/GetModelByModelType';
   static const String GET_MOST_WATCHED="ModelType/GetMostWatchedModels";
   static const String GET_SUGGESTIONS="ModelType/GetSuggestionsModels";
   static const String GET_NEW_ARRIVALS="ModelType/GetNewArrivalModels";
@@ -21,16 +21,14 @@ class ApiCodes{
   static const String GET_WISH_LIST="WishList/GetAllWishList";
   static const String CHAGE_FAVOUTITE="WishList/ToggleFavorite";
   static const String DELETE_ALL_WISH_LIST="WishList/DeleteAll";
+  static const String EDITE_WISH_LIST_ITEM="WishList/EditWishListItem";
+
+
   static const String ADD_ALL_WISH_LIST_TO_CART="Cart/AddAllItemsToCartFromWishList";
   static const String DELETE_WISH_LIST_ITEM="WishList/Delete";
   static const String REGISTER="Users/createNewAccount";
-
-
-
-
-
-
-
+  static const String DELETE_ACCOUNT="Users/DeleteAccount";
+  static const String CUSTOMER_SERVICE_NUMBER_API="Users/CustomerServicePhone";
 
 
   static const String GET_ABOUT_US="Policies/AboutUs";
@@ -40,6 +38,17 @@ class ApiCodes{
 
   static const String GET_OREDERS="Requests/GetUserRequests";
   static const String GET_SEARCH="Search/MainSearch";
+  static const String VERIFY_USER_API="Verification/VerifyCode";
+  static const String IS_USER_VERIFIED_API="Verification/IsUserVerified";
+  static const String RESEND_VERIFICATION_CODE="Verification/ResendCode";
+  static const String GET_BRANCHES="Branches/getAllBranches";
+  static const String APPLY_PROMOCODE="Cart/ApplyPromocode";
+
+
+
+
+
+
 
 
 

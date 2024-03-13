@@ -1,4 +1,5 @@
 
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/profile/model/privacy_model.dart';
 import 'package:bino_kids/features/profile/view_model/policy_helper.dart';
@@ -21,7 +22,7 @@ class ShippingPolicyScreen extends StatelessWidget with PolicyHelper  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomBackBtn(title:"Shipping policy screen" ,),
+                CustomBackBtn(title:tr("shipping_pollicy") ,),
                 Expanded(
                   child: FutureBuilder<PrivacyModel?>(
                       future: getShippingPolicy(),

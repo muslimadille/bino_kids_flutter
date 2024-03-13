@@ -1,7 +1,9 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/auth/view_model/login_helper.dart';
+import 'package:bino_kids/features/profile/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with LoginHelper{
   @override
   void initState() {
+    context.read<ProfileProvider>().getCustomerServiceNumber();
        checkLogin();
     super.initState();
   }

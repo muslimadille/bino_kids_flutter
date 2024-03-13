@@ -5,14 +5,20 @@
 import 'dart:convert';
 
 import 'package:bino_kids/features/product/model/product_model.dart';
+import 'package:hive/hive.dart';
+part 'model_details_model.g.dart';
 
 ModelDetailsModel modelDetailsModelFromJson(String str) => ModelDetailsModel.fromJson(json.decode(str));
 
 String modelDetailsModelToJson(ModelDetailsModel data) => json.encode(data.toJson());
 
-class ModelDetailsModel {
+@HiveType(typeId: 10)
+class ModelDetailsModel extends HiveObject {
+  @HiveField(0)
   final int? status;
+  @HiveField(1)
   final dynamic? message;
+  @HiveField(2)
   final ModelList? modelList;
 
   ModelDetailsModel({
@@ -34,34 +40,64 @@ class ModelDetailsModel {
   };
 }
 
-class ModelList {
+@HiveType(typeId: 11)
+class ModelList extends HiveObject {
+  @HiveField(0)
   final num? id;
+  @HiveField(1)
   final dynamic? modelType;
+  @HiveField(2)
   final String? modelTypeName;
+  @HiveField(3)
   final String? guId;
+  @HiveField(4)
   final String? productData;
+  @HiveField(5)
   final num? priceAfterDiscount;
+  @HiveField(6)
   final num? priceBeforeDiscount;
+  @HiveField(7)
   final num? minimumOrderLimitWholeSale;
+  @HiveField(8)
   final String? imageUrl;
+  @HiveField(9)
   final String? modelCode;
+  @HiveField(10)
   final String? modelAgeName;
+  @HiveField(11)
   final String? modelTradeMarkName;
+  @HiveField(12)
   final String? modelDiscriptionName;
+  @HiveField(13)
   final String? modelMaterialName;
-  final num? colorId;
+  @HiveField(14)
+  num? colorId;
+  @HiveField(15)
   final num? modelYear;
+  @HiveField(16)
   final dynamic? colorsList;
+  @HiveField(17)
   final List<AllSize>? size;
+  @HiveField(18)
   final List<AllSize>? allSize;
+  @HiveField(19)
   final List<Color>? colors;
+  @HiveField(20)
   final List<dynamic>? wearWith;
+  @HiveField(21)
   final List<ProductModel>? similar;
+  @HiveField(22)
   final List<ImageList>? imageList;
+  @HiveField(23)
   final int wishListId;
+  @HiveField(24)
   final bool isFavorite;
-
-
+  @HiveField(25)
+  final int modelId;
+  @HiveField(26)
+  num sizeId;
+  @HiveField(27)
+  num modelColorId;
 
   ModelList({
     required this.id,
@@ -88,7 +124,10 @@ class ModelList {
     required this.similar,
     required this.imageList,
     required this.isFavorite,
-    required this.wishListId
+    required this.wishListId,
+    required this.modelId,
+    required this.sizeId,
+    required this.modelColorId,
   });
 
   factory ModelList.fromJson(Map<String, dynamic> json) => ModelList(
@@ -104,7 +143,7 @@ class ModelList {
     modelCode: json["ModelCode"],
     modelAgeName: json["ModelAgeName"],
     modelTradeMarkName: json["ModelTradeMarkName"],
-    modelDiscriptionName:json["ModelDiscriptionName"],
+    modelDiscriptionName: json["ModelDiscriptionName"],
     modelMaterialName: json["ModelMaterialName"],
     colorId: json["ColorId"],
     modelYear: json["ModelYear"],
@@ -112,11 +151,14 @@ class ModelList {
     size: List<AllSize>.from(json["Size"].map((x) => AllSize.fromJson(x))),
     allSize: List<AllSize>.from(json["AllSize"].map((x) => AllSize.fromJson(x))),
     colors: List<Color>.from(json["Colors"].map((x) => Color.fromJson(x))),
-    wearWith:json["WearWith"]==null?[]: List<dynamic>.from(json["WearWith"].map((x) => x)),
-    similar: json["Similar"]==null?[]:List<ProductModel>.from(json["Similar"].map((x) => ProductModel.fromJson(x))),
-    imageList: json["ImageList"]==null?[]:List<ImageList>.from(json["ImageList"].map((x) => ImageList.fromJson(x))),
-    isFavorite: json["IsFavorite"]??false,
-    wishListId: json["WishListID"]??-1,
+    wearWith: json["WearWith"] == null ? [] : List<dynamic>.from(json["WearWith"].map((x) => x)),
+    similar: json["Similar"] == null ? [] : List<ProductModel>.from(json["Similar"].map((x) => ProductModel.fromJson(x))),
+    imageList: json["ImageList"] == null ? [] : List<ImageList>.from(json["ImageList"].map((x) => ImageList.fromJson(x))),
+    isFavorite: json["IsFavorite"] ?? false,
+    wishListId: json["WishListID"] ?? -1,
+    modelId: json["ModelId"] ?? json["ID"],
+    sizeId: json["SizeId"] ?? 0,
+    modelColorId: json["modelColorId"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -148,12 +190,19 @@ class ModelList {
   };
 }
 
-class AllSize {
+@HiveType(typeId: 12)
+class AllSize extends HiveObject {
+  @HiveField(0)
   final num? id;
+  @HiveField(1)
   final String? arName;
+  @HiveField(2)
   final String? enName;
+  @HiveField(3)
   final num? idPrevious;
+  @HiveField(4)
   final bool? isEdited;
+  @HiveField(5)
   final String? name;
 
   AllSize({
@@ -184,21 +233,37 @@ class AllSize {
   };
 }
 
-class Color {
+@HiveType(typeId: 13)
+class Color extends HiveObject {
+  @HiveField(0)
   final num? id;
+  @HiveField(1)
   final String? arName;
+  @HiveField(2)
   final String? enName;
+  @HiveField(3)
   final dynamic? colorDegree;
+  @HiveField(4)
   final num? idPervious;
+  @HiveField(5)
   final bool? isEdited;
+  @HiveField(6)
   final num? modelId;
+  @HiveField(7)
   final num? colorId;
+  @HiveField(8)
   final String? imageName;
+  @HiveField(9)
   final String? colorName;
+  @HiveField(10)
   final num? arrange;
+  @HiveField(11)
   final bool? isHidden;
-   bool? isInWishList;
+  @HiveField(12)
+  bool? isInWishList;
+  @HiveField(13)
   final List<AllSize>? sizesOfThisColorList;
+  @HiveField(14)
   final String imageURL;
 
   Color({
@@ -233,8 +298,10 @@ class Color {
     arrange: json["Arrange"],
     isHidden: json["IsHidden"],
     isInWishList: json["IsInWishList"],
-    sizesOfThisColorList: json["SizesOfThisColorList"]==null?[]:List<AllSize>.from(json["SizesOfThisColorList"].map((x) => AllSize.fromJson(x))),
-    imageURL: json["ImageURL"]??''
+    sizesOfThisColorList: json["SizesOfThisColorList"] == null
+        ? []
+        : List<AllSize>.from(json["SizesOfThisColorList"].map((x) => AllSize.fromJson(x))),
+    imageURL: json["ImageURL"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -252,13 +319,17 @@ class Color {
     "IsHidden": isHidden,
     "IsInWishList": isInWishList,
     "SizesOfThisColorList": List<dynamic>.from(sizesOfThisColorList!.map((x) => x.toJson())),
-    "ImageURL":imageURL
+    "ImageURL": imageURL
   };
 }
 
-class ImageList {
+@HiveType(typeId: 14)
+class ImageList extends HiveObject {
+  @HiveField(0)
   final String? imageName;
+  @HiveField(1)
   final bool? mainImage;
+  @HiveField(2)
   final num? colorId;
 
   ImageList({
@@ -279,95 +350,3 @@ class ImageList {
     "ColorId": colorId,
   };
 }
-
-
-
-
-
-
-
-class Similar {
-  final num? id;
-  final num? similarId;
-  final String? guId;
-  final String? productData;
-  final String? material;
-  final String? description;
-  final num? priceAfter;
-  final num? priceBefore;
-  final String? imageUrl;
-  final String? originalImageUrl;
-  final String? modelCode;
-  final String? modelTradeMarkName;
-  final String? modelAgeName;
-   bool? isInWishList;
-  final num? colorId;
-  final bool? isMoreThanThreeColors;
-  final dynamic? colorsList;
-  final String modelType;
-
-  Similar({
-    required this.id,
-    required this.similarId,
-    required this.modelType,
-    required this.guId,
-    required this.productData,
-    required this.material,
-    required this.description,
-    required this.priceAfter,
-    required this.priceBefore,
-    required this.imageUrl,
-    required this.originalImageUrl,
-    required this.modelCode,
-    required this.modelTradeMarkName,
-    required this.modelAgeName,
-    required this.isInWishList,
-    required this.colorId,
-    required this.isMoreThanThreeColors,
-    required this.colorsList,
-  });
-
-  factory Similar.fromJson(Map<String, dynamic> json) => Similar(
-    id: json["ID"],
-    similarId: json["Id"],
-    modelType: json["ModelType"],
-    guId: json["GuID"],
-    productData: json["ProductData"],
-    material: json["Material"],
-    description: json["Description"],
-    priceAfter: json["PriceAfter"],
-    priceBefore: json["PriceBefore"],
-    imageUrl: json["ImageUrl"],
-    originalImageUrl: json["OriginalImageUrl"],
-    modelCode: json["ModelCode"],
-    modelTradeMarkName: json["ModelTradeMarkName"],
-    modelAgeName: json["ModelAgeName"],
-    isInWishList: json["isInWishList"],
-    colorId: json["ColorId"],
-    isMoreThanThreeColors: json["IsMoreThanThreeColors"],
-    colorsList: json["ColorsList"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "ID": id,
-    "Id": similarId,
-    "ModelType": modelType,
-    "GuID": guId,
-    "ProductData": productData,
-    "Material": material,
-    "Description": description,
-    "PriceAfter": priceAfter,
-    "PriceBefore": priceBefore,
-    "ImageUrl": imageUrl,
-    "OriginalImageUrl": originalImageUrl,
-    "ModelCode": modelCode,
-    "ModelTradeMarkName": modelTradeMarkName,
-    "ModelAgeName": modelAgeName,
-    "isInWishList": isInWishList,
-    "ColorId": colorId,
-    "IsMoreThanThreeColors": isMoreThanThreeColors,
-    "ColorsList": colorsList,
-  };
-}
-
-

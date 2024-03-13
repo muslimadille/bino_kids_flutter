@@ -3,6 +3,7 @@ import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
+import 'package:bino_kids/common/widgets/custom_popup.dart';
 import 'package:bino_kids/features/profile/view/widgets/profile_devider_widget.dart';
 import 'package:bino_kids/features/profile/view_model/profile_helper.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,46 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
             ],),
         ),
         const ProfileDividerWidget(),
+        Visibility(
+          visible: !AppData.IS_VERIFIED_USER,
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 3.w,vertical: 2.h),
+            child: GestureDetector(
+              onTap: (){
+                AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(tr("active_account"),style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w500),),
+                  Icon(Icons.arrow_forward_ios,color: Colors.grey,size:18,)
+                ],),
+            ),
+          ),
+        ),
+        const ProfileDividerWidget(),
+        Expanded(child: SizedBox(),),
+        Center(
+          child: InkWell(
+            onTap: ()async{
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return MyPopup(
+                    title: tr("delete_account_message"),
+                    onSubmit: () async{
+                      await deleteAccount();
+                    },
+                  );
+                },
+              );
+
+            },
+            child: Text(tr("delete_account"),style: TextStyle(color:Colors.red,fontSize: AppFontSize.medium,fontWeight: FontWeight
+            .w800),),
+          ),
+        ),
+        SizedBox(height: 3.h,)
 
       ],),
     );

@@ -30,7 +30,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>with HomeHelper {
+class _HomeScreenState extends State<HomeScreen>with HomeHelper,AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     onInit();
@@ -65,32 +65,27 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
               width: double.infinity,
               height: 5.h,
               padding: EdgeInsets.symmetric(horizontal: 2.w),
-              child: FutureBuilder<MainCategoriesModel?>(
-                  future: getMainCategories(),
-                  builder: (context, snapshot) {
-                    return snapshot.hasData?ListView(
+              child: StreamBuilder<MainCategoriesDataModel?>(
+                  stream: mainCategoryStreamController.stream,
+                  builder: (context, tabSnapshot) {
+                    return tabSnapshot.hasData?ListView(
                         scrollDirection:Axis.horizontal ,
-                        children: List.generate(snapshot.data!.data.length, (index){
+                        children: List.generate(categories.length, (index){
                           return Padding(
                             padding:  EdgeInsets.all(2.w),
-                            child: StreamBuilder<MainCategoriesDataModel?>(
-                                stream: mainCategoryStreamController.stream,
-                                builder: (context, tabSnapshot) {
-                                  return GestureDetector(
-                                    onTap: (){
-                                      onSelectCategory(index);
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text(snapshot.data!.data[index].name,style:
-                                        TextStyle(color:selectedCategoryIndex==index?Colors.black:Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
-                                        SizedBox(height: 0.1.h,),
-                                        Container(color: selectedCategoryIndex==index?Colors.black:Colors.transparent,height:3,width:snapshot.data!.data[index].name.length*2.2.w
-                                          ,)
-                                      ],),
-                                  );
-                                }
+                            child: GestureDetector(
+                              onTap: (){
+                                onSelectCategory(index);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(categories[index].name,style:
+                                  TextStyle(color:selectedCategoryIndex==index?Colors.black:Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                                  SizedBox(height: 0.1.h,),
+                                  Container(color: selectedCategoryIndex==index?Colors.black:Colors.transparent,height:3,width:categories[index].name.length*2.2.w
+                                    ,)
+                                ],),
                             ),
                           );
                         })):SizedBox();
@@ -108,7 +103,10 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
                           stream: mainCategoryStreamController.stream,
                           builder: (context, snapshot) {
                             return snapshot.hasData?
-                            CategoryYearsWidget(key: UniqueKey(),modelAgeForMainPage: snapshot.data!.modelAgeForMainPage??[],):SizedBox(
+                            CategoryYearsWidget(
+                              moduleId:categories[selectedCategoryIndex].id ,
+                              key: UniqueKey(),
+                              modelAgeForMainPage: snapshot.data!.modelAgeForMainPage??[],):SizedBox(
                                 height: 30.h,
                                 width: double.infinity,
                                 child: LoadingGridShimmer());
@@ -136,5 +134,9 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper {
         ),
       ) ,);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 }

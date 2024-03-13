@@ -77,31 +77,34 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
           SizedBox(
             height: 1.h,
           ),
-          Container(
-            height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 25.h,
-            width: double.infinity,
-            child: MasonryGridView.count(
-                physics:(widget.scrollDirection??Axis.vertical)==Axis.vertical? NeverScrollableScrollPhysics():null,
-                shrinkWrap: true,
-                itemCount: widget.products.length,
-                mainAxisSpacing: 10,
-                scrollDirection: widget.scrollDirection??Axis.vertical,
-                crossAxisCount: (widget.scrollDirection??Axis.vertical)==Axis.vertical?2:1,
-                itemBuilder: (context, index) {
-                  return UnconstrainedBox(
-                    child: GestureDetector(
-                        onTap: () {
-                          AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE, arguments: widget.products[index].guId.toString());
-                        },
-                        child: ProductItemWidget(
-                          scale: (widget.scrollDirection??Axis.vertical)==Axis.vertical?0.95:0.80,
-                          productModel: widget.products[index],
-                          index: (widget.scrollDirection??Axis.vertical)==Axis.vertical?index:-1,
-                          height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null:30.h,
-                          width:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 48.w ,
-                        )),
-                  );
-                }),
+          Visibility(
+            visible: widget.products.isNotEmpty,
+            child: Container(
+              height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 25.h,
+              width: double.infinity,
+              child: MasonryGridView.count(
+                  physics:(widget.scrollDirection??Axis.vertical)==Axis.vertical? NeverScrollableScrollPhysics():null,
+                  shrinkWrap: true,
+                  itemCount: widget.products.length,
+                  mainAxisSpacing: 10,
+                  scrollDirection: widget.scrollDirection??Axis.vertical,
+                  crossAxisCount: (widget.scrollDirection??Axis.vertical)==Axis.vertical?2:1,
+                  itemBuilder: (context, index) {
+                    return UnconstrainedBox(
+                      child: GestureDetector(
+                          onTap: () {
+                            AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE, arguments: widget.products[index].guId.toString());
+                          },
+                          child: ProductItemWidget(
+                            scale: (widget.scrollDirection??Axis.vertical)==Axis.vertical?0.95:0.80,
+                            productModel: widget.products[index],
+                            index: (widget.scrollDirection??Axis.vertical)==Axis.vertical?index:-1,
+                            height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null:30.h,
+                            width:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 48.w ,
+                          )),
+                    );
+                  }),
+            ),
           )
         ],
       ),

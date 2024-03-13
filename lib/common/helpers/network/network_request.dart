@@ -59,6 +59,8 @@ class NetworkRequest with NetworkExceptionHandler {
           queryParameters: networkParameters.queryParameters,
           data: networkParameters.data,
           options: Options(
+            sendTimeout: Duration(seconds: 120),
+              receiveTimeout:Duration(seconds: 120) ,
               headers: networkParameters.header,
               method: networkParameters.networkType!=null?networkParameters.networkType!.name.toUpperCase():NetworkRequestEnum.get.name),
         );

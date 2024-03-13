@@ -62,7 +62,7 @@ class _PromoCodeWidgetState extends State<PromoCodeWidget> {
              isDense:true,
              hintText: tr("Apply Coupon")
          ),
-         keyboardType: TextInputType.emailAddress ,
+         keyboardType: TextInputType.text ,
          cursorColor: Colors.black,
          onChanged: (value){
 

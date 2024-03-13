@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/device_info_details.dart';
 import 'package:bino_kids/common/helpers/network/network_request.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:bino_kids/common/models/network_request_model.dart';
@@ -29,6 +30,7 @@ class CartRepository{
               "ColorId": colorId,
               "sizeId": sizeId,
               "ID": id,
+              "NonLoggingUserId":DeviceInfoDetails().deviceId
             }),
             header: {
               HttpHeaders.contentTypeHeader: "application/json",
@@ -55,6 +57,7 @@ class CartRepository{
               "Lang": AppLocalization.isArabic?2:1,
               "UserId": AppData.USER_ID,
               "UserRole":AppData.USER_ROLE,
+              "NonLoggingUserId":DeviceInfoDetails().deviceId
             },
             showProgress: true,
             dismissProgress: true,
@@ -76,7 +79,8 @@ class CartRepository{
             data: {
               "Lang": AppLocalization.isArabic?2:1,
               "Id": id,
-              "Count":count
+              "Count":count,
+              "NonLoggingUserId":DeviceInfoDetails().deviceId
             },
             showProgress: true,
             dismissProgress: true,
@@ -101,6 +105,7 @@ class CartRepository{
                 "UserId": AppData.USER_ID,
                 "ModelId": modelId,
               },
+              "NonLoggingUserId":DeviceInfoDetails().deviceId,
               "Lang": AppLocalization.isArabic?2:1
             },
             showProgress: true,
@@ -115,7 +120,7 @@ class CartRepository{
     }
   }
 
-  Future<Response>setOrder({required String totalAfterDiscount,required String governmentId,required String addressName})async{
+  Future<Response>setOrder({required String totalAfterDiscount,required String governmentId,required String addressName,required bool isPayCOnDel,required String promocodeId})async{
     try {
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
@@ -126,6 +131,53 @@ class CartRepository{
               "AddressName": addressName,
               "GovernmentId": governmentId,
               "TotalAfterDiscount": totalAfterDiscount,
+              "UserId": AppData.USER_ID,
+              "UserRole":AppData.USER_ROLE,
+              "PromocodeId":promocodeId,
+              "isPayCOnDel":isPayCOnDel
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response>getAllGovernorates()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.GET_ALL_GOVERNATES,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "Lang": AppLocalization.isArabic?2:1,
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response>applyPromoCode({required String promoCode,required String totalPriceBeforeDiscount})async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.APPLY_PROMOCODE,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "Lang": AppLocalization.isArabic?2:1,
+              "totalBeforeDiscount": totalPriceBeforeDiscount,
+              "promocode": promoCode,
               "UserId": AppData.USER_ID,
               "UserRole":AppData.USER_ROLE,
             },
