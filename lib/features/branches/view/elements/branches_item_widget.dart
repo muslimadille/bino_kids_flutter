@@ -1,12 +1,13 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/branches/model/braches_model.dart';
+import 'package:bino_kids/features/branches/viewModel/branches_helper.dart';
 import 'package:bino_kids/features/orders/model/order_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 
-class BranchesItemWidget extends StatelessWidget {
+class BranchesItemWidget extends StatelessWidget with BranchesHelper {
   final Branch branch;
   const BranchesItemWidget({
     required this.branch,
@@ -34,21 +35,42 @@ class BranchesItemWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset("assets/images/whatsapp.png",width:5.w,height: 5.w,),
+                Icon(Icons.align_horizontal_left_sharp,color: Colors.black,size:5.w,),
                 SizedBox(width: 2.w,),
-                Expanded(child: Text(branch.whatsAppNumbers.first??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                Expanded(child: Text(branch.name??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
               ],),
             Container(
               margin: EdgeInsets.symmetric(vertical: 1.h),
               width:double.infinity,height: 1,color: Colors.grey[200],),
 
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.phone_android,color: Colors.black,size:5.w,),
-                SizedBox(width: 2.w,),
-                Expanded(child: Text(branch.telephoneNumbers[0]??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
-              ],),
+            InkWell(
+              onTap: (){
+                openWhatsapp(branch.whatsAppNumbers.first);
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset("assets/images/whatsapp.png",width:5.w,height: 5.w,),
+                  SizedBox(width: 2.w,),
+                  Expanded(child: Text(branch.whatsAppNumbers.first??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                ],),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 1.h),
+              width:double.infinity,height: 1,color: Colors.grey[200],),
+
+            InkWell(
+              onTap: (){
+                callPhone(branch.telephoneNumbers.first);
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.phone_android,color: Colors.black,size:5.w,),
+                  SizedBox(width: 2.w,),
+                  Expanded(child: Text(branch.telephoneNumbers[0]??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                ],),
+            ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 1.h),
               width:double.infinity,height: 1,color: Colors.grey[200],),
@@ -65,13 +87,18 @@ class BranchesItemWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 1.h),
               width:double.infinity,height: 1,color: Colors.grey[200],),
 
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.home_outlined,color: Colors.black,size:5.w,),
-                SizedBox(width: 2.w,),
-                Expanded(child: Text((branch.address??"").toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
-              ],),
+            InkWell(
+              onTap: (){
+                launchMapsUrl(branch.longitude,branch.latitude);
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.home_outlined,color: Colors.black,size:5.w,),
+                  SizedBox(width: 2.w,),
+                  Expanded(child: Text((branch.address??"").toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                ],),
+            ),
 
           ],)
           ,),

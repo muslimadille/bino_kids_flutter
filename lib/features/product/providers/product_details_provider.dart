@@ -46,6 +46,11 @@ class ProductDetailsProvider with ChangeNotifier{
         final response=await ProductRepository().getModelDetails(modelId: modelId,showLoader: false);
         ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
         modelDetailsModel= subCategoriesModel;
+        if((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==modelDetailsModel!.modelList!.colorId).isNotEmpty){
+          selectedColorIndex=(modelDetailsModel!.modelList!.colors??[]).indexOf((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==modelDetailsModel!.modelList!.colorId).first);
+        }else{
+          selectedColorIndex=0;
+        }
 
         await HiveHelper().deleteBoxes(boxName);
         await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);

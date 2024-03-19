@@ -53,6 +53,7 @@ mixin LoginHelper{
       AppData.USER_ID=await LocalStorage().getFromBox(key: AppData.USER_ID_STORAGE_KEY)??"";
       AppData.USER_NAME=await LocalStorage().getFromBox(key: AppData.USER_NAME_STORAGE_KEY)??"";
       AppData.USER_ROLE=await LocalStorage().getFromBox(key: AppData.USER_ROLE_STORAGE_KEY)??"";
+      await isUserVerified();
     }
     return id.isNotEmpty;
   }
@@ -73,4 +74,31 @@ mixin LoginHelper{
 
 
   }
+  Future<bool?>isUserVerified()async{
+    try{
+      final response=await AuthRepository().isUserVerified();
+      VerifyUserModel verifyUserModel=verifyUserModelFromJson(jsonEncode(response.data));
+      AppData.IS_VERIFIED_USER=verifyUserModel.isUserVerified??false;
+    } on DioException catch (error){
+    }
+
+
+  }
+  resendVerifyCode()async{
+    try{
+      final response=await AuthRepository().resendVerifyCode();
+      VerifyUserModel verifyUserModel=verifyUserModelFromJson(jsonEncode(response.data));
+      if(verifyUserModel.status!=0){
+        AppData.IS_VERIFIED_USER=true;
+        CustomSnakbar().appSnackBar(isFaild: false,text: 'تم تفعيل الحساب بنجاح');
+        AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+      }else{
+        CustomSnakbar().appSnackBar(isFaild: true,text:verifyUserModel.message);
+      }
+    } on DioException catch (error){
+    }
+
+
+  }
+
 }

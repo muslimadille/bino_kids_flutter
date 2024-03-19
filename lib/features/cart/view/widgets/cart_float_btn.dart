@@ -17,7 +17,7 @@ class _CartFloatBtnState extends State<CartFloatBtn> {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(builder: (context,dataModel,_){
       if(dataModel.cartItemsResponseModel==null){
-        dataModel.getCartItems();
+        dataModel.getCartItems(showLoading:false);
       }
       return GestureDetector(
         onTap: (){

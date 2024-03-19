@@ -28,10 +28,20 @@ class HomeDrawerWidget extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(child:
-                Center(child: Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Image.asset("assets/images/app_name_icon.png"),
-                )) ),
+                Column(
+                  children: [
+                    Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Image.asset("assets/images/app_name_icon.png"),
+                    ),
+                    SizedBox(height: 3.h,),
+                    Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Image.asset("assets/images/armytechLogo.png",width:
+                        25.w,),
+                    ),
+                  ],
+                ) ),
                 ListTile(
                   leading: Icon(Icons.new_releases_outlined,color: Colors.black,),
                   title: Text(tr("about_us")),

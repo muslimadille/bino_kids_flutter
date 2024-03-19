@@ -83,5 +83,49 @@ class AuthRepository{
       rethrow;
     }
   }
+  Future<Response>isUserVerified()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.IS_USER_VERIFIED_API,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": AppData.USER_ID,
+              "Lang": AppLocalization.isArabic?2:1
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response>resendVerifyCode()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.RESEND_VERIFICATION_CODE,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "UserId": AppData.USER_ID,
+              "Lang": AppLocalization.isArabic?2:1
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+
 
 }

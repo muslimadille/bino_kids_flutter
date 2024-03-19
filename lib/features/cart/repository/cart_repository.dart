@@ -47,7 +47,7 @@ class CartRepository{
       rethrow;
     }
   }
-  Future<Response>getAllCartItems()async{
+  Future<Response>getAllCartItems({bool? showLoading})async{
     try {
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
@@ -59,11 +59,11 @@ class CartRepository{
               "UserRole":AppData.USER_ROLE,
               "NonLoggingUserId":DeviceInfoDetails().deviceId
             },
-            showProgress: true,
-            dismissProgress: true,
+            showProgress: showLoading??true,
+            dismissProgress: showLoading??true,
           ),
-          exceptionParameters: const NetworkExceptionModel(
-              dismissProgress: true, showError: true));
+          exceptionParameters:  NetworkExceptionModel(
+              dismissProgress: showLoading??true, showError: true));
 
       return response;
     } catch (error) {

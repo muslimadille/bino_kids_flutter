@@ -31,7 +31,7 @@ class ProductRepository{
     try {
       Map<String,dynamic>data={
         "ModelTypeID": modelTypeID,
-        "ModelAge":jsonEncode([modelAgeId]),
+        //"ModelAge":jsonEncode([modelAgeId]),
         "lang": AppLocalization.isArabic?2:1,
         "UserId": AppData.USER_ID,
         "userRole": AppData.USER_ROLE,
@@ -43,22 +43,30 @@ class ProductRepository{
           {
             type = "ModelType/GetModelByModelType";
           data["moduleId"]=moduleId;
+          if((modelAgeId??0)>1){
+            (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
+          }
 
           }
           break;
         case 1:
           {
             type = "Gender/GetModelsByModelType";
+            data["genderType"]=1;
+            (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
           }
           break;
         case 2:{
           type = "Gender/GetModelsByModelType";
+          data["genderType"]=2;
+          (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
         }
         break;
         case 3:{
           type = "Season/GetModelsByModelType";
           seasonType=1;
           data["seasonType"]=seasonType;
+          (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
       }
         break;
         case 4:
@@ -66,21 +74,33 @@ class ProductRepository{
             type = "Season/GetModelsByModelType";
             seasonType=2;
             data["seasonType"]=seasonType;
+            (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
           }
           break;
-        case 6:type="Sale/GetModelsByModelType";
-        break;
-        case 7:type="NewArrival/ GetModelsByModelType";
-        break;
+        case 6:
+          {
+            type = "Sale/GetModelsByModelType";
+            (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
+          }
+          break;
+        case 7:
+          {
+            type = "NewArrival/GetModelsByModelType";
+            (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
+          }
+          break;
         default:
           {
             type = "ModelType/GetModelByModelType";
             data["moduleId"]=moduleId;
+            if((modelAgeId??0)>1){
+              (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
+            }
           }
       }
 
 
-      (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
+
       if((modelGender??-1)!=-1){
         (selectedFilters??{})["Gender"]=[modelGender??1];
       }

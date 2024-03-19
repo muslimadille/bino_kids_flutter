@@ -18,6 +18,11 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> with LoginHelper {
   bool showCounter=true;
   String code="";
+  @override
+  void initState() {
+    resendVerifyCode();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +52,17 @@ class _OtpScreenState extends State<OtpScreen> with LoginHelper {
               code=verificationCode;
             }, // end onSubmit
           ),
+          SizedBox(height: 2.h,),
+          Text(tr("otp_dont_receive_hint"),textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w800),),
+          SizedBox(height: 2.h,),
+          InkWell(
+            onTap: (){
+              resendVerifyCode();
+            },
+              child: Text(tr("re_send"),textAlign: TextAlign.center,style: TextStyle(color:Colors.red,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w800),)),
+
           Expanded(child: SizedBox()),
+
           Padding(
             padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
             child: ElevatedButton(

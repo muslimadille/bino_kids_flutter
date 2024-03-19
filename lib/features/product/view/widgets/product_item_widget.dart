@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
@@ -41,18 +42,11 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     }
     super.didUpdateWidget(oldWidget);
   }
-  @override
-  void didChangeDependencies() {
-    if((widget.productModel.colors??[]).length>1){
-      selectedColorIndex=widget.productModel.colors!.indexOf(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).first);
-    }else{
-      selectedColorIndex=0;
-    }    super.didChangeDependencies();
-  }
+
   @override
   void initState() {
     // TODO: implement initState
-    if((widget.productModel.colors??[]).length>1){
+    if(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).isNotEmpty){
       selectedColorIndex=widget.productModel.colors!.indexOf(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).first);
     }
     super.initState();
@@ -80,45 +74,48 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                         fit: BoxFit.cover, image: NetworkImage((widget.productModel.colors??[]).isNotEmpty?
                         widget.productModel.colors![selectedColorIndex].imageURL ?? '':widget.productModel.imageUrl??""))),
                   ),
-                  Positioned(
-                    bottom: 0,
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 0.5.w),
-                        decoration:BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: BorderRadius.all(Radius.circular(50)),),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: List.generate((widget.productModel.colors??[]).length>4?4:(widget.productModel.colors??[]).length, (index) {
-                        return InkWell(
-                          onTap: (){
-                            setState(() {
-                              selectedColorIndex=index;
-                            });
-                          },
-                          child: Container(
-                              height: 2.h,
-                              width: 2.h,
-                              margin: EdgeInsets.all(1.w),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                                  border: Border.fromBorderSide(
-                                      BorderSide(
-                                          width:1,
-                                          color:Colors.black
-                                      )
-                                  ),
-                                  image:DecorationImage(
-                                      alignment:Alignment.bottomCenter,
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(widget.productModel.colors![index].imageURL??''))
-                              )
-                          ),
-                        );
-                    }),),
-                      )),
+                  Visibility(
+                    visible: AppData.USER_ROLE!="2",
+                    child: Positioned(
+                      bottom: 0,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 0.5.w),
+                          decoration:BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(50)),),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: List.generate((widget.productModel.colors??[]).length>4?4:(widget.productModel.colors??[]).length, (index) {
+                          return InkWell(
+                            onTap: (){
+                              setState(() {
+                                selectedColorIndex=index;
+                              });
+                            },
+                            child: Container(
+                                height: 2.h,
+                                width: 2.h,
+                                margin: EdgeInsets.all(1.w),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                                    border: Border.fromBorderSide(
+                                        BorderSide(
+                                            width:1,
+                                            color:Colors.black
+                                        )
+                                    ),
+                                    image:DecorationImage(
+                                        alignment:Alignment.bottomCenter,
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(widget.productModel.colors![index].imageURL??''))
+                                )
+                            ),
+                          );
+                      }),),
+                        )),
+                  ),
 
                 ],
               ),

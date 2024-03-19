@@ -155,7 +155,10 @@ class AppLocalization{
     "total_value":"total: ",
     "submit":"submit",
     "delete_account_message":"all the account data will remove from our side and you will not able to use this account again.",
-    "today_deal":"Today Deal"
+    "today_deal":"Today Deal",
+    "by":"By",
+    "re_send":"re send",
+    "otp_dont_receive_hint":"didn't receive the code? "
   };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
@@ -259,7 +262,10 @@ class AppLocalization{
     "total_value":"إجمالي المبلغ: ",
     "submit":"تأكيد",
     "delete_account_message":"سيتم حذف جميع البيانات المتعلقة بحسابك ولن تستطيع الدخول اليه مرة اخرى",
-    "today_deal":"عرض اليوم"
+    "today_deal":"عرض اليوم",
+    "by":"بواسطة",
+    "re_send":"إعادة إرسال",
+    "otp_dont_receive_hint":"لم يصلك الكود؟"
 
 
   };

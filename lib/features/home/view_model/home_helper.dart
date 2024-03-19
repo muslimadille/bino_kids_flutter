@@ -24,7 +24,7 @@ mixin HomeHelper{
 
   onInit()async{
     mainCategoryStreamController=StreamController<MainCategoriesDataModel?>.broadcast();
-    await getMainCategories();
+    getMainCategories();
   }
   onDispose(){
     mainCategoryStreamController.close();

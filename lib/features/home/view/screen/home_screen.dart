@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper,AutomaticKeepAli
                               modelAgeForMainPage: snapshot.data!.modelAgeForMainPage??[],):SizedBox(
                                 height: 30.h,
                                 width: double.infinity,
-                                child: LoadingGridShimmer());
+                                child: /*LoadingGridShimmer()*/SizedBox());
                           }
                       ),),
                       SliverToBoxAdapter(child:FutureBuilder(future: getMostWatched(), builder: (context,snapshot){

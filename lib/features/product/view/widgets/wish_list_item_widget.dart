@@ -25,12 +25,17 @@ class WishListItemWidget extends StatefulWidget {
 }
 
 class _WishListItemWidgetState extends State<WishListItemWidget> {
-
+  Color? selectedColor;
+  @override
+  void initState() {
+     selectedColor=widget.model.colors!.where((element) => element.id==widget.model.modelColorId).isNotEmpty?
+    widget.model.colors!.where((element) => element.id==widget.model.modelColorId).first:
+    widget.model.colors![0];
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    Color? selectedColor=widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).isNotEmpty?
-    widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).first:
-    widget.model.colors![0];
+
     return Container(
       width: double.infinity,
         decoration: BoxDecoration(
@@ -42,7 +47,7 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
       margin:EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 2.w),
       child: Row(
         children: [
-          Image.network(selectedColor.imageName??widget.model.imageUrl??"",
+          Image.network(selectedColor!.imageName??widget.model.imageUrl??"",
             width:10.h,
             fit: BoxFit.cover,
           ),
@@ -57,9 +62,11 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                 ],),
                 Wrap(
                   children: [
-                    Text("${(widget.model.priceBeforeDiscount ??0)} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.x_small,color: Colors.red,fontWeight: FontWeight.w500),),
+                    Text("${(widget.model.priceAfterDiscount ??0)} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.x_small,color: Colors.red,fontWeight: FontWeight.w500),),
                     SizedBox(width: 2.w,),
-                    Text("${(widget.model.priceAfterDiscount ??0)} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.x_small,color: Colors.grey,fontWeight: FontWeight.w500),),
+                    Visibility(
+                      visible:(widget.model.priceBeforeDiscount ??0)>0 ,
+                        child: Text("${(widget.model.priceBeforeDiscount ??0)} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.x_small,color: Colors.grey,fontWeight: FontWeight.w500),)),
                   ],),
                 SizedBox(height:0.1.h),
                 Row(
@@ -74,9 +81,11 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                       children: List.generate((widget.model.colors??[]).length, (index) {
                         return GestureDetector(
                           onTap: ()async{
-                            widget.model.modelColorId=widget.model.colors![index].id??0;
+                            widget.model.modelColorId=widget.model.colors![index].colorId??0;
                             widget.model.colorId=widget.model.colors![index].colorId??0;
-
+                            selectedColor=widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).isNotEmpty?
+                            widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).first:
+                            widget.model.colors![0];
                             await context.read<WishListProvider>().editWishListItem(
                                 modelId: widget.model.modelId,
                                 sizeId: widget.model.sizeId,
@@ -95,7 +104,7 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                                   border: Border.fromBorderSide(
                                       BorderSide(
                                           width:1,
-                                          color:widget.model.colors![index].id==widget.model.modelColorId?Colors.black:Colors.white
+                                          color:widget.model.colors![index].colorId==widget.model.modelColorId||widget.model.colors![index].id==widget.model.modelColorId?Colors.black:Colors.white
                                       )
                                   ),
                                   image:DecorationImage(
@@ -117,10 +126,10 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                   ),
                   Expanded(
                     child: Wrap(
-                      children: List.generate((selectedColor.sizesOfThisColorList??[]).length, (index) {
+                      children: List.generate((selectedColor!.sizesOfThisColorList??[]).length, (index) {
                         return GestureDetector(
                           onTap: ()async{
-                            widget.model.sizeId= (selectedColor.sizesOfThisColorList??[])[index].id??0;
+                            widget.model.sizeId= (selectedColor!.sizesOfThisColorList??[])[index].id??0;
                             await context.read<WishListProvider>().editWishListItem(
                                 modelId: widget.model.modelId,
                                 sizeId: widget.model.sizeId,
@@ -138,12 +147,12 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                               border: Border.fromBorderSide(
                                   BorderSide(
                                       width:1,
-                                      color:(selectedColor.sizesOfThisColorList??[])[index].id==widget.model.sizeId?
+                                      color:(selectedColor!.sizesOfThisColorList??[])[index].id==widget.model.sizeId?
                                       Colors.black:Colors.grey
                                   )
                               ),
                             ),
-                            child: Text((selectedColor.sizesOfThisColorList??[])[index].name??"",style: TextStyle(color:Colors.black,fontSize: AppFontSize.small),textAlign: TextAlign.center,),
+                            child: Text((selectedColor!.sizesOfThisColorList??[])[index].name??"",style: TextStyle(color:Colors.black,fontSize: AppFontSize.small),textAlign: TextAlign.center,),
                           ),
                         );
                       }),),

@@ -46,7 +46,6 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return  Scaffold(

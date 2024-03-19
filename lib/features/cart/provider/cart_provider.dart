@@ -37,9 +37,9 @@ class CartProvider with ChangeNotifier{
   Government? selectedGovernment;
   TextEditingController addressController=TextEditingController();
 
-  Future getCartItems()async{
+  Future getCartItems({bool? showLoading})async{
     cartItemsResponseModel=null;
-    final response=await CartRepository().getAllCartItems();
+    final response=await CartRepository().getAllCartItems(showLoading:showLoading);
     cartItemsResponseModel= cartItemsResponseBaseModelFromJson(jsonEncode(response.data)).data;
     notifyListeners();
   }

@@ -142,10 +142,12 @@ class ProductDetailsScreen extends StatelessWidget {
                               SizedBox(height: 1.5.h),
                               Text(tr("Colors:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
                               Wrap(
-                                children: List.generate((data.modelDetailsModel!.modelList!.colors??[]).length, (index) {
+                                children: List.generate(1, (index) {
+                                  var item=(data.modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==data.modelDetailsModel!.modelList!.colorId).first;
                                 return GestureDetector(
                                   onTap: (){
-                                    data.onSelectColor(index,false);
+                                    if(AppData.USER_ROLE!="2"){
+                                    data.onSelectColor(index,false);}
                                   },
                                   child: Padding(
                                     padding:  EdgeInsets.all(1.w),
@@ -167,10 +169,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 image:DecorationImage(
                                                     alignment:Alignment.bottomCenter,
                                                     fit: BoxFit.cover,
-                                                    image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
+                                                    image: NetworkImage(item.imageName??''))
                                             )
                                         ),
-                                        Text(data.modelDetailsModel!.modelList!.colors![index].colorName??'')
+                                        Text(item.colorName??'')
                                       ],
                                     ),
                                   ),
