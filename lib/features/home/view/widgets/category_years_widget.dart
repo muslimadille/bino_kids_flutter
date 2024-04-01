@@ -19,7 +19,7 @@ class CategoryYearsWidget extends StatefulWidget {
 }
 
 class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryYearsHelper {
-
+  double height=32.h;
 @override
   void didChangeDependencies() {
   setState(() {});
@@ -82,7 +82,8 @@ class _CategoryYearsWidgetState extends State<CategoryYearsWidget>with CategoryY
               });
             },
             children:List.generate(widget.modelAgeForMainPage.length, (subcategoryindex){
-              return SubcategoriesListWidget(moduleId: widget.moduleId,modelAgeId:widget.modelAgeForMainPage[subcategoryindex].id);
+              return SubcategoriesListWidget(
+                  moduleId: widget.moduleId,modelAgeId:widget.modelAgeForMainPage[subcategoryindex].id);
             }) ,
           ),
         )

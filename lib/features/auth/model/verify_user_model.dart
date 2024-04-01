@@ -23,9 +23,9 @@ class VerifyUserModel {
   factory VerifyUserModel.fromJson(Map<String, dynamic> json) => VerifyUserModel(
     status: json["status"],
     message: json["message"]??"",
-    verificationResult: json["VerificationResult"],
-    resendingCodeResult: json["ResendingCodeResult"],
-    isUserVerified: json["isUserVerified"],
+    verificationResult: json["VerificationResult"]??false,
+    resendingCodeResult: json["ResendingCodeResult"]??false,
+    isUserVerified: json["isUserVerified"]??false,
   );
 
   Map<String, dynamic> toJson() => {

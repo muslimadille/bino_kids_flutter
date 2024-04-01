@@ -59,6 +59,7 @@ class Branch {
   double latitude;
   double longitude;
   String branchLink;
+  List<String>bannerImageList;
 
   Branch({
     required this.id,
@@ -71,6 +72,7 @@ class Branch {
     required this.latitude,
     required this.longitude,
     required this.branchLink,
+    required this.bannerImageList
   });
 
   factory Branch.fromJson(Map<String, dynamic> json) => Branch(
@@ -84,6 +86,7 @@ class Branch {
     latitude: json["Latitude"]?.toDouble(),
     longitude: json["Longitude"]?.toDouble(),
     branchLink: json["BranchLink"],
+    bannerImageList: List<String>.from(json["BannerImageList"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {

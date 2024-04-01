@@ -20,7 +20,7 @@ class AuthRepository{
               "password":password/*"01111226508"*/,
               "lang":AppLocalization.isArabic?2:1,
               "grant_type":"password",
-              "External":true,
+              "External":false,
               "nonloggingId":DeviceInfoDetails().deviceId
               //"SocailId":""
             },
@@ -113,6 +113,51 @@ class AuthRepository{
             data: {
               "UserId": AppData.USER_ID,
               "Lang": AppLocalization.isArabic?2:1
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response>forgetPassword({required String mobile})async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.RESET_PASSWORD,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "phone": mobile,
+              "Lang": AppLocalization.isArabic?2:1
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<Response>changePassword({required String oldPassword,required String newPassword,})async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.CHANGE_PASSWORD,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "oldPassword": oldPassword,
+              "newPassword": newPassword,
+              "userId": AppData.USER_ID,
+              "lang": AppLocalization.isArabic?2:1
             },
             showProgress: true,
             dismissProgress: true,

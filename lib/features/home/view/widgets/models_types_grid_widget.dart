@@ -3,6 +3,7 @@ import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/sub_categories_model.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -46,7 +47,7 @@ class ModelTypesGridWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       image:DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(items[subCategoryIndex].image??'',)),
+                          image: CachedNetworkImageProvider(items[subCategoryIndex].image??'',)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.3),

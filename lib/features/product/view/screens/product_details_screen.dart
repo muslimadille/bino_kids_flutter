@@ -6,16 +6,18 @@ import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/cart/provider/cart_provider.dart';
 import 'package:bino_kids/features/home/view/widgets/home_horozental_list_widget.dart';
+import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final String modelId;
+  final ProductDetailsParams productParams;
   const ProductDetailsScreen({
-    required this.modelId,
+    required this.productParams,
     Key? key}) : super(key: key);
 
   @override
@@ -26,8 +28,8 @@ class ProductDetailsScreen extends StatelessWidget {
         create: (context) => ProductDetailsProvider(),
         builder: (buildContext,_) {
           WidgetsBinding.instance.addPostFrameCallback((_){
-            buildContext.read<ProductDetailsProvider>().onInit(false);
-            buildContext.read<ProductDetailsProvider>().getModelDetails(modelId: modelId);
+            buildContext.read<ProductDetailsProvider>().onInit(false,productParams.colorId);
+            buildContext.read<ProductDetailsProvider>().getModelDetails(modelId: productParams.modulId??"");
           });
 
           return Consumer<ProductDetailsProvider>(
@@ -65,7 +67,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                         AppNavigator().push(routeName: AppRoutes.IMAGES_SCREEN_ROUTE,arguments:data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList() );
                                       },
                                       child: Image(
-                                        image: NetworkImage(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
+                                        image: CachedNetworkImageProvider(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
                                         fit: BoxFit.cover,
                                       ),
                                     );
@@ -105,9 +107,10 @@ class ProductDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                             Row(children: [
-                              Text("${data.modelDetailsModel!.modelList!.priceAfterDiscount} EGP",style: TextStyle(color: Colors.red,fontSize: AppFontSize.medium,fontWeight: FontWeight.w800),),
+                              Text("${(data.modelDetailsModel!.modelList!.priceAfterDiscount??0).toInt()} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.medium,fontWeight: FontWeight.w800),),
                               SizedBox(width: 3.w,),
-                              Text("${data.modelDetailsModel!.modelList!.priceBeforeDiscount} EGP",style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)
+                              Visibility(visible: (data.modelDetailsModel!.modelList!.priceBeforeDiscount??0)>0,
+                                  child: Text("${(data.modelDetailsModel!.modelList!.priceBeforeDiscount??0).toInt()} ${tr("EGP")}",style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),))
                             ],),
                               SizedBox(height: 1.5.h),
                               Text(data.modelDetailsModel!.modelList!.modelDiscriptionName??"",style: TextStyle(fontSize: AppFontSize.large,fontWeight: FontWeight.w800),),
@@ -142,12 +145,11 @@ class ProductDetailsScreen extends StatelessWidget {
                               SizedBox(height: 1.5.h),
                               Text(tr("Colors:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
                               Wrap(
-                                children: List.generate(1, (index) {
-                                  var item=(data.modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==data.modelDetailsModel!.modelList!.colorId).first;
+                                children: List.generate((data.modelDetailsModel!.modelList!.colors??[]).length, (index) {
+                                  var item=(data.modelDetailsModel!.modelList!.colors??[])[index];
                                 return GestureDetector(
                                   onTap: (){
-                                    if(AppData.USER_ROLE!="2"){
-                                    data.onSelectColor(index,false);}
+                                    data.onSelectColor(index,false);
                                   },
                                   child: Padding(
                                     padding:  EdgeInsets.all(1.w),
@@ -169,7 +171,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 image:DecorationImage(
                                                     alignment:Alignment.bottomCenter,
                                                     fit: BoxFit.cover,
-                                                    image: NetworkImage(item.imageName??''))
+                                                    image: CachedNetworkImageProvider(item.imageName??''))
                                             )
                                         ),
                                         Text(item.colorName??'')
@@ -180,10 +182,12 @@ class ProductDetailsScreen extends StatelessWidget {
                               }),),
                               Text(tr("Sizes:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
                               Wrap(
-                                children: List.generate((data.modelDetailsModel!.modelList!.size??[]).length, (index) {
+                                children: List.generate(((data.modelDetailsModel!.modelList!.colors??[])[data.selectedColorIndex].sizesOfThisColorList??[]).length, (index) {
                                   return GestureDetector(
                                     onTap: (){
-                                      data.onSelectSize(index,false);
+                                      if(AppData.USER_ROLE=="2"){
+                                        data.onSelectSize(index,false);
+                                      }
                                     },
                                     child: Container(
                                         margin: EdgeInsets.all(1.w),
@@ -198,7 +202,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 )
                                             ),
                                         ),
-                                      child: Text(data.modelDetailsModel!.modelList!.size![index].name??"",style: TextStyle(color: index==data.selectedSizeIndex?Colors.white:Colors.black,fontSize: AppFontSize.x_small),textAlign: TextAlign.center,),
+                                      child: Text(((data.modelDetailsModel!.modelList!.colors??[])[data.selectedColorIndex].sizesOfThisColorList??[])[index].name??"",style: TextStyle(color: index==data.selectedSizeIndex?Colors.white:Colors.black,fontSize: AppFontSize.x_small),textAlign: TextAlign.center,),
                                     ),
                                   );
                                 }),),
@@ -288,4 +292,9 @@ class ProductDetailsScreen extends StatelessWidget {
       ),),
     );
   }
+}
+class ProductDetailsParams{
+  String modulId;
+  int colorId;
+  ProductDetailsParams({required this.modulId,required this.colorId});
 }

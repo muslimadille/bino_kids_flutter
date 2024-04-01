@@ -21,13 +21,18 @@ mixin HomeHelper{
   int selectedCategoryIndex=0;
   late final StreamController<MainCategoriesDataModel?>mainCategoryStreamController;
   List<MainCategoriesDataModel> categories=[];
+  late final StreamController<List<ProductModel>?> mostWatchedStreamController;
+
 
   onInit()async{
     mainCategoryStreamController=StreamController<MainCategoriesDataModel?>.broadcast();
+    mostWatchedStreamController=StreamController<List<ProductModel>?>();
     getMainCategories();
+    getMostWatched();
   }
   onDispose(){
     mainCategoryStreamController.close();
+    mostWatchedStreamController.close();
   }
   onSelectCategory(int index){
     selectedCategoryIndex=index;
@@ -64,14 +69,21 @@ mixin HomeHelper{
   }
   Future <List<ProductModel>?>getMostWatched()async{
     try{
-      if(CashHelper.homeMostWatched!=null){
-        return CashHelper.homeMostWatched!.modelList;
-      }
+      String boxName=AppData.hive_most_watched+(AppLocalization.isArabic?"ar":"en");
+      if(await HiveHelper().isExists(boxName:boxName )){
+        ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
+        mostWatchedStreamController.add(productsWithFilterModel.modelList);
+        final response=await HomeRepository().getMostWatched();
+        productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+        await HiveHelper().deleteBoxes(boxName);
+        await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
+      }else {
       final response=await HomeRepository().getMostWatched();
       ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
-      CashHelper.homeMostWatched=productsWithFilterModel;
-      return productsWithFilterModel.modelList;
-    } on DioException catch (error){
+      await HiveHelper().deleteBoxes(boxName);
+      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
+      mostWatchedStreamController.add(productsWithFilterModel.modelList);
+      }} on DioException catch (error){
       return null;
     }
   }

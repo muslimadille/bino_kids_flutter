@@ -1,6 +1,7 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/product/model/model_details_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -37,7 +38,7 @@ class _ImagesScreenState extends State<ImagesScreen> {
             },
             children:List.generate(widget.imageList.length, (index){
               return Image(
-                image: NetworkImage(widget.imageList[index].imageName??""),
+                image: CachedNetworkImageProvider(widget.imageList[index].imageName??""),
                 fit: BoxFit.cover,
               );
             }) ,

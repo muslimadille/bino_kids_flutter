@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +18,10 @@ class _UserMessagesScreenState extends State<UserMessagesScreen> {
       body:SafeArea(
         child: Column(children: [
            CustomBackBtn(
-            title:"Notifications",
+            title:tr("Notifications"),
           ),
           Container(width: double.infinity,color: Colors.grey[200],height: 1,),
-          Expanded(child: NoDataWidget(title:"No notifications Found",
+          Expanded(child: NoDataWidget(title:tr("no_notifications"),
             image: "assets/images/ic_no_message.png",))
         ],)
         ,) ,);

@@ -3,6 +3,8 @@ import 'package:bino_kids/common/helpers/network/response_exception.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:dio/dio.dart';
 
+import '../app_localization.dart';
+
 mixin NetworkExceptionHandler {
 
   String? dioErrorHandler({required DioException dioError,required NetworkExceptionModel exceptionModel}) {
@@ -10,11 +12,11 @@ mixin NetworkExceptionHandler {
       case DioExceptionType.cancel:
         return "Request to API server was cancelled";
       case DioExceptionType.connectionTimeout:
-        return 'connection_timeout';
+        return null;
       case DioExceptionType.receiveTimeout:
-        return 'connection_timeout';
+        return null;
       case DioExceptionType.sendTimeout:
-        return 'connection_timeout';
+        return null;
       case DioExceptionType.badResponse:
         return _handleStatusCodeError(
           dioError.response?.statusCode??0,
@@ -22,11 +24,11 @@ mixin NetworkExceptionHandler {
         );
       case DioExceptionType.unknown:
         if (dioError.message.toString().contains("SocketException")) {
-          return 'No Internet';
+          return tr("NO_INTERNET");
         }
-        return 'unkown_error';
+        return null;
       default:
-        return 'unkown_error';
+        return null;
     }
   }
 

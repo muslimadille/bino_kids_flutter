@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import 'common/helpers/my_app_helper.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with LoginHelper{
+class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelper{
   @override
   void initState() {
     context.read<ProfileProvider>().getCustomerServiceNumber();
@@ -21,6 +23,14 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper{
     super.initState();
   }
   checkLogin()async{
+    await initConnection(onConnectionBack: ()async{
+      bool isLogin=await isUserLogin();
+      if(isLogin){
+        AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+      }else{
+        AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+      }
+    });
     bool isLogin=await isUserLogin();
     if(isLogin){
       AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);

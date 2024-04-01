@@ -65,7 +65,8 @@ mixin LoginHelper{
         if(verifyUserModel.status!=0){
           AppData.IS_VERIFIED_USER=true;
           CustomSnakbar().appSnackBar(isFaild: false,text: 'تم تفعيل الحساب بنجاح');
-          AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+          AppNavigator().goBack(result: true);
+          //AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
         }else{
           CustomSnakbar().appSnackBar(isFaild: true,text:verifyUserModel.message);
         }

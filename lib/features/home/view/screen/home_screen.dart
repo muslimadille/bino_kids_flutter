@@ -112,16 +112,25 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper,AutomaticKeepAli
                                 child: /*LoadingGridShimmer()*/SizedBox());
                           }
                       ),),
-                      SliverToBoxAdapter(child:FutureBuilder(future: getMostWatched(), builder: (context,snapshot){
+                      SliverToBoxAdapter(
+                        child:StreamBuilder(stream: mostWatchedStreamController.stream, builder: (context,snapshot){
                         return snapshot.hasData?
-                        HomeHorzontalListWidget(listTitle:tr("most_watched"), onSeeAllClick: (){}, products: snapshot.data??[],)
+                        HomeHorzontalListWidget(
+                          showSeeAll: true,
+                          scrollDirection:Axis.horizontal,
+                          listTitle:tr("most_watched"), onSeeAllClick: (){}, products: snapshot.data??[],)
                             :SizedBox();
                       }),),
                       SliverToBoxAdapter(child:Visibility(
                         visible: AppData.USER_NAME.isNotEmpty,
                         child: FutureBuilder(future: getSuggestions(), builder: (context,snapshot){
                           return snapshot.hasData?
-                          HomeHorzontalListWidget(listTitle: tr('Suggestions'), onSeeAllClick: (){}, products:snapshot.data??[],)
+                          Visibility(
+                            visible:(snapshot.data??[]).isNotEmpty,
+                            child: HomeHorzontalListWidget(
+                              scrollDirection:Axis.horizontal,
+                              listTitle: tr('Suggestions'), onSeeAllClick: (){}, products:snapshot.data??[],),
+                          )
                               :SizedBox();
                         }),
                       )),

@@ -1,8 +1,6 @@
-import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/branches/model/braches_model.dart';
 import 'package:bino_kids/features/branches/viewModel/branches_helper.dart';
-import 'package:bino_kids/features/orders/model/order_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,6 +28,29 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
           ]
       ),
       child: Column(children: [
+        Container(
+          height: 30.h,
+            width: double.infinity,
+            decoration:  BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topRight:Radius.circular(8),topLeft:Radius.circular(8)),
+            image: DecorationImage(fit: BoxFit.cover,image: NetworkImage("https://www.binokids.com/binoModel//BranchImage/7004a730-452e-4a79-a37b-887fd8205453.jpeg"))
+        ),
+          child: PageView(
+            children: List.generate(branch.bannerImageList.length, (index){
+              return Container(
+                height: 30.h,
+                width: double.infinity,
+                decoration:  BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topRight:Radius.circular(8),topLeft:Radius.circular(8)),
+                    image: DecorationImage(fit: BoxFit.cover,
+                        image: NetworkImage(branch.bannerImageList[index]))
+                ),
+              );
+            }),
+          ),
+        ),
         Padding(padding: EdgeInsets.symmetric(horizontal:2.w,vertical: 1.h),
           child: Column(children: [
             Row(
@@ -37,7 +58,7 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
               children: [
                 Icon(Icons.align_horizontal_left_sharp,color: Colors.black,size:5.w,),
                 SizedBox(width: 2.w,),
-                Expanded(child: Text(branch.name??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                Expanded(child: Text(branch.name??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
               ],),
             Container(
               margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -52,7 +73,7 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
                 children: [
                   Image.asset("assets/images/whatsapp.png",width:5.w,height: 5.w,),
                   SizedBox(width: 2.w,),
-                  Expanded(child: Text(branch.whatsAppNumbers.first??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                  Expanded(child: Text(branch.whatsAppNumbers.first??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
                 ],),
             ),
             Container(
@@ -68,7 +89,7 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
                 children: [
                   Icon(Icons.phone_android,color: Colors.black,size:5.w,),
                   SizedBox(width: 2.w,),
-                  Expanded(child: Text(branch.telephoneNumbers[0]??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                  Expanded(child: Text(branch.telephoneNumbers[0]??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
                 ],),
             ),
             Container(
@@ -81,7 +102,7 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
               children: [
                 Icon(Icons.date_range,color: Colors.black,size:5.w,),
                 SizedBox(width: 2.w,),
-                Expanded(child: Text((branch.timesOfWork??""),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                Expanded(child: Text((branch.timesOfWork??""),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
               ],),
             Container(
               margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -96,7 +117,7 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
                 children: [
                   Icon(Icons.home_outlined,color: Colors.black,size:5.w,),
                   SizedBox(width: 2.w,),
-                  Expanded(child: Text((branch.address??"").toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+                  Expanded(child: Text((branch.address??"").toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
                 ],),
             ),
 

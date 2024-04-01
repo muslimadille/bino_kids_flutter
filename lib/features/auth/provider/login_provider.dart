@@ -20,6 +20,6 @@ class LoginProvider with ChangeNotifier{
     AppData.USER_ID="";
     AppData.USER_NAME="";
     AppData.USER_ROLE="";
-    AppNavigator().pushReplacement(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+    AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
   }
 }

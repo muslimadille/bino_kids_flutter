@@ -89,6 +89,12 @@ class ProductRepository{
             (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
           }
           break;
+        case 8:
+          {
+            type = "TodaysDeal/GetModelsByModelType";
+            (selectedFilters??{})["ModelAge"]=[modelAgeId??0];
+          }
+          break;
         default:
           {
             type = "ModelType/GetModelByModelType";

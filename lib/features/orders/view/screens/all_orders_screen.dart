@@ -4,6 +4,7 @@ import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/orders/provider/order_provider.dart';
 import 'package:bino_kids/features/orders/view/widgets/order_item_widget.dart';
+import 'package:bino_kids/features/user_messages/view/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -34,11 +35,11 @@ class AllOrdersScreen extends StatelessWidget {
                     ],),
                   Container(color: Colors.grey[200],width: double.infinity,height: 1,),
                   Expanded(child:
-                  (dataModel.orders)!=null?ListView.builder(
+                  (dataModel.orders)!=null?dataModel.requests.isNotEmpty?ListView.builder(
                     itemCount: dataModel.requests.length,
                       itemBuilder: (ctx,index){
                     return OrderItemWidget(orderDataModel: dataModel.requests[index],);
-                  }):SizedBox())
+                  }):NoDataWidget():SizedBox())
                 ],),),);
           });
     });

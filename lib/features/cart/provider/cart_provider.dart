@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/common/widgets/custom_snakbar.dart';
@@ -105,26 +106,32 @@ class CartProvider with ChangeNotifier{
     notifyListeners();
   }
   setOrder()async{
-    if((cartItemsResponseModel!.isUserVerified??false)){
-      final response=await CartRepository().setOrder(
-        promocodeId: promoCodeId,
-          isPayCOnDel:selectedPaymentMethod==0,
-          totalAfterDiscount: totalPriceAfterDiscount.toString(),
-          governmentId: selectedGovernment!.id.toString(),
-          addressName: addressController.text);
-      SetOrderResponseModel model=setOrderResponseModelFromJson(jsonEncode(response.data)) ;
-      if(model.status==1){
-        await getCartItems();
-        if(model.returnedUrlToPayment.isNotEmpty&&(cartItemsResponseModel!.isOnlinePayment??false)){
-          AppNavigator().push(
-              routeName: AppRoutes.PAYMENT_SCREEN_ROUT,
-              arguments:model.returnedUrlToPayment??'');
-        }else{
-          AppNavigator().push(routeName: AppRoutes.ALL_ORDERS_SCREEN_ROUTE,arguments:OrderScreenParams(title:'', orderType: -1) );
+    if(AppData.USER_NAME.isNotEmpty){
+      if((cartItemsResponseModel!.isUserVerified??false)){
+        final response=await CartRepository().setOrder(
+            promocodeId: promoCodeId,
+            isPayCOnDel:selectedPaymentMethod==0,
+            totalAfterDiscount: totalPriceAfterDiscount.toString(),
+            governmentId: selectedGovernment!.id.toString(),
+            addressName: addressController.text);
+        SetOrderResponseModel model=setOrderResponseModelFromJson(jsonEncode(response.data)) ;
+        if(model.status==1){
+          await getCartItems();
+          if(model.returnedUrlToPayment.isNotEmpty&&(cartItemsResponseModel!.isOnlinePayment??false)){
+            AppNavigator().push(
+                routeName: AppRoutes.PAYMENT_SCREEN_ROUT,
+                arguments:model.returnedUrlToPayment??'');
+          }else{
+            AppNavigator().push(routeName: AppRoutes.ALL_ORDERS_SCREEN_ROUTE,arguments:OrderScreenParams(title:'', orderType: -1) );
+          }
         }
+      }else{
+        AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT).then((value) {
+          notifyListeners();
+        });
       }
     }else{
-      AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT);
+      AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
     }
 
   }

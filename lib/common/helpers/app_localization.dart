@@ -138,7 +138,7 @@ class AppLocalization{
     "contact_us":"Contact Us",
     "active_account":"Active Account",
     "otp_title_hint":"You will receive an SMS containing the activation code",
-    "our_braches":"our braches",
+    "our_braches":"Our branches",
     "complete_order":"complete order",
     "shipping_info":"shipping information",
     "governorate":"Governorate",
@@ -158,8 +158,20 @@ class AppLocalization{
     "today_deal":"Today Deal",
     "by":"By",
     "re_send":"re send",
-    "otp_dont_receive_hint":"didn't receive the code? "
-  };
+    "otp_dont_receive_hint":"didn't receive the code? ",
+    "no_notifications":"No notifications Found",
+    "Notifications":"Notifications",
+    "NO_INTERNET":"there is no internet connection",
+    "check_connectrion":"Please check your network connection and try again.",
+    "reset":"Reset",
+    "forget_password_screen_title":"Forget password",
+    "forget_password":"Forget password?",
+    "change_password":"Change password",
+    "change":"Change",
+    "old_password":"Old password",
+  "new_password":"New password"
+
+};
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
     "CATEGORY_TAB_TITLE":"المفضلة",
@@ -238,8 +250,8 @@ class AppLocalization{
     "material":"الخامة",
     "Age Group":"الفئة العمرية",
     "Similar":"منتجات مشابهة",
-    "success_add_to_cart":"تمت الاإضافة للسلة",
-    "Sale":"عرض",
+    "success_add_to_cart":"تمت الإضافة للسلة",
+    "Sale":"Sale",
     "New":"جديد",
     "delete_account":"حذف الحساب",
     "contact_us":"اتصل بنا",
@@ -265,8 +277,18 @@ class AppLocalization{
     "today_deal":"عرض اليوم",
     "by":"بواسطة",
     "re_send":"إعادة إرسال",
-    "otp_dont_receive_hint":"لم يصلك الكود؟"
-
+    "otp_dont_receive_hint":"لم يصلك الكود؟",
+    "no_notifications":"لا يوجد لديك رسائل",
+    "Notifications":"الرسائل",
+    "NO_INTERNET":"لا يوجد اتصال بالإنترنت",
+    "check_connectrion":"الرجاء فحص اتصال الشبكة والمحاولة مرة أخرى.",
+    "reset":"إعادة تعيين",
+    "forget_password_screen_title":"نسيت كلمة المرور",
+    "forget_password":"نسيت كلمة المرور؟",
+    "change_password":"تغيير كلمة المرور",
+    "change":"تغيير",
+    "old_password":"كلمة المرور القديمة",
+    "new_password":"كلمة المرور الجديدة"
 
   };
 }

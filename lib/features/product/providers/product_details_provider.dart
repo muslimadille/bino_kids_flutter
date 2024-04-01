@@ -13,16 +13,17 @@ import 'package:bino_kids/features/product/model/model_details_model.dart';
 import 'package:bino_kids/features/product/repository/product_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsProvider with ChangeNotifier{
   late final PageController? controller ;
-
+  int colorId=-1;
   bool isDetailsLoading=false;
   ModelDetailsModel?modelDetailsModel;
   int selectedColorIndex=0;
   int selectedSizeIndex=0;
   int imageIndex=0;
-  onInit(bool fromBottomSheet){
+  onInit(bool fromBottomSheet,int colorId){
     if(!fromBottomSheet){
       controller=PageController();
     }
@@ -31,9 +32,13 @@ class ProductDetailsProvider with ChangeNotifier{
      selectedColorIndex=0;
      selectedSizeIndex=0;
      imageIndex=0;
+     this.colorId=colorId;
   }
   onDispose(){
     controller!.dispose();
+  }
+  initSelectedColor(int colorId){
+
   }
 
 
@@ -42,25 +47,33 @@ class ProductDetailsProvider with ChangeNotifier{
     try{
       if(await HiveHelper().isExists(boxName:boxName )){
         modelDetailsModel= await HiveHelper().getBoxes<ModelDetailsModel>(boxName) as ModelDetailsModel;
+        if(colorId>0){
+          if((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==colorId).isNotEmpty){
+            selectedColorIndex=(modelDetailsModel!.modelList!.colors??[]).indexOf((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId
+                ==colorId).first);
+          }else{
+            selectedColorIndex=0;
+          }}
         notifyListeners();
         final response=await ProductRepository().getModelDetails(modelId: modelId,showLoader: false);
         ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
         modelDetailsModel= subCategoriesModel;
-        if((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==modelDetailsModel!.modelList!.colorId).isNotEmpty){
-          selectedColorIndex=(modelDetailsModel!.modelList!.colors??[]).indexOf((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==modelDetailsModel!.modelList!.colorId).first);
-        }else{
-          selectedColorIndex=0;
-        }
-
         await HiveHelper().deleteBoxes(boxName);
         await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
+
       }else{
         isDetailsLoading=true;
         notifyListeners();
         final response=await ProductRepository().getModelDetails(modelId: modelId);
         ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
         modelDetailsModel= subCategoriesModel;
-
+        if(colorId>0){
+          if((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==colorId).isNotEmpty){
+            selectedColorIndex=(modelDetailsModel!.modelList!.colors??[]).indexOf((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId
+                ==colorId).first);
+          }else{
+            selectedColorIndex=0;
+          }}
         await HiveHelper().deleteBoxes(boxName);
         await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
         isDetailsLoading=false;
@@ -94,11 +107,11 @@ class ProductDetailsProvider with ChangeNotifier{
   }
   addItemToCart({int?colorId,int?sizeId,int?id})async{
     final response=await CartRepository().addItemToCart(
-        colorId: colorId??(modelDetailsModel!.modelList!.colorId??0).toInt(),
-        sizeId: sizeId??(modelDetailsModel!.modelList!.size![selectedSizeIndex].id??0).toInt(),
+        colorId: colorId??((modelDetailsModel!.modelList!.colors??[])[selectedColorIndex].colorId??0).toInt(),
+        sizeId: sizeId??(modelDetailsModel!.modelList!.colors![selectedColorIndex].sizesOfThisColorList![selectedSizeIndex].id??0).toInt(),
         id: id??modelDetailsModel!.modelList!.id??0);
     CustomSnakbar().appSnackBar(text:tr("success_add_to_cart"));
-    //CartProvider().getCartItems();
+    await AppNavigator().currentContext().read<CartProvider>().getCartItems();
     //AppNavigator().goBack();
     //AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 2);
 
@@ -107,7 +120,7 @@ class ProductDetailsProvider with ChangeNotifier{
     final responce =await ProductRepository().changeFavourite(
         modelId:modelDetailsModel!.modelList!.id??0,
         colorId:modelDetailsModel!.modelList!.colors![selectedColorIndex].colorId??0,
-        sizeId: modelDetailsModel!.modelList!.size![selectedSizeIndex].id??0);
+        sizeId: ((modelDetailsModel!.modelList!.colors??[])[selectedColorIndex].sizesOfThisColorList??[])[selectedSizeIndex].id??0);
     ChangeFavouriteModel model=changeFavouriteModelFromJson(jsonEncode(responce.data));
     if(model.status==1){
       modelDetailsModel!.modelList!.colors![selectedColorIndex].isInWishList= !(modelDetailsModel!.modelList!.colors![selectedColorIndex].isInWishList??false);

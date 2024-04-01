@@ -2,6 +2,7 @@ import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/product/model/model_details_model.dart';
 import 'package:bino_kids/features/product/providers/wish_list_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -110,7 +111,7 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                                   image:DecorationImage(
                                       alignment:Alignment.bottomCenter,
                                       fit: BoxFit.fitHeight,
-                                      image: NetworkImage(widget.model.colors![index].imageName??''))
+                                      image: CachedNetworkImageProvider(widget.model.colors![index].imageName??''))
                               )
                           ),
                         );

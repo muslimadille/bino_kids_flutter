@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/cart/view/widgets/cart_list_item_widget.dart';
@@ -101,7 +102,11 @@ class CartItemsScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: ()async{
-                        AppNavigator().push(routeName: AppRoutes.COMPLETE_ORDER_SCREEN_ROUT);
+                        if(AppData.USER_NAME.isNotEmpty){
+                          AppNavigator().push(routeName: AppRoutes.COMPLETE_ORDER_SCREEN_ROUT);
+                        }else{
+                          AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+                        }
                       },
                       child: SizedBox(
                           width: 25.w,

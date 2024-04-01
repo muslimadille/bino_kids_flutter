@@ -1,5 +1,5 @@
 class ApiCodes{
-  static const String SERVER_DEV = 'https://binokids.com/BinoKidsAPIMoslem/';
+  static const String SERVER_DEV = 'http://binodb.binokids.com/BinoAPI/';
 
   static const String LOGIN_API = 'token';
   static const String BANNER_API = 'Banner/BannerData';
@@ -43,6 +43,17 @@ class ApiCodes{
   static const String RESEND_VERIFICATION_CODE="Verification/ResendCode";
   static const String GET_BRANCHES="Branches/getAllBranches";
   static const String APPLY_PROMOCODE="Cart/ApplyPromocode";
+
+  static const String RESET_PASSWORD="Users/SendNewPassword";
+  static const String CHANGE_PASSWORD="Users/ChangePassword";
+  static const String GET_USER_DATA="Users/GetUserData";
+  static const String UPDATE_PROFILE="Users/UpdateProfile";
+
+
+
+
+
+
 
 
 

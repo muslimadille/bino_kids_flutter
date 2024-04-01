@@ -18,6 +18,7 @@ mixin BannerSliderHelper{
   onInit()async{
     controller=PageController();
   }
+
   autoSlide(int size){
    timer= Timer.periodic(Duration(seconds: 4), (Timer timer) {
       if (_currentPage < 2) {
@@ -25,17 +26,20 @@ mixin BannerSliderHelper{
       } else {
         _currentPage = 0;
       }
-      controller.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+
+        controller.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+
+
     });
   }
 
   onDispose(){
+    timer.cancel();
     controller.dispose();
-    //timer.cancel();
   }
   Future <BannerModel?>getBanner()async{
     try{

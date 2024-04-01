@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/cart/model/cart_items_respose_model.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,10 @@ class CartListItemWidget extends StatefulWidget {
 }
 
 class _CartListItemWidgetState extends State<CartListItemWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,7 +61,7 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
                 },child:Icon(Icons.cancel)),
               ],),
               SizedBox(height:0.1.h),
-              Text(widget.item.modelCode??'',style: TextStyle(fontSize: AppFontSize.x_small,fontWeight:FontWeight.w500,color: Colors.grey),),
+              Text(widget.item.coloeName??'',style: TextStyle(fontSize: AppFontSize.x_small,fontWeight:FontWeight.w500,color: Colors.grey),),
               SizedBox(height:0.5.h),
               Wrap(
                 children: [
@@ -92,7 +97,10 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(child:Text("${(widget.item.price??0)*(widget.item.quantity??0)} EGP",style: TextStyle(fontSize: AppFontSize.x_x_small,color: Colors.red,fontWeight: FontWeight.w700),),),
+                  Text("${((widget.item.price??0)*(widget.item.quantity??0)).toInt()} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.x_x_small,color: Colors.red,fontWeight: FontWeight.w700),),
+                  SizedBox(width: 3.w,),
+                  Text("${((widget.item.priceBeforeDiscount??0)*(widget.item.quantity??0)).toInt()} ${tr("EGP")}",textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.x_x_small,color: Colors.grey,fontWeight: FontWeight.w700,decoration: TextDecoration.lineThrough),),
+                  Expanded(child:SizedBox()),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,

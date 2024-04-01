@@ -86,7 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
             padding:  EdgeInsets.symmetric(horizontal: 3.w,vertical: 2.h),
             child: GestureDetector(
               onTap: (){
-                AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT);
+                AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT).then((value){
+                  setState(() {
+
+                  });
+                });
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

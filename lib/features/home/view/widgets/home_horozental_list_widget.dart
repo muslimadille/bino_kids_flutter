@@ -3,6 +3,8 @@ import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
+import 'package:bino_kids/features/product/view/screens/product_details_screen.dart';
+import 'package:bino_kids/features/product/view/screens/see_all_screen.dart';
 import 'package:bino_kids/features/product/view/widgets/product_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -63,29 +65,35 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
                 ),
               ),
               Visibility(
-                visible: false,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  child: Text(
-                    tr("see_all"),
-                    style: TextStyle(color: Colors.white, fontSize: AppFontSize.x_small, fontWeight: FontWeight.w700),
+                visible: widget.showSeeAll??false,
+                child: InkWell(
+                  onTap: (){
+                    AppNavigator().push(routeName: AppRoutes.SEE_ALL_SCREENN_ROUT,arguments:
+                    SeeAllScreenParams(title: widget.listTitle,items: widget.products
+                    ));
+
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    child: Text(
+                      tr("see_all"),
+                      style: TextStyle(color: Colors.white, fontSize: AppFontSize.x_small, fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(
-            height: 1.h,
-          ),
+
           Visibility(
             visible: widget.products.isNotEmpty,
             child: Container(
-              height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 25.h,
+              height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 35.h,
               width: double.infinity,
               child: MasonryGridView.count(
                   physics:(widget.scrollDirection??Axis.vertical)==Axis.vertical? NeverScrollableScrollPhysics():null,
                   shrinkWrap: true,
-                  itemCount: widget.products.length,
+                  itemCount: widget.products.length<10?widget.products.length:10,
                   mainAxisSpacing: 10,
                   scrollDirection: widget.scrollDirection??Axis.vertical,
                   crossAxisCount: (widget.scrollDirection??Axis.vertical)==Axis.vertical?2:1,
@@ -93,14 +101,14 @@ class _HomeHorzontalListWidgetState extends State<HomeHorzontalListWidget> {
                     return UnconstrainedBox(
                       child: GestureDetector(
                           onTap: () {
-                            AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE, arguments: widget.products[index].guId.toString());
+                            AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE, arguments: ProductDetailsParams(modulId:widget.products[index].guId.toString(),colorId:(widget.products[index].colorId??0).toInt() ));
                           },
                           child: ProductItemWidget(
                             scale: (widget.scrollDirection??Axis.vertical)==Axis.vertical?0.95:0.80,
                             productModel: widget.products[index],
                             index: (widget.scrollDirection??Axis.vertical)==Axis.vertical?index:-1,
-                            height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null:30.h,
-                            width:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 48.w ,
+                            height:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null:40.h,
+                            width:(widget.scrollDirection??Axis.vertical)==Axis.vertical?null: 50.w ,
                           )),
                     );
                   }),

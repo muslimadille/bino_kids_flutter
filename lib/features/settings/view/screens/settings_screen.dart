@@ -1,4 +1,6 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/settings/view/widgets/change_language_widget.dart';
@@ -22,6 +24,9 @@ class SettingScreen extends StatelessWidget {
           child: ListView(children: [
             SettingListItem(title:tr("CHANGE_LANGUAGE"), onclick: (){
               CustomBottomSheet().displayModalBottomSheet(widget: ChangeLanguageWidget());
+            },),
+            SettingListItem(title:tr("change_password"), onclick: (){
+              AppNavigator().push(routeName: AppRoutes.CHANGE_PASSWORD_SCREEN_ROUT);
             },)
           ],),
         ))

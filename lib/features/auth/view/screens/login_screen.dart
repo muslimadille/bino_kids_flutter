@@ -162,6 +162,14 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                     ),
                   )
               ],),),
+              InkWell(
+                onTap: (){
+                  AppNavigator().push(routeName: AppRoutes.FORGET_PASSWORD_SCREEN_ROUT);
+                },
+                child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
+                    child:Text(tr("forget_password"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
                 child: ElevatedButton(
@@ -194,6 +202,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                   ),
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
                 child: ElevatedButton(

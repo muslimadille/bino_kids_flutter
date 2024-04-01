@@ -10,6 +10,7 @@ import 'package:bino_kids/features/home/model/sub_categories_model.dart';
 import 'package:bino_kids/features/product/model/filter_model.dart';
 import 'package:bino_kids/features/product/model/price_model.dart';
 import 'package:bino_kids/features/product/model/products_with_filter_model.dart';
+import 'package:bino_kids/features/product/view/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -93,7 +94,7 @@ mixin productWithFiltersHelper{
       final response=await ProductRepository().getProductsWithFilter(
           modelAgeId: modelAgeId,
           moduleId: moduleId,
-          modelGender: subcategoriesList[selectedIndex].modelGenderId,
+          modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
           modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
       ProductsWithFilterModel? productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
       await HiveHelper().deleteBoxes(boxName);
@@ -112,7 +113,7 @@ mixin productWithFiltersHelper{
       selectedIndex=0;
     }
   }
-  onItemClick({required String modelId}){
-    AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: modelId);
+  onItemClick({required String modelId,required int colorId}){
+    AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: ProductDetailsParams(modulId:modelId,colorId:colorId ));
   }
 }

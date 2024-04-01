@@ -107,7 +107,8 @@ class HomeDrawerWidget extends StatelessWidget {
             title: Text(tr(AppData.USER_NAME.isNotEmpty?'Logout':'Login'),style: TextStyle(color: AppData.USER_NAME.isNotEmpty?Colors.red:Colors.green,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700
             ),),
             onTap: () {
-              LoginProvider().logout(); // Close the drawer
+              AppNavigator().goBack();// Close the drawer
+              LoginProvider().logout();
             },
           ),
           SizedBox(height: 2.h,)

@@ -6,7 +6,7 @@ class AppData{
   static const String LANG_STORAGE_KEY="LANG_STORAGE_KEY";
 
   static  String USER_ID="";
-  static  String USER_ROLE="";
+  static  String USER_ROLE="2";
   static  String USER_NAME="";
   static  bool IS_VERIFIED_USER=false;
   static  String CURRENT_LANG="en";
@@ -29,6 +29,8 @@ class AppData{
   static const String hive_Model_Types="hive_Model_Types";
   static const String hive_Model_details_Types="hive_Model_details_Types";
   static const String hive_Models_list_Types="hive_Models_list_Types";
+  static const String hive_most_watched="hive_MOST_WATCHED";
+
 
 
 

@@ -1,6 +1,7 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/orders/model/order_list_model.dart';
+import 'package:bino_kids/features/profile/view_model/profile_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,9 +22,9 @@ class OrderItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(8)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            blurRadius: 4,
-            spreadRadius: 2,
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 2,
+            spreadRadius: 3,
           )
         ]
       ),
@@ -37,7 +38,7 @@ class OrderItemWidget extends StatelessWidget {
             SizedBox(width: 2.w,),
             Text(tr("Address:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text(orderDataModel.address??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text(orderDataModel.address??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
           ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -50,7 +51,7 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Text(tr("Date:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text(orderDataModel.purchaseDate??'',style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text(orderDataModel.purchaseDate??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -64,7 +65,7 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Text(tr("Bill Status:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text((orderDataModel.prushaseStatus??0)==0?"New order":"Delivered",style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text(orderTypes((orderDataModel.prushaseStatus??0).toInt()),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -77,7 +78,7 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Text(tr("Bill number:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text((orderDataModel.purchaseCode??0).toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text((orderDataModel.purchaseCode??0).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -90,7 +91,7 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Text(tr("Total:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text((orderDataModel.totalAmount??0).toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text((orderDataModel.totalAmount??0).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -103,7 +104,7 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Text(tr("Charge value:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text((orderDataModel.chargeValue??0).toString(),style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text((orderDataModel.chargeValue??0).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
 
         ],)
@@ -119,9 +120,19 @@ class OrderItemWidget extends StatelessWidget {
         child: Row(children: [
           Icon(Icons.notification_important_outlined,color: Colors.white,size:5.w,),
         SizedBox(width: 2.w,),
-        Text(tr("Stock notes: "),style: TextStyle(color: Colors.white,fontSize: AppFontSize.small,fontWeight: FontWeight.w700),),
-          Text(orderDataModel.stockNotes??'',style: TextStyle(color: Colors.white,fontSize: AppFontSize.small,fontWeight: FontWeight.w700),),
+        Text(tr("Stock notes: "),style: TextStyle(color: Colors.white,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+          Text(orderDataModel.stockNotes??'',style: TextStyle(color: Colors.white,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
       ],),)
     ],),);
+  }
+  String orderTypes(int value){
+    switch(value){
+    case 0:return tr("new_order");
+    case 1:return tr("confirmed_order");
+    case 2:return tr("delivering_order");
+    case 3:return tr("delivered_order");
+    case 4:return tr("canceled_order");
+      default: return "";
+    }
   }
 }

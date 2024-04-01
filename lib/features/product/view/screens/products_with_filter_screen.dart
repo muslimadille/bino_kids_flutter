@@ -4,14 +4,17 @@ import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
+import 'package:bino_kids/features/cart/provider/cart_provider.dart';
 import 'package:bino_kids/features/cart/view/widgets/cart_float_btn.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
 import 'package:bino_kids/features/product/view/widgets/filtter_widget.dart';
 import 'package:bino_kids/features/product/view/widgets/product_item_widget.dart';
 import 'package:bino_kids/features/product/view_model/product_with_filters_helper.dart';
 import 'package:bino_kids/features/user_messages/view/widgets/no_data_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../common/utils/constants/app_data.dart';
@@ -50,7 +53,13 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
   Widget build(BuildContext context) {
     return  Scaffold(
       key:drawerKey,
-      floatingActionButton: CartFloatBtn(),
+      floatingActionButton:Consumer<CartProvider>(builder: (context,dataModel,_){
+        if(dataModel.cartItemsResponseModel==null){
+          dataModel.getCartItems(showLoading:false);
+        }
+        return  CartFloatBtn();
+        }
+      ),
       drawer:StreamBuilder<List<ProductModel>?>(
         stream: productsStreamController.stream,
         builder: (context, snapshot) {
@@ -126,8 +135,8 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
                                 image: DecorationImage(
                                     fit: BoxFit.fitHeight,
                                     image: subcategoriesList[index].imageNameList.isEmpty?
-                                    NetworkImage(subcategoriesList[index].image??'')
-                                        :NetworkImage(subcategoriesList[index].imageNameList.isNotEmpty?
+                                    CachedNetworkImageProvider(subcategoriesList[index].image??'')
+                                        :CachedNetworkImageProvider(subcategoriesList[index].imageNameList.isNotEmpty?
                                     subcategoriesList[index].imageNameList[0].imagePath:""))),
                           ),
                         ),
@@ -181,12 +190,13 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
                       mainAxisSpacing: 10,
                       crossAxisSpacing:0,
                       crossAxisCount: 2,
+                      addAutomaticKeepAlives:false,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: (){
-                            onItemClick(modelId: snapshot.data![index].guId.toString());
+                            onItemClick(modelId: snapshot.data![index].guId.toString(),colorId:(snapshot.data![index].colorId??0).toInt());
                           },
-                            child: ProductItemWidget(index: index, productModel: snapshot.data![index],));
+                            child:  ProductItemWidget(key:UniqueKey(),index: index, productModel: snapshot.data![index],));
                       }),
                 ):NoDataWidget()
                     :SizedBox();

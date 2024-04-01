@@ -2,6 +2,7 @@ import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
     return Consumer<ProductDetailsProvider>(
         builder: (context, data,_) {
           return Container(
-            height: 60.h,
+            height: 90.h,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(topRight:Radius.circular(8),topLeft:Radius.circular(8) ),
@@ -62,7 +63,7 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                                     onTap: (){
                                       AppNavigator().push(routeName: AppRoutes.IMAGES_SCREEN_ROUTE,arguments:data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList() );
                                     },child: Image(
-                                      image: NetworkImage(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
+                                      image: CachedNetworkImageProvider(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
                                       fit: BoxFit.cover,
                                       height: 25.h,
                                       width: 30.w,
@@ -78,9 +79,11 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(children: [
-                              Text("${data.modelDetailsModel!.modelList!.priceAfterDiscount} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),),
-                              SizedBox(width: 3.w,),
-                              Text("${data.modelDetailsModel!.modelList!.priceBeforeDiscount} ${tr("EGP")}",style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),)
+                              Text("${(data.modelDetailsModel!.modelList!.priceAfterDiscount??0).toInt()} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w700),),
+                              SizedBox(width: 5.w,),
+                              Visibility(
+                                visible: (data.modelDetailsModel!.modelList!.priceBeforeDiscount??0)>0,
+                                  child: Text("${(data.modelDetailsModel!.modelList!.priceBeforeDiscount??0).toInt()} ${tr("EGP")}",style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.grey,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700),))
                             ],),
                             SizedBox(height: 1.5.h),
                             Text(data.modelDetailsModel!.modelList!.modelDiscriptionName??"",style: TextStyle(fontSize: AppFontSize.large,fontWeight: FontWeight.w800),),
@@ -113,7 +116,7 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                               ],
                             ),
                             SizedBox(height: 1.5.h),
-                            Text("Colors:",style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
+                            Text(tr("Colors:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
                             Wrap(
                               children: List.generate((data.modelDetailsModel!.modelList!.colors??[]).length, (index) {
                                 return GestureDetector(
@@ -140,7 +143,7 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                                                 image:DecorationImage(
                                                     alignment:Alignment.bottomCenter,
                                                     fit: BoxFit.cover,
-                                                    image: NetworkImage(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
+                                                    image: CachedNetworkImageProvider(data.modelDetailsModel!.modelList!.colors![index].imageName??''))
                                             )
                                         ),
                                         Text(data.modelDetailsModel!.modelList!.colors![index].colorName??'')
@@ -151,7 +154,7 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                               }),),
                             Text(tr("Sizes:"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w400),),
                             Wrap(
-                              children: List.generate((data.modelDetailsModel!.modelList!.size??[]).length, (index) {
+                              children: List.generate(((data.modelDetailsModel!.modelList!.colors??[])[data.selectedColorIndex].sizesOfThisColorList??[]).length, (index) {
                                 return GestureDetector(
                                   onTap: (){
                                     data.onSelectSize(index,true);
@@ -169,7 +172,7 @@ class _ProductDetailsBottomSheetWidgetState extends State<ProductDetailsBottomSh
                                           )
                                       ),
                                     ),
-                                    child: Text(data.modelDetailsModel!.modelList!.size![index].name??"",style: TextStyle(color: index==data.selectedSizeIndex?Colors.white:Colors.black,fontSize: AppFontSize.x_small),textAlign: TextAlign.center,),
+                                    child: Text(((data.modelDetailsModel!.modelList!.colors??[])[data.selectedColorIndex].sizesOfThisColorList??[])[index].name??"",style: TextStyle(color: index==data.selectedSizeIndex?Colors.white:Colors.black,fontSize: AppFontSize.x_small),textAlign: TextAlign.center,),
                                   ),
                                 );
                               }),)

@@ -1,6 +1,7 @@
 import 'package:bino_kids/features/home/extentions/banner_model_extention.dart';
 import 'package:bino_kids/features/home/model/banner_model.dart';
 import 'package:bino_kids/features/home/view_model/banner_slider_helper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
@@ -52,7 +53,7 @@ class _SliderWidgetState extends State<SliderWidget>with BannerSliderHelper {
                       image:DecorationImage(
                           alignment:Alignment.bottomCenter,
                           fit: BoxFit.cover,
-                      image: NetworkImage(snapshot.data!.data[index].imagePath??'',))
+                      image: CachedNetworkImageProvider(snapshot.data!.data[index].imagePath??'',))
                   ),
                 ),
               );

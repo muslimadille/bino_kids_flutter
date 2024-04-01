@@ -7,6 +7,7 @@ import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
 import 'package:bino_kids/features/product/view/screens/poduct_details_bottom_sheet_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class ProductItemWidget extends StatefulWidget {
   final double? width;
   final double?scale;
 
-   ProductItemWidget({
+   const ProductItemWidget({
     required this.index,
     required this.productModel,
     this.height,
@@ -49,14 +50,16 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
     if(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).isNotEmpty){
       selectedColorIndex=widget.productModel.colors!.indexOf(widget.productModel.colors!.where((element) => element.colorId==widget.productModel.colorId).first);
     }
+
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return UnconstrainedBox(
       child: Container(
         width: (widget.width ?? 48.w)*(widget.scale??1),
-        height: (widget.height ?? ( 35.h+(Random().nextDouble()*5.h)))*(widget.scale??1),
+        height: (widget.height ?? ( 35.h+((widget.index%3==0)?0:5.h)))*(widget.scale??1),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -71,7 +74,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 children: [
                   Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
-                        fit: BoxFit.cover, image: NetworkImage((widget.productModel.colors??[]).isNotEmpty?
+                        fit: BoxFit.cover, image: CachedNetworkImageProvider((widget.productModel.colors??[]).isNotEmpty?
                         widget.productModel.colors![selectedColorIndex].imageURL ?? '':widget.productModel.imageUrl??""))),
                   ),
                   Visibility(
@@ -79,41 +82,48 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                     child: Positioned(
                       bottom: 0,
                         child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 0.5.w),
+                          margin: EdgeInsets.all(0.5.w),
                           decoration:BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withOpacity(0.2),
                             borderRadius: BorderRadius.all(Radius.circular(50)),),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: List.generate((widget.productModel.colors??[]).length>4?4:(widget.productModel.colors??[]).length, (index) {
-                          return InkWell(
-                            onTap: (){
-                              setState(() {
-                                selectedColorIndex=index;
-                              });
-                            },
-                            child: Container(
-                                height: 2.h,
-                                width: 2.h,
-                                margin: EdgeInsets.all(1.w),
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                                    border: Border.fromBorderSide(
-                                        BorderSide(
-                                            width:1,
-                                            color:Colors.black
-                                        )
-                                    ),
-                                    image:DecorationImage(
-                                        alignment:Alignment.bottomCenter,
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(widget.productModel.colors![index].imageURL??''))
-                                )
-                            ),
-                          );
-                      }),),
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: List.generate((widget.productModel.colors??[]).length>3?3:(widget.productModel.colors??[]).length, (index) {
+                              return InkWell(
+                                onTap: (){
+                                  /*setState(() {
+                                    selectedColorIndex=index;
+                                  });*/
+                                },
+                                child: Container(
+                                    height: 2.h,
+                                    width: 2.h,
+                                    margin: EdgeInsets.all(0.1.w),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                                        border: Border.fromBorderSide(
+                                            BorderSide(
+                                                width:1,
+                                                color:Colors.black
+                                            )
+                                        ),
+                                        image:DecorationImage(
+                                            alignment:Alignment.bottomCenter,
+                                            fit: BoxFit.cover,
+                                            image: CachedNetworkImageProvider(widget.productModel.colors![index].imageURL??''))
+                                    )
+                                ),
+                              );
+                                                    }),),
+                              Visibility(
+                                visible:(widget.productModel.colors??[]).length>3 ,
+                                  child: Text("${(widget.productModel.colors??[]).length}",textAlign: TextAlign.center,style: TextStyle(fontSize:9.sp ),))
+                            ],
+                          ),
                         )),
                   ),
 
@@ -129,14 +139,14 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.w),
                   child: Text(
-                    widget.productModel.priceAfter != null ? (widget.productModel.priceAfter.toString() + tr("EGP")) : "",
+                    widget.productModel.priceAfter != null ? ((widget.productModel.priceAfter??0).toInt().toString() +" "+ tr("EGP")) : "",
                     style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_small*(widget.scale??1), fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.w),
                   child: Text(
-                    (widget.productModel.priceBefore??0)>0 ? (widget.productModel.priceBefore.toString() + tr("EGP")) : "",
+                    (widget.productModel.priceBefore??0)>0 ? ((widget.productModel.priceBefore??0).toInt().toString() +" "+ tr("EGP")) : "",
                     style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small*(widget.scale??1), fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough,),
                   ),
                 ),
@@ -207,7 +217,7 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 ),
                 GestureDetector(
                     onTap: () async{
-                      context.read<ProductDetailsProvider>().onInit(true);
+                      context.read<ProductDetailsProvider>().onInit(true,(widget.productModel.colorId??0).toInt());
                       context.read<ProductDetailsProvider>().getModelDetails(modelId: widget.productModel.guId ?? '');
                       CustomBottomSheet().displayModalBottomSheet(widget: ProductDetailsBottomSheetWidget());
                     },

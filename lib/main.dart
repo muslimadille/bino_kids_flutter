@@ -73,6 +73,7 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
       CashHelper.reset();
       setState(() {});
     };
+
   }
 
   @override
@@ -85,6 +86,7 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
         key:UniqueKey(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: false,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         fontFamily: GoogleFonts.getFont('Tajawal').fontFamily,),
         navigatorKey: AppNavigator().navigatorKey,

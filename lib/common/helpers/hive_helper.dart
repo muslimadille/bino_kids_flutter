@@ -22,7 +22,10 @@ class HiveHelper {
   }
   deleteBoxes<T>(String boxName) async {
     print("adding boxes");
-    await Hive.deleteBoxFromDisk(boxName);
+    bool isExist=await Hive.boxExists(boxName);
+    if(isExist){
+      await Hive.deleteBoxFromDisk(boxName);
+    }
   }
 
   getBoxes<T>(String boxName) async {
