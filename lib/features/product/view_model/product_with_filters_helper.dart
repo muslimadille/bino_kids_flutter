@@ -107,7 +107,7 @@ mixin productWithFiltersHelper{
   }
    initSelectedCategory(){
     if(selectedCategoryId!=null&&subcategoriesList.isNotEmpty){
-      selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&element.name==selectedCategoryName).first);
+      selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName)).first);
       modelGenderId=subcategoriesList[selectedIndex].modelGenderId;
     } else{
       selectedIndex=0;

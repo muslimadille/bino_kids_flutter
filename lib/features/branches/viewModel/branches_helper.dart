@@ -12,10 +12,10 @@ mixin BranchesHelper{
     List<Branch> branches=branchesModelFromJson(jsonEncode(response.data)).data.branches;
     return branches;
   }
-  void launchMapsUrl(double lat, double long) async {
-    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$long';
-    if (await canLaunch(url)) {
-      await launch(url);
+  void launchMapsUrl(String link) async {
+    //final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$long';
+    if (await canLaunch(link)) {
+      await launch(link);
     } else {
 
     }
@@ -36,9 +36,9 @@ mixin BranchesHelper{
     }
   }
    openWhatsapp(String num) async{
-    var whatsapp =num;
+    var whatsapp ="+2"+num;
     var whatsappURl_android = "https://wa.me/$whatsapp?text= ";
-    var whatappURL_ios ="https://wa.me/$whatsapp?text=";
+    var whatappURL_ios ="https://api.whatsapp.com/send?phone=$whatsapp=${Uri.parse("")}";
     if(Platform.isIOS){
       if( await canLaunch(whatappURL_ios)){
         await launch(whatappURL_ios, forceSafariVC: false);

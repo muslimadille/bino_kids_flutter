@@ -13,6 +13,8 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> with ChangePasswordHelper{
+  bool showOldPassword=false;
+  bool showNewPassword=false;
   @override
   void initState() {
     onInit();
@@ -41,106 +43,120 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> with Change
                   children: [
                     Text(tr("old_password"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
                     SizedBox(height:1.h),
-                    Container(
-                      height: 5.h,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.fromBorderSide(
-                              BorderSide(
-                                  width:1,
-                                  color:Colors.grey
+                    StatefulBuilder(
+                      builder: (context,setInnerState) {
+                        return Container(
+                          height: 5.h,
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.fromBorderSide(
+                                  BorderSide(
+                                      width:1,
+                                      color:Colors.grey
+                                  )
                               )
-                          )
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal:2.w),
-                      child: Row(children: [
-                        Expanded(child: TextFormField(
-                          controller:newPasswordController ,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: AppFontSize.x_x_small,
-                            fontWeight: FontWeight.w400,
                           ),
-                          onTapOutside: (value){
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            border: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            focusedErrorBorder:InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense:true,
+                          padding: EdgeInsets.symmetric(horizontal:2.w),
+                          child: Row(children: [
+                            Expanded(child: TextFormField(
+                              controller:newPasswordController ,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: AppFontSize.x_x_small,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onTapOutside: (value){
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                border: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder:InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                                isDense:true,
+                              ),
+                              keyboardType: TextInputType.text ,
+                              cursorColor: Colors.black,
+                              obscureText: !showOldPassword,
+                              onChanged: (value){
+
+                              },
+                              validator:(value){
+
+                              },
+                            )),
+                            IconButton(onPressed: (){
+                              setInnerState((){
+                                showOldPassword=!showOldPassword;
+                              });
+                            }, icon: Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),)
+                          ],
                           ),
-                          keyboardType: TextInputType.text ,
-                          cursorColor: Colors.black,
-                          obscureText: true,
-                          onChanged: (value){
-
-                          },
-                          validator:(value){
-
-                          },
-                        )),
-                        IconButton(onPressed: (){
-                        }, icon: Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),)
-                      ],
-                      ),
+                        );
+                      }
                     ),
                     SizedBox(height:1.h),
                     Text(tr("new_password"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
                     SizedBox(height:1.h),
-                    Container(
-                      height: 5.h,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.fromBorderSide(
-                              BorderSide(
-                                  width:1,
-                                  color:Colors.grey
+                    StatefulBuilder(
+                      builder: (context,setInnerState) {
+                        return Container(
+                          height: 5.h,
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.fromBorderSide(
+                                  BorderSide(
+                                      width:1,
+                                      color:Colors.grey
+                                  )
                               )
-                          )
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal:2.w),
-                      child: Row(children: [
-                        Expanded(child: TextFormField(
-                          controller:oldPasswordController ,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: AppFontSize.x_x_small,
-                            fontWeight: FontWeight.w400,
                           ),
-                          onTapOutside: (value){
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            border: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            focusedErrorBorder:InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
-                            isDense:true,
+                          padding: EdgeInsets.symmetric(horizontal:2.w),
+                          child: Row(children: [
+                            Expanded(child: TextFormField(
+                              controller:oldPasswordController ,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: AppFontSize.x_x_small,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onTapOutside: (value){
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                border: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder:InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                                isDense:true,
+                              ),
+                              keyboardType: TextInputType.text ,
+                              cursorColor: Colors.black,
+                              obscureText: !showNewPassword,
+                              onChanged: (value){
+
+                              },
+                              validator:(value){
+
+                              },
+                            )),
+                            IconButton(onPressed: (){
+                              setInnerState((){
+                                showNewPassword=!showNewPassword;
+                              });
+                            }, icon: Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),)
+                          ],
                           ),
-                          keyboardType: TextInputType.text ,
-                          cursorColor: Colors.black,
-                          obscureText: true,
-                          onChanged: (value){
-
-                          },
-                          validator:(value){
-
-                          },
-                        )),
-                        IconButton(onPressed: (){
-                        }, icon: Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),)
-                      ],
-                      ),
+                        );
+                      }
                     ),
                     SizedBox(height:1.h),
 

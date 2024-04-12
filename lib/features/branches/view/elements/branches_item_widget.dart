@@ -110,12 +110,12 @@ class BranchesItemWidget extends StatelessWidget with BranchesHelper {
 
             InkWell(
               onTap: (){
-                launchMapsUrl(branch.longitude,branch.latitude);
+                launchMapsUrl(branch.branchLink??"");
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Icons.home_outlined,color: Colors.black,size:5.w,),
+                  Icon(Icons.location_on,color: Colors.black,size:5.w,),
                   SizedBox(width: 2.w,),
                   Expanded(child: Text((branch.address??"").toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
                 ],),

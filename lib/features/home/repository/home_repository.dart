@@ -56,7 +56,7 @@ class HomeRepository{
       rethrow;
     }
   }
-  getSubCategories({ required int? modelAgeId,required int moduleId})async{
+  getSubCategories({ required int? modelAgeId,required int moduleId,bool?showProgress})async{
     try {
 
       final response = await NetworkRequest().sendAppRequest(
@@ -69,11 +69,11 @@ class HomeRepository{
               "moduleId":moduleId,
               'lang':AppLocalization.isArabic?2:1
             },
-            showProgress: false,
-            dismissProgress: false,
+            showProgress: showProgress??false,
+            dismissProgress: showProgress??false,
           ),
-          exceptionParameters: const NetworkExceptionModel(
-              dismissProgress: true, showError: true));
+          exceptionParameters:  NetworkExceptionModel(
+              dismissProgress: showProgress??false, showError: true));
 
       return response;
     } catch (error) {

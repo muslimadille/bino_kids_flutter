@@ -17,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> with LoginHelper{
 
+  bool showPassword=false;
 
   @override
   void initState() {
@@ -112,54 +113,61 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                   SizedBox(height:1.h),
                   Text(tr("Password"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
                   SizedBox(height:1.h),
-                  Container(
-                    height: 5.h,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.fromBorderSide(
-                            BorderSide(
-                                width:1,
-                                color:Colors.grey
+                  StatefulBuilder(
+                    builder: (context,setInerState) {
+                      return Container(
+                        height: 5.h,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.fromBorderSide(
+                                BorderSide(
+                                    width:1,
+                                    color:Colors.grey
+                                )
                             )
-                        )
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal:2.w),
-                    child: Row(children: [
-                      Expanded(child: TextFormField(
-                        controller:passwordCotroller ,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: AppFontSize.x_x_small,
-                          fontWeight: FontWeight.w400,
                         ),
-                        onTapOutside: (value){
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          border: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          focusedErrorBorder:InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.zero,
-                          isDense:true,
+                        padding: EdgeInsets.symmetric(horizontal:2.w),
+                        child: Row(children: [
+                          Expanded(child: TextFormField(
+                            controller:passwordCotroller ,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: AppFontSize.x_x_small,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            onTapOutside: (value){
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            decoration: InputDecoration(
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              border: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              focusedErrorBorder:InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.zero,
+                              isDense:true,
+                            ),
+                            keyboardType: TextInputType.text ,
+                            cursorColor: Colors.black,
+                            obscureText: !showPassword,
+                            onChanged: (value){
+
+                            },
+                            validator:(value){
+
+                            },
+                          )),
+                          IconButton(onPressed: (){
+                            setInerState((){
+                              showPassword=!showPassword;
+                            });
+                          }, icon: Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),)
+                        ],
                         ),
-                        keyboardType: TextInputType.text ,
-                        cursorColor: Colors.black,
-                        obscureText: true,
-                        onChanged: (value){
-
-                        },
-                        validator:(value){
-
-                        },
-                      )),
-                      IconButton(onPressed: (){
-                      }, icon: Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),)
-                    ],
-                    ),
+                      );
+                    }
                   )
               ],),),
               InkWell(

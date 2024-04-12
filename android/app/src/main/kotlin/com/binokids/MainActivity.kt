@@ -1,4 +1,4 @@
-package com.example.bino_kids
+package com.binokids
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper,AutomaticKeepAli
               ],),
             Container(
               width: double.infinity,
-              height: 5.h,
+              height: 6.h,
               padding: EdgeInsets.symmetric(horizontal: 2.w),
               child: StreamBuilder<MainCategoriesDataModel?>(
                   stream: mainCategoryStreamController.stream,
