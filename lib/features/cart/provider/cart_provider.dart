@@ -37,6 +37,24 @@ class CartProvider with ChangeNotifier{
   List<Government> allGovernments=[];
   Government? selectedGovernment;
   TextEditingController addressController=TextEditingController();
+  init(){
+     totalPrice=0;
+     totalPriceAfterDiscount=0;
+     promoCodeId="";
+     isSubmitButtonActive=false;
+     promoDiscount=0;
+     totalDiscount=0;
+     shippingPrice=0;
+     selectedAddressIndex=0;
+     isAcceptTerms=false;
+     selectedPaymentMethod=0;
+     isSelectAll=false;
+    cartItemsResponseModel=null;
+    addressesListModel=null;
+     allGovernments.clear();
+    selectedGovernment=null;
+    addressController.clear();
+  }
 
   Future getCartItems({bool? showLoading})async{
     cartItemsResponseModel=null;
@@ -104,6 +122,16 @@ class CartProvider with ChangeNotifier{
   onSelectAddress(int index){
     selectedAddressIndex=index;
     notifyListeners();
+  }
+  setAddress(AddressItemListModel address){
+    addressController.text=address.addressName??'';
+    selectedGovernment=allGovernments.where((element) => element.id==(address.governmentId??0)).first;
+    shippingPrice=selectedGovernment!.chargeValue??0;
+    setTotalPrice();
+    updateSubmitButtonStatus();
+  }
+  addNewAddress(){
+
   }
   setOrder()async{
     if(AppData.USER_NAME.isNotEmpty){

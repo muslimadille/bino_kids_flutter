@@ -17,6 +17,7 @@ class CartItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CartProvider>().init();
     context.read<CartProvider>().getCartItems().then((value) {
       context.read<CartProvider>().setTotalPrice();
       context.read<CartProvider>().getShippingAddresses();

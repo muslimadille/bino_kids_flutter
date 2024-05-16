@@ -1,12 +1,14 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
+import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/common/widgets/custom_dropdown_widget.dart';
 import 'package:bino_kids/features/cart/provider/cart_provider.dart';
 import 'package:bino_kids/features/cart/view/widgets/cart_list_item_widget.dart';
 import 'package:bino_kids/features/cart/view/widgets/empty_cart_widget.dart';
 import 'package:bino_kids/features/cart/view/widgets/promo_code_widget.dart';
+import 'package:bino_kids/features/cart/view/widgets/select_address_bottom_sheet.dart';
 import 'package:flutter/Material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -25,6 +27,7 @@ class CompleteOrderScreen extends StatefulWidget {
 class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
   @override
   void initState() {
+    ///context.read<CartProvider>().init();
     context.read<CartProvider>().getAllGovernorates();
     super.initState();
   }
@@ -98,39 +101,49 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
                               )
                           ),
                           padding: EdgeInsets.symmetric(vertical: 1.h,horizontal:2.w),
-                          child:TextFormField(
-                            controller:dataModel.addressController,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: AppFontSize.x_x_small,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            onTapOutside: (value){
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            decoration: InputDecoration(
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                border: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                focusedErrorBorder:InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense:true,
-                                hintText: tr("enter_address"),
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: AppFontSize.x_x_small,
-                                fontWeight: FontWeight.w400,
-                              )
-                            ),
-                            keyboardType: TextInputType.text ,
-                            cursorColor: Colors.black,
-                            onChanged: (value){
-                              dataModel.updateSubmitButtonStatus();
-                            },
-                            validator:(value){
-                            },
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller:dataModel.addressController,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: AppFontSize.x_x_small,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  onTapOutside: (value){
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                  },
+                                  decoration: InputDecoration(
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      border: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      focusedErrorBorder:InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      contentPadding: EdgeInsets.zero,
+                                      isDense:true,
+                                      hintText: tr("enter_address"),
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: AppFontSize.x_x_small,
+                                      fontWeight: FontWeight.w400,
+                                    )
+                                  ),
+                                  keyboardType: TextInputType.text ,
+                                  cursorColor: Colors.black,
+                                  onChanged: (value){
+                                    dataModel.updateSubmitButtonStatus();
+                                  },
+                                  validator:(value){
+                                  },
+                                ),
+                              ),
+                              InkWell(onTap: (){
+                                dataModel.gotoSelectAddress();
+                              }, child: Icon(Icons.arrow_drop_down))
+                            ],
                           ),
                         )
 

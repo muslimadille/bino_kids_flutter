@@ -27,6 +27,14 @@ class _CustomDropDownState extends State<CustomDropDown> {
   List<CustomDropDownModel>items=[];
   CustomDropDownModel? selectedValue;
   @override
+  void didUpdateWidget(covariant CustomDropDown oldWidget) {
+    items.clear();
+    items.addAll(widget.items);
+    if(widget.selectedValue!=null){
+      selectedValue=items.where((element) => element.title==widget.selectedValue!.title).first;
+    }
+  }
+  @override
   void initState() {
     items.clear();
     items.addAll(widget.items);

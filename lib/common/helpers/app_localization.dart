@@ -169,7 +169,8 @@ class AppLocalization{
     "change_password":"Change password",
     "change":"Change",
     "old_password":"Old password",
-  "new_password":"New password"
+  "new_password":"New password",
+    'confirm':"Confirm"
 
 };
   static const Map<String, dynamic> AR = {
@@ -288,7 +289,8 @@ class AppLocalization{
     "change_password":"تغيير كلمة المرور",
     "change":"تغيير",
     "old_password":"كلمة المرور القديمة",
-    "new_password":"كلمة المرور الجديدة"
+    "new_password":"كلمة المرور الجديدة",
+    "confirm":"تأكيد"
 
   };
 }
