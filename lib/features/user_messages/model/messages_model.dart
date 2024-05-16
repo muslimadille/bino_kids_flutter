@@ -20,8 +20,8 @@ class MessagesModel {
   });
 
   factory MessagesModel.fromJson(Map<String, dynamic> json) => MessagesModel(
-    status: json["status"],
-    message: json["message"],
+    status: json["status"]??0,
+    message: json["message"]??'',
     data: ReturnUserMessageList.fromJson(json["data"]),
   );
 

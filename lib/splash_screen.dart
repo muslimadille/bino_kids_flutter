@@ -1,4 +1,5 @@
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/helpers/facebook_analytics_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/auth/view_model/login_helper.dart';
 import 'package:bino_kids/features/profile/provider/profile_provider.dart';
@@ -18,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelper{
   @override
   void initState() {
+    FacebookAnalyticsHelper.getInstance().init(context);
     context.read<ProfileProvider>().getCustomerServiceNumber();
        checkLogin();
     super.initState();

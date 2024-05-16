@@ -9,4 +9,5 @@ mixin MessagesViewModel{
     MessagesModel messagesModel=messagesModelFromJson(jsonEncode(response.data));
     return messagesModel.data.returnUserMessageList;
   }
+
 }

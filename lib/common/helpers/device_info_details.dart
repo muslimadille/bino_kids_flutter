@@ -19,6 +19,7 @@ class DeviceInfoDetails {
   late Directory publicPath;
   late Directory publicPathAndroid;
   late String deviceId;
+  late String deviceName;
 
   DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   AndroidDeviceInfo? androidInfo;
@@ -45,10 +46,13 @@ class DeviceInfoDetails {
       deviceType="Android";
       androidInfo = await deviceInfoPlugin.androidInfo;
       deviceId = androidInfo?.id??"";
+      deviceName=androidInfo?.device??'';
+
     } else if (Platform.isIOS) {
       deviceType="Ios";
       iosInfo = await deviceInfoPlugin.iosInfo;
       deviceId = iosInfo?.identifierForVendor??"";
+      deviceName=iosInfo?.name??'';
     }
   }
 

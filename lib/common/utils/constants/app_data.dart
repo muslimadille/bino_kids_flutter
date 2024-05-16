@@ -11,6 +11,8 @@ class AppData{
   static  bool IS_VERIFIED_USER=false;
   static  String CURRENT_LANG="en";
   static  String CUSTOMER_SERVICE_NUMBER="";
+  static  String USER_NUMBER="";
+
 
 
 

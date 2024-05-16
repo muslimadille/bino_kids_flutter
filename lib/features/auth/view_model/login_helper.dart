@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/helpers/facebook_analytics_helper.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/notification_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
@@ -38,7 +39,11 @@ mixin LoginHelper{
         AppData.USER_NAME=loginModel.userName;
         AppData.USER_ROLE=loginModel.userRole;
         AppData.IS_VERIFIED_USER=loginModel.isVerified=="True";
+        Map<String,dynamic>user=jsonDecode(loginModel.user);
+        AppData.USER_NUMBER=user['Phone'].toString();
+
         NotificationHelper().setUser(userId: AppData.USER_ID, tags:{"UserType":AppData.USER_ROLE=="2"?"Normal  Users":": Company Users",} );
+        FacebookAnalyticsHelper.getInstance().init(AppNavigator().currentContext());
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
       } on DioException catch (error){
       }

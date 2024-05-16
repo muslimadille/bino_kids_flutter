@@ -88,7 +88,7 @@ class NetworkRequest with NetworkExceptionHandler {
         if ((exceptionParameters.showError??false) && errorMessage != null) {
           canMakeRequest = false;
           CustomSnakbar().hideSnackbar();
-          CustomSnakbar().appSnackBar(text: dioError.response!=null?dioError.response!.data['message'].toString():errorMessage, isFaild: true);
+          CustomSnakbar().appSnackBar(text: dioError.response!=null?dioError.response!.data['Message'].toString():errorMessage, isFaild: true);
           Future.delayed(const Duration(seconds: 3), () {
             canMakeRequest = true;
           });

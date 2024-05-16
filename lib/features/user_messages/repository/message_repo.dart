@@ -1,4 +1,5 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/facebook_analytics_helper.dart';
 import 'package:bino_kids/common/helpers/network/network_request.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:bino_kids/common/models/network_request_model.dart';
@@ -18,9 +19,7 @@ Future<Response> getAllMessages() async {
             "UserId": AppData.USER_ID,
             "Lang": AppLocalization.isArabic ?2:1,
             "UserRole":AppData.USER_ROLE,
-            "extinfo": [
-              "string"
-            ]
+            "extinfo": FacebookAnalyticsHelper.getInstance().values
           },
           showProgress: true,
           dismissProgress: true,

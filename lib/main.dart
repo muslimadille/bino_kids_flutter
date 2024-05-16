@@ -2,6 +2,7 @@ import 'package:bino_kids/applications/mainApplication.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/cash_helper.dart';
+import 'package:bino_kids/common/helpers/facebook_analytics_helper.dart';
 import 'package:bino_kids/common/helpers/hive_helper.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
