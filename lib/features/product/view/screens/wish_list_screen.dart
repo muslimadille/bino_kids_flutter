@@ -1,9 +1,7 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/product/model/model_details_model.dart';
-import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/providers/product_details_provider.dart';
-import 'package:bino_kids/features/product/providers/products_with_filter_provider.dart';
 import 'package:bino_kids/features/product/providers/wish_list_provider.dart';
 import 'package:bino_kids/features/product/view/widgets/wish_list_item_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +24,6 @@ class WishListScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(child: CustomBackBtn(hideBtn: showBack??true,title: tr('Wish_List'),)),
-              //IconButton(onPressed: (){}, icon: Icon(Icons.grid_view)),
               IconButton(onPressed: (){
                 dataModel.addAllWishListToCart();
               }, icon: Icon(Icons.add_shopping_cart)),

@@ -78,6 +78,4 @@ class FacebookAnalyticsHelper {
      return values;
   }
 
-
-
 }

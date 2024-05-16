@@ -14,7 +14,7 @@ class WishListItemWidget extends StatefulWidget {
   final Function(ModelList model) onAddToCard;
 
 
-  const WishListItemWidget({
+   WishListItemWidget({
     required this.model,
     required this.onDelete,
     required this.onEdit,
@@ -29,14 +29,13 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
   Color? selectedColor;
   @override
   void initState() {
-     selectedColor=widget.model.colors!.where((element) => element.id==widget.model.modelColorId).isNotEmpty?
-    widget.model.colors!.where((element) => element.id==widget.model.modelColorId).first:
-    widget.model.colors![0];
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
+    selectedColor=widget.model.colors!.where((element) => element.id==widget.model.modelColorId).isNotEmpty?
+    widget.model.colors!.where((element) => element.id==widget.model.modelColorId).first:
+    widget.model.colors![0];
     return Container(
       width: double.infinity,
         decoration: BoxDecoration(
