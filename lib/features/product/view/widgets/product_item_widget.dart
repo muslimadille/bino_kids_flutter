@@ -74,11 +74,10 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                 children: [
                   Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)), image: DecorationImage(
-                        fit: BoxFit.cover, image: CachedNetworkImageProvider((widget.productModel.colors??[]).isNotEmpty?
-                        widget.productModel.colors![selectedColorIndex].imageURL ?? '':widget.productModel.imageUrl??""))),
+                        fit: BoxFit.cover, image: CachedNetworkImageProvider((widget.productModel.imageUrl??"")))),
                   ),
                   Visibility(
-                    visible: AppData.USER_ROLE!="2",
+                    visible: AppData.USER_ROLE=="4"&&(widget.productModel.colorsCount??0)>1 ,
                     child: Positioned(
                       bottom: 0,
                         child: Container(
@@ -120,8 +119,25 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                               );
                                                     }),),
                               Visibility(
-                                visible:(widget.productModel.colors??[]).length>3 ,
-                                  child: Text("${(widget.productModel.colors??[]).length}",textAlign: TextAlign.center,style: TextStyle(fontSize:9.sp ),))
+                                visible:(widget.productModel.colorsCount??0)>3 ,
+                                child: Container(
+                                  height: 2.h,
+                                  width: 2.h,
+                                  margin: EdgeInsets.all(0.1.w),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                                      border: Border.fromBorderSide(
+                                          BorderSide(
+                                              width:1,
+                                              color:Colors.black
+                                          )
+                                      ),
+
+                                  ),
+                                  child: Center(child: Text("${widget.productModel.colorsCount??0}",textAlign: TextAlign.center,style: TextStyle(fontSize:8.sp,color: Colors.black ),)),
+                                ),
+                              )
                             ],
                           ),
                         )),

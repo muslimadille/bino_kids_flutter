@@ -14,7 +14,6 @@ class HiveHelper {
     int length = openBox.length;
     return length != 0;
   }
-
   addBoxes<T>(Object model, String boxName) async {
     print("adding boxes");
     final openBox = await Hive.openBox(boxName);
@@ -41,7 +40,6 @@ class HiveHelper {
     Hive.registerAdapter(SubCategoryDataModelAdapter());
     Hive.registerAdapter(ImageNameListAdapter());
     Hive.registerAdapter(ModelDetailsModelAdapter());
-
     Hive.registerAdapter(ModelListAdapter());
     Hive.registerAdapter(AllSizeAdapter());
     Hive.registerAdapter(ColorAdapter());
@@ -49,25 +47,10 @@ class HiveHelper {
     Hive.registerAdapter(ProductModelAdapter());
     Hive.registerAdapter(ProductsWithFilterBaseModelAdapter());
     Hive.registerAdapter(ProductsWithFilterModelAdapter());
-
     Hive.registerAdapter(FiltersAdapter());
     Hive.registerAdapter(FilterTypeModelAdapter());
     Hive.registerAdapter(FilterListItemModelAdapter());
     Hive.registerAdapter(PriceAdapter());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   }
 

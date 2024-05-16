@@ -36,9 +36,9 @@ mixin BranchesHelper{
     }
   }
    openWhatsapp(String num) async{
-    var whatsapp ="+2"+num;
-    var whatsappURl_android = "https://wa.me/$whatsapp?text= ";
-    var whatappURL_ios ="https://api.whatsapp.com/send?phone=$whatsapp=${Uri.parse("")}";
+    String whatsapp ="+2"+num;
+    var whatsappURl_android = "https://wa.me/$whatsapp?text=${Uri.encodeFull("")}";
+    var whatappURL_ios ="https://wa.me/$whatsapp?text=${Uri.parse("")}";
     if(Platform.isIOS){
       if( await canLaunch(whatappURL_ios)){
         await launch(whatappURL_ios, forceSafariVC: false);

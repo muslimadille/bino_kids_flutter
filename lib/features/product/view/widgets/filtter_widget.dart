@@ -46,6 +46,22 @@ class _FilterWidgetState extends State<FilterWidget> {
     }
     setState(() {});
   }
+
+  @override
+  void didChangeDependencies() {
+    rangeValues=RangeValues(double.parse((widget.price.minPrice.toString())),double.parse((widget.price.maxPrice.toString())));
+    if(widget.selectedFilters.isNotEmpty){
+      selectedFilters=widget.selectedFilters;
+    }    super.didChangeDependencies();
+  }
+  @override
+  void didUpdateWidget(covariant FilterWidget oldWidget) {
+    rangeValues=RangeValues(double.parse((widget.price.minPrice.toString())),double.parse((widget.price.maxPrice.toString())));
+    if(widget.selectedFilters.isNotEmpty){
+      selectedFilters=widget.selectedFilters;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
   @override
   void initState() {
     rangeValues=RangeValues(double.parse((widget.price.minPrice.toString())),double.parse((widget.price.maxPrice.toString())));

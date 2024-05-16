@@ -5,6 +5,7 @@ import 'package:bino_kids/common/helpers/cash_helper.dart';
 import 'package:bino_kids/common/helpers/hive_helper.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/my_app_helper.dart';
+import 'package:bino_kids/common/helpers/notification_helper.dart';
 import 'package:bino_kids/features/auth/view/screens/login_screen.dart';
 import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
 import 'package:bino_kids/splash_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'common/helpers/device_info_details.dart';
@@ -68,6 +70,7 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
   @override
   void initState() {
     super.initState();
+    NotificationHelper().init();
     AppLocalization().onInit();
     localization.onTranslatedLanguage = (local) {
       CashHelper.reset();

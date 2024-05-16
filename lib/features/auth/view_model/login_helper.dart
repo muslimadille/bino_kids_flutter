@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
+import 'package:bino_kids/common/helpers/notification_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
-import 'package:bino_kids/common/widgets/top_snackbar_custom/top_snack_bar.dart';
 import 'package:bino_kids/features/auth/model/login_model.dart';
 import 'package:bino_kids/features/auth/model/verify_user_model.dart';
 import 'package:dio/dio.dart';
@@ -38,8 +38,8 @@ mixin LoginHelper{
         AppData.USER_NAME=loginModel.userName;
         AppData.USER_ROLE=loginModel.userRole;
         AppData.IS_VERIFIED_USER=loginModel.isVerified=="True";
+        NotificationHelper().setUser(userId: AppData.USER_ID, tags:{"UserType":AppData.USER_ROLE=="2"?"Normal  Users":": Company Users",} );
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
-
       } on DioException catch (error){
       }
     }else{

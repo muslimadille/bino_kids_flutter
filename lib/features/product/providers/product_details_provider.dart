@@ -23,7 +23,7 @@ class ProductDetailsProvider with ChangeNotifier{
   int selectedColorIndex=0;
   int selectedSizeIndex=0;
   int imageIndex=0;
-  onInit(bool fromBottomSheet,int colorId){
+  onInit(bool fromBottomSheet,int? colorId){
     if(!fromBottomSheet){
       controller=PageController();
     }
@@ -32,7 +32,7 @@ class ProductDetailsProvider with ChangeNotifier{
      selectedColorIndex=0;
      selectedSizeIndex=0;
      imageIndex=0;
-     this.colorId=colorId;
+     this.colorId=colorId??-1;
   }
   onDispose(){
     controller!.dispose();

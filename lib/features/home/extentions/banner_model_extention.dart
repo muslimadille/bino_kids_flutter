@@ -11,6 +11,7 @@ import 'package:bino_kids/features/home/repository/home_repository.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
 import 'package:bino_kids/features/product/view/screens/product_details_screen.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 extension BannerModelExtention on BannerDataModel{
   void onClick(){
@@ -20,10 +21,12 @@ extension BannerModelExtention on BannerDataModel{
       case 2:
         {
           /// get mmodelstyps
+          EasyLoading.show();
           getSubCategories(modelAgeId: 0, moduleId: int.parse(firstPage??"0"),).then((value){
+            EasyLoading.dismiss();
             AppNavigator().push(
                 routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
-                arguments: ProductsScreenArqumentsModel(subcategoriesList: value!.data,selectedcategoryId: modelTypeId ?? 0, selectedcategoryName: modelTypeName ?? ""));
+                arguments: ProductsScreenArqumentsModel(subcategoriesList: value!.data,selectedcategoryId: modelTypeId ?? 0, selectedcategoryName: modelTypeName ?? "",moduleId:int.parse(firstPage??"0") ));
           });
 
         }

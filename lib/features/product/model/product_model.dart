@@ -54,6 +54,8 @@ class ProductModel extends HiveObject {
   final bool? isInNewArrival;
   @HiveField(20)
   final bool? isInTodaysDeal;
+  @HiveField(21)
+  final int? colorsCount;
 
   ProductModel({
     required this.id,
@@ -77,6 +79,7 @@ class ProductModel extends HiveObject {
     required this.colors,
     required this.isInNewArrival,
     required this.isInTodaysDeal,
+    required this.colorsCount
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -103,6 +106,7 @@ class ProductModel extends HiveObject {
         : List<Color>.from(json["AllColor"].map((x) => Color.fromJson(x))),
     isInNewArrival: json["IsInNewArrival"] ?? false,
     isInTodaysDeal: json["IsInTodaysDeal"] ?? false,
+      colorsCount:json["ColorsCount"] ?? 0
   );
 
   Map<String, dynamic> toJson() => {
@@ -124,6 +128,6 @@ class ProductModel extends HiveObject {
     "ColorId": colorId,
     "IsMoreThanThreeColors": isMoreThanThreeColors,
     "ColorsList": colorsList,
-    "Colors": List<dynamic>.from(colors!.map((x) => x.toJson())),
+    "AllColor": List<dynamic>.from(colors!.map((x) => x.toJson())),
   };
 }

@@ -68,6 +68,7 @@ mixin productWithFiltersHelper{
     scrollToIndex();
   }
   getProducts({required Map<String, List<int>> selectedFilters})async{
+
     productsStreamController.add(null);
     String boxName= (AppData.hive_Models_list_Types+(AppLocalization.isArabic?"ar":"en")+
         modelAgeId.toString()+moduleId.toString()+modelGenderId.toString()+
@@ -83,7 +84,8 @@ mixin productWithFiltersHelper{
           modelAgeId: modelAgeId,
           moduleId: moduleId,
           modelGender: subcategoriesList[selectedIndex].modelGenderId,
-          modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
+          modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,
+          selectedFilters: selectedFilters);
 
       productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
 
@@ -107,7 +109,7 @@ mixin productWithFiltersHelper{
   }
    initSelectedCategory(){
     if(selectedCategoryId!=null&&subcategoriesList.isNotEmpty){
-      selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName)).first);
+      selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName||element.arName==selectedCategoryName)).first);
       modelGenderId=subcategoriesList[selectedIndex].modelGenderId;
     } else{
       selectedIndex=0;

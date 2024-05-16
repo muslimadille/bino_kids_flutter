@@ -63,7 +63,7 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
       drawer:StreamBuilder<List<ProductModel>?>(
         stream: productsStreamController.stream,
         builder: (context, snapshot) {
-          return filters!=null?FilterWidget(
+          return filters!=null? FilterWidget(
             selectedFilters: selectedFilters,
             filters:filters!,price: prices!,
             onDone:(values){

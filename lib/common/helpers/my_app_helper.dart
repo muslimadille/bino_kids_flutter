@@ -26,7 +26,7 @@ import 'package:bino_kids/features/profile/view/shipping_policy_screen.dart';
 import 'package:bino_kids/features/search/view/screens/search_screen.dart';
 import 'package:bino_kids/features/settings/view/screens/change_password_screen.dart';
 import 'package:bino_kids/features/settings/view/screens/settings_screen.dart';
-import 'package:bino_kids/features/user_messages/view/user_messages_screen.dart';
+import 'package:bino_kids/features/user_messages/view/screens/user_messages_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_snakbar.dart';

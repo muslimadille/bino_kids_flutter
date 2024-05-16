@@ -295,6 +295,6 @@ class ProductDetailsScreen extends StatelessWidget {
 }
 class ProductDetailsParams{
   String modulId;
-  int colorId;
-  ProductDetailsParams({required this.modulId,required this.colorId});
+  int? colorId;
+  ProductDetailsParams({required this.modulId,this.colorId});
 }

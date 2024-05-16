@@ -19,7 +19,7 @@ onDispose(){
   newPasswordController.dispose();
 }
   changePassword()async{
-  final response=await AuthRepository().changePassword(oldPassword:oldPasswordController.text,newPassword: newPasswordController.text );
+  final response=await AuthRepository().changePassword(oldPassword:newPasswordController.text,newPassword: oldPasswordController.text );
   VerifyUserModel verifyUserModel=verifyUserModelFromJson(jsonEncode(response.data));
   if(verifyUserModel.status==1){
     CustomSnakbar().appSnackBar(text: verifyUserModel.message);

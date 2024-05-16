@@ -38,13 +38,14 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       colors: (fields[18] as List?)?.cast<Color>(),
       isInNewArrival: fields[19] as bool?,
       isInTodaysDeal: fields[20] as bool?,
+      colorsCount: fields[21] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductModel obj) {
     writer
-      ..writeByte(21)
+      ..writeByte(22)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -86,7 +87,9 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(19)
       ..write(obj.isInNewArrival)
       ..writeByte(20)
-      ..write(obj.isInTodaysDeal);
+      ..write(obj.isInTodaysDeal)
+      ..writeByte(21)
+      ..write(obj.colorsCount);
   }
 
   @override
