@@ -5,6 +5,7 @@ import 'package:bino_kids/common/widgets/custom_snakbar.dart';
 import 'package:bino_kids/features/branches/model/braches_model.dart';
 import 'package:bino_kids/features/branches/repository/branches_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 mixin BranchesHelper{
   Future<List<Branch>?> getBranches()async{
@@ -29,26 +30,26 @@ mixin BranchesHelper{
     }
   }
   void launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
 
     }
   }
    openWhatsapp(String num) async{
-    String whatsapp ="+2"+num;
-    var whatsappURl_android = "https://wa.me/$whatsapp?text=${Uri.encodeFull("")}";
-    var whatappURL_ios ="https://wa.me/$whatsapp?text=${Uri.parse("")}";
+    String whatsapp ="2"+num;
+    final String _url_andoid = "https://wa.me/$whatsapp?text=${Uri.encodeFull("")}";
+    String whatappURL_ios ="https://wa.me/$whatsapp?text=${Uri.parse("")}";
     if(Platform.isIOS){
-      if( await canLaunch(whatappURL_ios)){
-        await launch(whatappURL_ios, forceSafariVC: false);
+      if( await canLaunchUrl(Uri.parse(whatappURL_ios)) ){
+        launchUrl(whatappURL_ios);
       }else{
         CustomSnakbar().appSnackBar(isFaild: true,text: "الرجاء تنزيل whatsapp لتتمكن من التواصل معنا");
       }
     }else{
       // android , web
-      if( await canLaunch(whatsappURl_android)){
-        await launch(whatsappURl_android);
+      if( await canLaunchUrl(Uri.parse(_url_andoid)) ){
+        launchUrl(_url_andoid);
       }else{
         CustomSnakbar().appSnackBar(isFaild: true,text: "الرجاء تنزيل whatsapp لتتمكن من التواصل معنا");
       }

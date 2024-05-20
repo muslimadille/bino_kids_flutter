@@ -291,6 +291,5 @@ class AppLocalization{
     "old_password":"كلمة المرور القديمة",
     "new_password":"كلمة المرور الجديدة",
     "confirm":"تأكيد"
-
   };
 }

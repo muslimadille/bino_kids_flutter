@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../common/helpers/app_localization.dart';
 
@@ -35,10 +36,15 @@ class HomeDrawerWidget extends StatelessWidget {
                       child: Image.asset("assets/images/app_name_icon.png"),
                     ),
                     SizedBox(height: 3.h,),
-                    Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 10.w),
-                      child: Image.asset("assets/images/armytechLogo.png",width:
-                        25.w,),
+                    InkWell(
+                      onTap: (){
+                        launchUrlString('https://www.armytechgroup.com');
+                      },
+                      child: Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                        child: Image.asset("assets/images/armytechLogo.png",width:
+                          25.w,),
+                      ),
                     ),
                   ],
                 ) ),

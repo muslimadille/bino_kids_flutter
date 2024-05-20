@@ -12,6 +12,7 @@ class AppData{
   static  String CURRENT_LANG="en";
   static  String CUSTOMER_SERVICE_NUMBER="";
   static  String USER_NUMBER="";
+  static bool REVIEW_MODE=false;
 
 
 
