@@ -110,8 +110,11 @@ class ProductDetailsProvider with ChangeNotifier{
         colorId: colorId??((modelDetailsModel!.modelList!.colors??[])[selectedColorIndex].colorId??0).toInt(),
         sizeId: sizeId??(modelDetailsModel!.modelList!.colors![selectedColorIndex].sizesOfThisColorList![selectedSizeIndex].id??0).toInt(),
         id: id??modelDetailsModel!.modelList!.id??0);
-    CustomSnakbar().appSnackBar(text:tr("success_add_to_cart"));
-    await AppNavigator().currentContext().read<CartProvider>().getCartItems();
+    if(response.data['status'].toString()=="1"){
+      CustomSnakbar().appSnackBar(text:response.data['message'].toString());
+      await AppNavigator().currentContext().read<CartProvider>().getCartItems();
+    }
+
     //AppNavigator().goBack();
     //AppNavigator().push(routeName: AppRoutes.HOME_SCREEN_ROUTE,arguments: 2);
 

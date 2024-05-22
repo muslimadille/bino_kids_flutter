@@ -100,9 +100,17 @@ class CartProvider with ChangeNotifier{
     checkIIfAllSelected();
   }
   onEdite(CartModelList item,index)async {
-    await CartRepository().editeCartItem(count: (item.quantity??0).toInt(), id: item.id.toString());
-    cartItemsResponseModel!.modelList![index].quantity=item.quantity;
-    setTotalPrice();
+    final response=await CartRepository().editeCartItem(count: (item.quantity??0).toInt(), id: item.id.toString());
+    if(response.data['status'].toString()=='1'){
+      cartItemsResponseModel!.modelList![index].quantity=item.quantity;
+      setTotalPrice();
+    }else{
+      if((item.quantity??0)>1){}
+      item.quantity=(item.quantity??0)-1;
+      notifyListeners();
+    }
+
+
   }
   onDelete(CartModelList item,index)async{
     await CartRepository().deleteCartItem(modelId: item.modelId.toString(), id: item.id.toString());
