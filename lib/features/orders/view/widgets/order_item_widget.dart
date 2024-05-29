@@ -2,6 +2,7 @@ import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/orders/model/order_list_model.dart';
 import 'package:bino_kids/features/profile/view_model/profile_helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -117,11 +118,15 @@ class OrderItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.only(
               bottomLeft:Radius.circular(8),bottomRight:Radius.circular(8)),
         ),
-        child: Row(children: [
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Icon(Icons.notification_important_outlined,color: Colors.white,size:5.w,),
         SizedBox(width: 2.w,),
         Text(tr("Stock notes: "),style: TextStyle(color: Colors.white,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
-          Text(orderDataModel.stockNotes??'',style: TextStyle(color: Colors.white,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+            SizedBox(width: 2.w,),
+
+            Expanded(child: Text(orderDataModel.stockNotes??'',style: TextStyle(color: Colors.white,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500),)),
       ],),)
     ],),);
   }

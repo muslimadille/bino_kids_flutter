@@ -86,6 +86,7 @@ class CartProvider with ChangeNotifier{
        totalPrice=totalPrice+((item.price??0)*(item.quantity??0));
       }
     }
+    totalDiscount=promoDiscount;
     totalPriceAfterDiscount=totalPrice-promoDiscount+shippingPrice;
     notifyListeners();
   }
@@ -185,6 +186,7 @@ class CartProvider with ChangeNotifier{
         );
     PromoCodeModel promoCodeModel=promoCodeModelFromJson(jsonEncode(response.data));
     if(promoCodeModel.status==1){
+      CustomSnakbar().appSnackBar(isFaild: false,text: promoCodeModel.message);
       promoCodeId=promoCodeModel.promocodeId.toString();
       promoDiscount=totalPrice-promoCodeModel.totalAfterDiscount;
       setTotalPrice();
