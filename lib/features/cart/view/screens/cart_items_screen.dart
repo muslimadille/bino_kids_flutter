@@ -81,8 +81,7 @@ class CartItemsScreen extends StatelessWidget {
           Column(children: [
             SizedBox(height: 2.h,),
             Text("${dataModel.totalPrice} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_medium,fontWeight: FontWeight.w700),),
-            /*Visibility(visible: dataModel.totalDiscount>0,
-                child: Text("${tr("save")} ${dataModel.totalDiscount} ${tr("EGP")}",style: TextStyle(color: Colors.orange,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),)),*/
+
             SizedBox(height: 2.h,),
             Row(
               mainAxisAlignment:MainAxisAlignment.end,
