@@ -2,6 +2,7 @@ import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/features/orders/model/order_list_model.dart';
 import 'package:bino_kids/features/profile/view_model/profile_helper.dart';
+import 'package:flutter/Material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -44,7 +45,30 @@ class OrderItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
             width:double.infinity,height: 1,color: Colors.grey[200],),
-
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.alarm,color: Colors.black,size:5.w,),
+              SizedBox(width: 2.w,),
+              Text(tr("from:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              SizedBox(width: 2.w,),
+              Expanded(child: Text(orderDataModel.from??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+            ],),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 1.h),
+            width:double.infinity,height: 1,color: Colors.grey[200],),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.alarm,color: Colors.black,size:5.w,),
+              SizedBox(width: 2.w,),
+              Text(tr("to:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              SizedBox(width: 2.w,),
+              Expanded(child: Text(orderDataModel.to??'',style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+            ],),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 1.h),
+            width:double.infinity,height: 1,color: Colors.grey[200],),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,8 +81,6 @@ class OrderItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
             width:double.infinity,height: 1,color: Colors.grey[200],),
-
-
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -71,7 +93,6 @@ class OrderItemWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
             width:double.infinity,height: 1,color: Colors.grey[200],),
-
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -107,6 +128,47 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Expanded(child: Text((orderDataModel.chargeValue??0).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 1.h),
+            width:double.infinity,height: 1,color: Colors.grey[200],),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.monetization_on_rounded,color: Colors.black,size:5.w,),
+              SizedBox(width: 2.w,),
+              Text(tr("Total_after_shippng"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              SizedBox(width: 2.w,),
+              Expanded(child: Text(((orderDataModel.totalAmount??0)+(orderDataModel.chargeValue??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+            ],),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 1.h),
+            width:double.infinity,height: 1,color: Colors.grey[200],),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.monetization_on_rounded,color: Colors.black,size:5.w,),
+              SizedBox(width: 2.w,),
+              Text(tr("Total_after_discount"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              SizedBox(width: 2.w,),
+              Expanded(child: Text(((orderDataModel.totalAfterDiscount??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+            ],),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 1.h),
+            width:double.infinity,height: 1,color: Colors.grey[200],),
+          Visibility(
+            visible: (orderDataModel.promocodeUsed??0)!=0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.discount,color: Colors.black,size:5.w,),
+                SizedBox(width: 2.w,),
+                Text(tr("promo_code"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+                SizedBox(width: 2.w,),
+                Expanded(child: Text(((orderDataModel.promocodeUsed??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+              ],),
+          ),
+
 
         ],)
         ,),

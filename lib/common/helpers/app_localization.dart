@@ -121,7 +121,7 @@ class AppLocalization{
     "Address:":"Address:",
     "Date:":"Date:",
     "Bill Status:":"Bill Status:",
-    "Bill number:":"Bill number:",
+    "Bill number:":"  Order ID",
     "Total:":"Total:",
     "Charge value:":"Charge value:",
     "Stock notes: ":"Stock notes: ",
@@ -170,9 +170,13 @@ class AppLocalization{
     "change":"Change",
     "old_password":"Old password",
   "new_password":"New password",
-    'confirm':"Confirm"
+    'confirm':"Confirm",
+    "Total_after_shippng":"Total after shipping: ",
+    "Total_after_discount":"Total after discount: ",
+    "promo_code":"Promo code: "
 
-};
+
+  };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
     "CATEGORY_TAB_TITLE":"المفضلة",
@@ -290,6 +294,11 @@ class AppLocalization{
     "change":"تغيير",
     "old_password":"كلمة المرور القديمة",
     "new_password":"كلمة المرور الجديدة",
-    "confirm":"تأكيد"
+    "confirm":"تأكيد",
+    "Total_after_shippng":"السعر بعد الشحن: ",
+    "Total_after_discount":"السعر بعد الخصم: ",
+    "promo_code":"كود الخصم: "
+
+
   };
 }

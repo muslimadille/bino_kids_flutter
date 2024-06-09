@@ -148,7 +148,7 @@ class CartProvider with ChangeNotifier{
         final response=await CartRepository().setOrder(
             promocodeId: promoCodeId,
             isPayCOnDel:selectedPaymentMethod==0,
-            totalAfterDiscount: totalPriceAfterDiscount.toString(),
+            totalAfterDiscount: (totalPriceAfterDiscount-shippingPrice).toString(),
             governmentId: selectedGovernment!.id.toString(),
             addressName: addressController.text);
         SetOrderResponseModel model=setOrderResponseModelFromJson(jsonEncode(response.data)) ;

@@ -80,7 +80,7 @@ class CartItemsScreen extends StatelessWidget {
             child:
           Column(children: [
             SizedBox(height: 2.h,),
-            Text("${dataModel.totalPrice} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_medium,fontWeight: FontWeight.w700),),
+            Text("${dataModel.totalPrice.toInt()} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_medium,fontWeight: FontWeight.w700),),
 
             SizedBox(height: 2.h,),
             Row(

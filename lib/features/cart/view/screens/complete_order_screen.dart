@@ -241,14 +241,14 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
                       Row(
                         children: [
                           Text(tr("discount_value"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
-                          Text("${dataModel.totalDiscount} ${tr("EGP")}",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w500),),
+                          Text("${dataModel.totalDiscount.toStringAsFixed(1)} ${tr("EGP")}",style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w500),),
                         ],
                       ),
                       SizedBox(height: 1.h,),
                       Row(
                         children: [
                           Text(tr("total_value"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
-                          Text("${dataModel.totalPriceAfterDiscount} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w500),),
+                          Text("${dataModel.totalPriceAfterDiscount.toStringAsFixed(1)} ${tr("EGP")}",style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w500),),
                         ],
                       ),
 
