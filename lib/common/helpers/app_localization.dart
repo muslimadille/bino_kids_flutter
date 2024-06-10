@@ -173,9 +173,12 @@ class AppLocalization{
     'confirm':"Confirm",
     "Total_after_shippng":"Total after shipping: ",
     "Total_after_discount":"Total after discount: ",
-    "promo_code":"Promo code: "
-
-
+    "promo_code":"Promo code: ",
+    "select_phone":"add mobile number",
+    "enter_phone":"Enter your umber",
+    "from:":"From:",
+    "to:":"To:",
+    "app_signi_btn_title":"'Sign in with Apple'",
   };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
@@ -297,7 +300,13 @@ class AppLocalization{
     "confirm":"تأكيد",
     "Total_after_shippng":"السعر بعد الشحن: ",
     "Total_after_discount":"السعر بعد الخصم: ",
-    "promo_code":"كود الخصم: "
+    "promo_code":"كود الخصم: ",
+    "select_phone":"إضافة رقم الهاتف",
+    "enter_phone":"أدخل رقم هاتفك",
+    "from:":"من:",
+    "to:":"الى:",
+    "app_signi_btn_title":"تسجيل بحساب أبل",
+
 
 
   };

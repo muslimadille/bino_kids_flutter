@@ -10,19 +10,19 @@ import 'package:dio/dio.dart';
 import '../../../common/utils/constants/app_data.dart';
 
 class AuthRepository{
-  Future<Response> login({required String mobileNumber,required String password}) async {
+  Future<Response> login({required String mobileNumber,required String password,String? socailId}) async {
     try {
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
             apiCode: ApiCodes.LOGIN_API,
             data: {
               "mobileNumber":mobileNumber/*"01111226508"*/,
-              "password":password/*"01111226508"*/,
+              "password":socailId!=null?null:password/*"01111226508"*/,
               "lang":AppLocalization.isArabic?2:1,
               "grant_type":"password",
-              "External":false,
-              "nonloggingId":DeviceInfoDetails().deviceId
-              //"SocailId":""
+              "External":socailId!=null,
+              "nonloggingId":DeviceInfoDetails().deviceId,
+              "SocailId":socailId
             },
             header: {
               "Content-Type": "application/x-www-form-urlencoded",
@@ -158,6 +158,56 @@ class AuthRepository{
               "newPassword": newPassword,
               "userId": AppData.USER_ID,
               "lang": AppLocalization.isArabic?2:1
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response> checkThirdPartyLogin({required String email,required String socailId}) async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.CHECK_THIRD_PARRTY,
+            data:
+            {
+              "lang":AppLocalization.isArabic?2:1,
+              "Email": email,
+              "SocialId": socailId
+            },
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            networkType: NetworkRequestEnum.put,
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response>socialRegister({required String socialId,required String email,required String name,required String phone})async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.SOCIAL_REGISTER,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "lang":AppLocalization.isArabic?2:1,
+              "Email":email,
+              "UserName": name,
+              "SocailId":socialId,
+              "nonloggingId":DeviceInfoDetails().deviceId,
             },
             showProgress: true,
             dismissProgress: true,

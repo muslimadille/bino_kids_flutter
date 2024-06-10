@@ -1,12 +1,19 @@
+
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/auth/provider/login_provider.dart';
 import 'package:bino_kids/features/auth/view_model/login_helper.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sizer/sizer.dart';
+import 'dart:io';
+import '../../../../common/helpers/local_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -254,37 +261,50 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
 
               ],),),
               SizedBox(height:2.h,),
-              InkWell(
-                onTap: (){
-                  LoginProvider().onSoialClick();
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 3.w),
-                  padding: EdgeInsets.all(3.w),
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.fromBorderSide(
-                          BorderSide(
-                              width:1,
-                              color:Colors.grey
-                          )
-                      )
+              Visibility(
+                visible:Platform.isIOS ,
+                child: Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 3.w),
+                  child: SignInWithAppleButton(
+                    height: 6.h,
+                    text: tr("app_signi_btn_title"),
+                    style: SignInWithAppleButtonStyle.whiteOutlined,
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    onPressed: () async {
+                      final credential = await SignInWithApple.getAppleIDCredential(
+                        scopes: [
+                          AppleIDAuthorizationScopes.email,
+                          AppleIDAuthorizationScopes.fullName,
+                        ],
+                      );
+
+                      print("appl_id:${credential}");
+
+                      String savedSocialId=await LocalStorage().getFromBox(key: AppData.SOCIAL_id_KEY)??"";
+                      String savedSocialName=await LocalStorage().getFromBox(key: AppData.SOCIAL_name_KEY)??"";
+                      String savedSocialEmail=await LocalStorage().getFromBox(key: AppData.SOCIAL_email_KEY)??"";
+
+                      if(savedSocialId.isEmpty){
+                        LocalStorage().putInBox(key: AppData.SOCIAL_id_KEY, value: credential.userIdentifier);
+                         savedSocialId=await LocalStorage().getFromBox(key: AppData.SOCIAL_id_KEY)??"";
+                      }
+                      if(savedSocialName.isEmpty){
+                        LocalStorage().putInBox(key: AppData.SOCIAL_name_KEY, value: credential.givenName);
+                         savedSocialName=await LocalStorage().getFromBox(key: AppData.SOCIAL_name_KEY)??"";
+                      }
+                      if(savedSocialEmail.isEmpty){
+                        LocalStorage().putInBox(key: AppData.SOCIAL_email_KEY, value: credential.email);
+                         savedSocialEmail=await LocalStorage().getFromBox(key: AppData.SOCIAL_email_KEY)??"";
+                      }
+                      await checkSocialLogin(email:savedSocialEmail,socialId:savedSocialId,name:savedSocialName);
+                      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                    },
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width:20.w),
-                    Image.asset("assets/images/google.png",
-                      height: 3.h,
-                      width: 3.h,
-                    ),
-                    SizedBox(width: 5.w,),
-                    Text(tr("Continue with Google"),style:TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
-                  ],
-                )),
+                ),
               ),
               SizedBox(height: 1.5.h,),
+
               InkWell(
                 onTap: (){
                   LoginProvider().onSoialClick();

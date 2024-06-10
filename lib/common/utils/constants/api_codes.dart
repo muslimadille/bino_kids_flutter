@@ -49,6 +49,10 @@ class ApiCodes{
   static const String GET_USER_DATA="Users/GetUserData";
   static const String UPDATE_PROFILE="Users/UpdateProfile";
   static const String MESSAGES="UserMessages/returnAllUserMessage";
+  static const String CHECK_THIRD_PARRTY="Users/RegisterWithThirdPartyCheck";
+  static const String SOCIAL_REGISTER="Users/RegisterWithThirdParty";
+
+
 
 
 

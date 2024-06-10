@@ -4,6 +4,12 @@ class AppData{
   static const String USER_ROLE_STORAGE_KEY="USER_ROLE_STORAGE_KEY";
   static const String USER_NAME_STORAGE_KEY="USER_NAME_STORAGE_KEY";
   static const String LANG_STORAGE_KEY="LANG_STORAGE_KEY";
+  static const String SOCIAL_id_KEY="SOCIAL_id_KEY";
+  static const String SOCIAL_name_KEY="SOCIAL_name_KEY";
+  static const String SOCIAL_email_KEY="SOCIAL_email_KEY";
+
+
+
 
   static  String USER_ID="";
   static  String USER_ROLE="2";

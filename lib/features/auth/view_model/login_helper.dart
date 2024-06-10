@@ -6,11 +6,12 @@ import 'package:bino_kids/common/helpers/local_storage.dart';
 import 'package:bino_kids/common/helpers/notification_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
+import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/features/auth/model/login_model.dart';
 import 'package:bino_kids/features/auth/model/verify_user_model.dart';
+import 'package:bino_kids/features/auth/view/screens/select_phone_botton_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import '../../../common/widgets/custom_snakbar.dart';
 import '../repository/auth_repository.dart';
 
@@ -27,10 +28,34 @@ mixin LoginHelper{
     }
   bool showIcone=false;
 
-  login()async{
-    if(emailCotroller.text.isNotEmpty&&passwordCotroller.text.isNotEmpty){
+  Future<bool?>checkSocialLogin({required String socialId,required String email,required name})async{
+    final response=await AuthRepository().checkThirdPartyLogin(email: email,socailId:socialId);
+    if(response.data["status"]!=1){
+      showDialog(
+          barrierDismissible:false,
+        context: AppNavigator().currentContext(), builder: (BuildContext context) {
+          return SelectPhoneBottomSheet(onSubmit: (phone)async
+          {
+            await socialRgister(socialId:socialId,email: email,name: name,phone: phone);
+          },);
+      },
+
+
+      );
+
+
+    }else{
+      await login(socialId:socialId);
+    }
+  }
+  login({String? socialId,String?email})async{
+    if((emailCotroller.text.isNotEmpty&&passwordCotroller.text.isNotEmpty)||socialId!=null){
       try{
-        final response=await AuthRepository().login(mobileNumber: emailCotroller.text,password:passwordCotroller.text);
+        final response=await AuthRepository().login(
+            mobileNumber: email??emailCotroller.text,
+            password:passwordCotroller.text,
+            socailId: socialId);
+
         LoginModel loginModel=loginModelFromJson(jsonEncode(response.data));
         LocalStorage().putInBox(key: AppData.USER_ID_STORAGE_KEY, value: loginModel.userId);
         LocalStorage().putInBox(key: AppData.USER_ROLE_STORAGE_KEY, value: loginModel.userRole);
@@ -61,6 +86,15 @@ mixin LoginHelper{
       await isUserVerified();
     }
     return id.isNotEmpty;
+  }
+  socialRgister({required String socialId,required String email,required String name,required String phone})async{
+    try{
+      await AuthRepository().socialRegister(socialId:socialId,email: email,name: name,phone: phone);
+      await login(socialId:socialId);
+    } on DioException catch (error){
+    }
+
+
   }
   verifyUser(String code)async{
 
