@@ -30,7 +30,7 @@ mixin LoginHelper{
 
   Future<bool?>checkSocialLogin({required String socialId,required String email,required name})async{
     final response=await AuthRepository().checkThirdPartyLogin(email: email,socailId:socialId);
-    if(response.data["status"]!=1){
+    if(response.data["status"]==1){
       showDialog(
           barrierDismissible:false,
         context: AppNavigator().currentContext(), builder: (BuildContext context) {

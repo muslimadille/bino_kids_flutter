@@ -139,7 +139,7 @@ class OrderItemWidget extends StatelessWidget {
               SizedBox(width: 2.w,),
               Text(tr("Total_after_shippng"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text(((orderDataModel.totalAmount??0)+(orderDataModel.chargeValue??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text(((orderDataModel.totalAfterDiscount??0)+(orderDataModel.chargeValue??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),

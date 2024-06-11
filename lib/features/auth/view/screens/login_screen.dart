@@ -285,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                       String savedSocialEmail=await LocalStorage().getFromBox(key: AppData.SOCIAL_email_KEY)??"";
 
                       if(savedSocialId.isEmpty){
-                        LocalStorage().putInBox(key: AppData.SOCIAL_id_KEY, value: credential.userIdentifier);
+                        LocalStorage().putInBox(key: AppData.SOCIAL_id_KEY, value: credential.authorizationCode);
                          savedSocialId=await LocalStorage().getFromBox(key: AppData.SOCIAL_id_KEY)??"";
                       }
                       if(savedSocialName.isEmpty){
