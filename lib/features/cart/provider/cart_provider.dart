@@ -25,6 +25,7 @@ class CartProvider with ChangeNotifier{
   bool isSubmitButtonActive=false;
 
   num promoDiscount=0;
+  num discount=0;
   num totalDiscount=0;
   num shippingPrice=0;
   int selectedAddressIndex=0;
@@ -39,6 +40,7 @@ class CartProvider with ChangeNotifier{
   TextEditingController addressController=TextEditingController();
   init(){
      totalPrice=0;
+     discount=0;
      totalPriceAfterDiscount=0;
      promoCodeId="";
      isSubmitButtonActive=false;
@@ -78,16 +80,19 @@ class CartProvider with ChangeNotifier{
     }
   }
   setTotalPrice(){
-    totalPrice=0;
-    totalDiscount=0;
-    totalPriceAfterDiscount=0;
-    for(CartModelList item in cartItemsResponseModel!.modelList??[]){
-      if(true){
-       totalPrice=totalPrice+((item.price??0)*(item.quantity??0));
+    if(promoCodeId.isEmpty){
+      totalPrice=0;
+      totalDiscount=0;
+      totalPriceAfterDiscount=0;
+      for(CartModelList item in cartItemsResponseModel!.modelList??[]){
+        if(true){
+
+          totalPrice=totalPrice+((item.price??0)*(item.quantity??0));
+        }
       }
+      totalDiscount=promoDiscount;
+      totalPriceAfterDiscount=totalPrice-promoDiscount+shippingPrice;
     }
-    totalDiscount=promoDiscount;
-    totalPriceAfterDiscount=totalPrice-promoDiscount+shippingPrice;
     notifyListeners();
   }
   onSelectAll(){
@@ -189,7 +194,11 @@ class CartProvider with ChangeNotifier{
       CustomSnakbar().appSnackBar(isFaild: false,text: promoCodeModel.message);
       promoCodeId=promoCodeModel.promocodeId.toString();
       promoDiscount=totalPrice-promoCodeModel.totalAfterDiscount;
-      setTotalPrice();
+
+      totalPrice=promoCodeModel.totalBeforeDiscount.toInt();
+      totalDiscount=promoCodeModel.discountValue.toInt();
+      totalPriceAfterDiscount=promoCodeModel.totalAfterDiscount.toInt();
+      notifyListeners();
     }else{
       CustomSnakbar().appSnackBar(isFaild: true,text:promoCodeModel.message);
     }

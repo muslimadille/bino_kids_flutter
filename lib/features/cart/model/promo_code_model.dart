@@ -12,6 +12,8 @@ class PromoCodeModel {
   int status;
   String message;
   num totalAfterDiscount;
+  num totalBeforeDiscount;
+  num discountValue;
   dynamic promocodeId;
   bool exists;
   dynamic sessionId;
@@ -27,6 +29,8 @@ class PromoCodeModel {
     required this.sessionId,
     required this.returnedUrlToPayment,
     required this.allGovernments,
+    required this.totalBeforeDiscount,
+    required this.discountValue
   });
 
   factory PromoCodeModel.fromJson(Map<String, dynamic> json) => PromoCodeModel(
@@ -38,6 +42,8 @@ class PromoCodeModel {
     sessionId: json["SessionId"],
     returnedUrlToPayment: json["returnedURLToPayment"],
     allGovernments: json["allGovernments"],
+    totalBeforeDiscount: json["totalBeforeDiscount"],
+    discountValue: json["DiscountValue"]
   );
 
   Map<String, dynamic> toJson() => {

@@ -13,7 +13,7 @@ import '../../../common/utils/constants/api_codes.dart';
 mixin BannerSliderHelper{
   late final PageController controller ;
   //late  timer;
-  int _currentPage=0;
+  int currentPage=0;
   List<BannerDataModel> banners=[];
   onInit()async{
     controller=PageController();
@@ -21,14 +21,14 @@ mixin BannerSliderHelper{
 
   autoSlide(int size){
     Timer timer= Timer.periodic(Duration(seconds: 4), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
+      if (currentPage < size) {
+        currentPage++;
       } else {
-        _currentPage = 0;
+        currentPage = 0;
       }
 
         controller.animateToPage(
-          _currentPage,
+          currentPage,
           duration: Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
