@@ -29,7 +29,7 @@ mixin BannerSliderHelper{
 
         controller.animateToPage(
           currentPage,
-          duration: Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 1000),
           curve: Curves.easeInOut,
         );
 

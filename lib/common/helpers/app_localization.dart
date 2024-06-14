@@ -178,7 +178,7 @@ class AppLocalization{
     "enter_phone":"Enter your umber",
     "from:":"From:",
     "to:":"To:",
-    "app_signi_btn_title":"'Sign in with Apple'",
+    "app_signi_btn_title":"Sign in with Apple",
   };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",

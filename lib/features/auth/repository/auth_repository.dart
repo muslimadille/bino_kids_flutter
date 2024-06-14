@@ -207,6 +207,7 @@ class AuthRepository{
               "Email":email,
               "UserName": name,
               "SocailId":socialId,
+              "Phone":phone,
               "nonloggingId":DeviceInfoDetails().deviceId,
             },
             showProgress: true,

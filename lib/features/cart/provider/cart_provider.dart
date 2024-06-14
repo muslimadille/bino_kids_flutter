@@ -92,7 +92,7 @@ class CartProvider with ChangeNotifier{
       }
       totalDiscount=promoDiscount;
       totalPriceAfterDiscount=totalPrice-promoDiscount+shippingPrice;
-    }
+    }else{}
     notifyListeners();
   }
   onSelectAll(){
