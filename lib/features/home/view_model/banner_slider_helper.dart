@@ -29,8 +29,8 @@ mixin BannerSliderHelper{
 
         controller.animateToPage(
           currentPage,
-          duration: Duration(milliseconds: 1000),
-          curve: Curves.easeInOut,
+          duration: Duration(milliseconds: 1500),
+          curve: Curves.easeInOutCubic,
         );
 
 
@@ -50,7 +50,7 @@ mixin BannerSliderHelper{
 
       BannerModel bannerModel=bannerModelFromJson(jsonEncode(response.data));
       CashHelper.bannerModel=bannerModel;
-      autoSlide(bannerModel.data.length);
+      autoSlide(bannerModel.data.length-1);
       return bannerModel;
     } on DioException catch (error){
       return null;

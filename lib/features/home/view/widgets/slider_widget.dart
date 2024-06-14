@@ -47,6 +47,7 @@ class _SliderWidgetState extends State<SliderWidget>with BannerSliderHelper {
                   width: double.infinity,
                   height: 20.h,
                   padding:  EdgeInsets.symmetric(horizontal: 2.w),
+                  margin:  EdgeInsets.symmetric(horizontal: 2.w),
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.all(Radius.circular(8)),
