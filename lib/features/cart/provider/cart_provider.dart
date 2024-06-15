@@ -92,6 +92,8 @@ class CartProvider with ChangeNotifier{
       }
       totalDiscount=promoDiscount;
       totalPriceAfterDiscount=totalPrice-promoDiscount+shippingPrice;
+    }else{
+      totalPriceAfterDiscount=totalPriceAfterDiscount+shippingPrice;
     }
     notifyListeners();
   }
@@ -197,7 +199,7 @@ class CartProvider with ChangeNotifier{
 
       totalPrice=promoCodeModel.totalBeforeDiscount.toInt();
       totalDiscount=promoCodeModel.discountValue.toInt();
-      totalPriceAfterDiscount=promoCodeModel.totalAfterDiscount.toInt();
+      totalPriceAfterDiscount=promoCodeModel.totalAfterDiscount.toInt()+shippingPrice;
       notifyListeners();
     }else{
       CustomSnakbar().appSnackBar(isFaild: true,text:promoCodeModel.message);
