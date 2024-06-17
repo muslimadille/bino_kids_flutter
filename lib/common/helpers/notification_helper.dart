@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
+import 'package:bino_kids/common/helpers/device_info_details.dart';
 import 'package:bino_kids/common/helpers/hive_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
@@ -24,13 +25,20 @@ class NotificationHelper{
     onNotificationClick();
   }
   ///call in login
-  setUser({required String userId,Map<String,String>?tags}){
-    OneSignal.login(userId);
+  setUser({required String userId,Map<String,String>?tags})async{
+    await OneSignal.logout();
+    await OneSignal.login(userId);
     if(tags!=null){
       tags.forEach((key, value) {
         OneSignal.User.addTagWithKey(key,value);
       });
     }
+  }
+
+  setGuest()async{
+    await OneSignal.logout();
+    await OneSignal.login(DeviceInfoDetails().deviceId);
+    await OneSignal.User.addTagWithKey("UserType","Anonymous Users");
   }
   onNotificationClick(){
     OneSignal.Notifications.addClickListener((event) async{

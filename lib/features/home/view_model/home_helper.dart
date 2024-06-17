@@ -5,6 +5,7 @@ import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/cash_helper.dart';
 import 'package:bino_kids/common/helpers/hive_helper.dart';
+import 'package:bino_kids/common/helpers/notification_helper.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home/model/main_categories_model.dart';
@@ -23,8 +24,10 @@ mixin HomeHelper{
   List<MainCategoriesDataModel> categories=[];
   late final StreamController<List<ProductModel>?> mostWatchedStreamController;
 
-
   onInit()async{
+    if(AppData.USER_NAME.isEmpty){
+      NotificationHelper().setGuest();
+    }
     mainCategoryStreamController=StreamController<MainCategoriesDataModel?>.broadcast();
     mostWatchedStreamController=StreamController<List<ProductModel>?>();
     getMainCategories();
