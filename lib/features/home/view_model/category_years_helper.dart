@@ -36,7 +36,7 @@ mixin CategoryYearsHelper{
       curve: Curves.easeInOut,
     );
   }
-  Future <SubCategoriesModel?>getSubCategories({required int modelAgeId, required int moduleId})async{
+  Future <SubCategoriesModel?>getSubCategories({required int modelAgeId, required int moduleId,bool?showLoader})async{
     try{
       subgategorisList.clear();
       String key=AppData.hive_Model_Types+modelAgeId.toString()+moduleId.toString()+(AppLocalization.isArabic?"ar":"en");
@@ -46,7 +46,9 @@ mixin CategoryYearsHelper{
          subCategoriesModel=await HiveHelper().getBoxes<SubCategoriesModel>(key) as SubCategoriesModel;
          subCategoriesModelStreamController.sink.add(subCategoriesModel);
       }
-      final response=await HomeRepository().getSubCategories(modelAgeId: modelAgeId, moduleId: moduleId);
+      final response=await HomeRepository().getSubCategories(
+        showProgress:showLoader,
+          modelAgeId: modelAgeId, moduleId: moduleId);
        subCategoriesModel=subCategoriesModelFromJson(jsonEncode(response.data));
       await HiveHelper().deleteBoxes(key);
       await HiveHelper().addBoxes<SubCategoriesModel>(subCategoriesModel, key);

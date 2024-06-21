@@ -14,10 +14,12 @@ class SubcategoriesListWidget extends StatefulWidget {
   final int moduleId;
   final int modelAgeId;
   final int? columns;
+  final bool?showLoader;
    const SubcategoriesListWidget({
      required this.moduleId,
      required this.modelAgeId,
      this.columns,
+     this.showLoader,
     Key? key}) : super(key: key);
 
   @override
@@ -26,9 +28,10 @@ class SubcategoriesListWidget extends StatefulWidget {
 
 class _SubcategoriesListWidgetState extends State<SubcategoriesListWidget> with CategoryYearsHelper{
   bool isLoading=false;
+
   @override
   void didUpdateWidget(covariant SubcategoriesListWidget oldWidget) {
-    getSubCategories(moduleId:widget.moduleId,modelAgeId: widget.modelAgeId  ).then((value) {
+    getSubCategories(moduleId:widget.moduleId,modelAgeId: widget.modelAgeId ,showLoader:widget.showLoader ).then((value) {
     });
     super.didUpdateWidget(oldWidget);
   }

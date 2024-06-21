@@ -174,38 +174,44 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
             ),
             Row(
               children: [
+                SizedBox(width:2.w),
+                Visibility(
+                  visible: (widget.productModel.isInTodaysDeal??false)||(widget.productModel.isInNewArrival??false)||(widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0),
+                  child: Container(
+                    padding: EdgeInsets.only(top:2.w,left: 2.w,right: 2.w,bottom:1.w),
+                    decoration: BoxDecoration(
+                      color: (widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0)?Colors.red:(widget.productModel.isInNewArrival??false)?Colors.green:(widget.productModel.isInTodaysDeal??false)?Colors.orangeAccent:Colors.red,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: Text(
+                      (widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0)?tr("Sale"):(widget.productModel.isInNewArrival??false)?tr("New"):
+                      (widget.productModel.isInTodaysDeal??false)?tr("today_deal"):"",
+                      textAlign: TextAlign.center,
+
+                      style: TextStyle(color: Colors.white,fontSize: 10.sp,height:0.8),),
+
+                  ),
+                ),
+                SizedBox(width: 2.w,),
+                Flexible(
+                  child: Text(
+                    widget.productModel.description ?? widget.productModel.productData ?? '',
+                    overflow:TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.black, fontSize: AppFontSize.x_x_small*(widget.scale??1), fontWeight: FontWeight.w800),
+                  ),
+                ),
+                SizedBox(width:2.w),
+              ],
+            ),
+            Row(
+              children: [
                 Expanded(
                   child: Padding(
                     padding:  EdgeInsets.symmetric(horizontal: 2.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Visibility(
-                              visible: (widget.productModel.isInTodaysDeal??false)||(widget.productModel.isInNewArrival??false)||(widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0),
-                              child: Container(
-                                padding: EdgeInsets.only(top:2.w,left: 2.w,right: 2.w,bottom:1.w),
-                                  decoration: BoxDecoration(
-                                      color: (widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0)?Colors.red:(widget.productModel.isInNewArrival??false)?Colors.green:(widget.productModel.isInTodaysDeal??false)?Colors.orangeAccent:Colors.red,
-                                      borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Text(
-                                      (widget.productModel.priceBefore??0)>(widget.productModel.priceAfter??0)?tr("Sale"):(widget.productModel.isInNewArrival??false)?tr("New"):
-                                      (widget.productModel.isInTodaysDeal??false)?tr("today_deal"):"",
-                                  textAlign: TextAlign.center,
 
-                                  style: TextStyle(color: Colors.white,fontSize: 10.sp,height:0.8),),
-
-                              ),
-                            ),
-                            SizedBox(width: 2.w,),
-                            Text(
-                              widget.productModel.description ?? widget.productModel.productData ?? '',
-                              style: TextStyle(color: Colors.black, fontSize: AppFontSize.x_x_small*(widget.scale??1), fontWeight: FontWeight.w800),
-                            ),
-                          ],
-                        ),
                         SizedBox(
                           height: 0.5.h*(widget.scale??1),
                         ),

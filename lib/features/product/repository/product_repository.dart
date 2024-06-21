@@ -129,8 +129,8 @@ class ProductRepository{
             showProgress: showLoader??true,
             dismissProgress: showLoader??true,
           ),
-          exceptionParameters: const NetworkExceptionModel(
-              dismissProgress: true, showError: true));
+          exceptionParameters:  NetworkExceptionModel(
+              dismissProgress: showLoader??true, showError: true));
 
       return response;
     } catch (error) {

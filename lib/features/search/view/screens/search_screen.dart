@@ -72,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
             model.selectedModel!=null?Expanded(
               child: model.selectedModel!.toPage==3?
         SubcategoriesListWidget(
-            moduleId: model.selectedModel!.moduleId,modelAgeId:0):
+            moduleId: model.selectedModel!.moduleId,modelAgeId:0,showLoader: true,):
               Container(
                 color:Colors.grey[200],
                 child: MasonryGridView.count(
