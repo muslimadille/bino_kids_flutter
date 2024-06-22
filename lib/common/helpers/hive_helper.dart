@@ -19,6 +19,20 @@ class HiveHelper {
     final openBox = await Hive.openBox(boxName);
       openBox.add(model);
   }
+  addListBoxes<T>(List<String> model, String boxName) async {
+    print("adding boxes");
+    final openBox = await Hive.openBox(boxName);
+    openBox.addAll(model);
+  }
+  getListBoxes<T>(String boxName) async {
+    final openBox = await Hive.openBox(boxName);
+    List<dynamic>data=
+    openBox.keys.map((key) {
+      final value = openBox.get(key);
+      return value;
+    }).toList();
+    return data;
+  }
   deleteBoxes<T>(String boxName) async {
     print("adding boxes");
     bool isExist=await Hive.boxExists(boxName);

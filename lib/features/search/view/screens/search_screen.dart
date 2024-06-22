@@ -34,6 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(onPressed: (){
                 AppNavigator().goBack();

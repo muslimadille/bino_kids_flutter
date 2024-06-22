@@ -16,15 +16,20 @@ import '../repository/search_repository.dart';
 
 class SearchProvider with ChangeNotifier{
   List<SearchDataModel> searchKeys=[];
+  List<String> searchWordsList=[];
   SearchDataModel? selectedModel;
   List<ProductModel> modelList=[];
+  bool showSearchWordsList=false;
   onInit(){
+    showSearchWordsList=false;
+    getPreSearch();
     searchKeys.clear();
     selectedModel=null;
     modelList.clear();
   }
 
   getSearch({required String searchWord})async{
+    saveSearchWord(searchWord);
     final response=await SearchRepository().getSearch(searchWord:searchWord);
     SearchModel searchModel=searchModelFromJson(jsonEncode(response.data));
     searchKeys.clear();
@@ -47,37 +52,48 @@ class SearchProvider with ChangeNotifier{
   getProducts()async{
     modelList.clear();
     EasyLoading.show();
+    modelList.clear();
+    final response=await ProductRepository().getProductsWithFilter(
+      showLoader: false,
+      modelTypeID:selectedModel!.nodeId,moduleId:selectedModel!.moduleId,);
+    ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+    modelList.addAll(productsWithFilterModel.modelList??[]);
+    EasyLoading.dismiss();
     notifyListeners();
-    String boxName= (AppData.hive_Models_list_Types+(AppLocalization.isArabic?"ar":"en")+ "search"+selectedModel!.nodeId.toString() +selectedModel!.moduleId.toString());
 
+
+  }
+   getPreSearch()async{
+     searchWordsList.clear();
+    String boxName= AppData.hive_pre_search;
     if(await HiveHelper().isExists(boxName:boxName )){
-      ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
-      modelList.clear();
-      modelList.addAll(productsWithFilterModel.modelList??[]);
-      EasyLoading.dismiss();
-      notifyListeners();
-      final response=await ProductRepository().getProductsWithFilter(
-        showLoader: false,
-        modelTypeID:selectedModel!.nodeId,moduleId:selectedModel!.moduleId,);
-       productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+      List<dynamic> ss=(await HiveHelper().getListBoxes(boxName));
+      searchWordsList.addAll(List.generate(ss.length,(index) {return  ss[index].toString();}));
+    }
+    notifyListeners();
+
+  }
+  saveSearchWord(String word)async{
+    showSearchWordsList=false;
+    notifyListeners();
+    if(!searchWordsList.contains(word)){
+      String boxName= AppData.hive_pre_search;
+      searchWordsList.add(word);
       await HiveHelper().deleteBoxes(boxName);
-      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
-      modelList.clear();
-      modelList.addAll(productsWithFilterModel.modelList??[]);
-      notifyListeners();
-    }else{
-      modelList.clear();
-      final response=await ProductRepository().getProductsWithFilter(
-        showLoader: false,
-        modelTypeID:selectedModel!.nodeId,moduleId:selectedModel!.moduleId,);
-      ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
-      await HiveHelper().deleteBoxes(boxName);
-      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
-      modelList.clear();
-      modelList.addAll(productsWithFilterModel.modelList??[]);
-      EasyLoading.dismiss();
-      notifyListeners();
+      await HiveHelper().addListBoxes<List<String>>(searchWordsList, boxName);
+      await getPreSearch();
     }
 
   }
+  deleteSearchWord(String word)async{
+    if(searchWordsList.contains(word)){
+      String boxName= AppData.hive_pre_search;
+      searchWordsList.remove(word);
+      await HiveHelper().deleteBoxes(boxName);
+      await HiveHelper().addListBoxes(searchWordsList, boxName);
+      await getPreSearch();
+    }
+
+  }
+
 }
