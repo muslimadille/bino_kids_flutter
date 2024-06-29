@@ -1,1 +1,2 @@
-bino@1234
+password:bino@1234
+alias:key0

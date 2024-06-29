@@ -21,7 +21,10 @@ class NotificationHelper{
     OneSignal.Debug.setLogLevel(OSLogLevel.debug);
     OneSignal.initialize("044fbb84-d408-479f-af85-1062e3d700d9");
     bool canRequestPermission=await OneSignal.Notifications.canRequest();
+    if(canRequestPermission){
       OneSignal.Notifications.requestPermission(true);
+    }
+
     onNotificationClick();
   }
   ///call in login
@@ -33,12 +36,18 @@ class NotificationHelper{
         OneSignal.User.addTagWithKey(key,value);
       });
     }
+    //await OneSignal.User.addTagWithKey("test","yes");
+    print("oneSignal: normal user is set");
+
   }
 
   setGuest()async{
     await OneSignal.logout();
     await OneSignal.login(DeviceInfoDetails().deviceId);
-    await OneSignal.User.addTagWithKey("UserType","Anonymous Users");
+    await OneSignal.User.addTagWithKey("UserType","Normal Users");
+    //await OneSignal.User.addTagWithKey("test","yes");
+    print("oneSignal: guest user is set");
+
   }
   onNotificationClick(){
     OneSignal.Notifications.addClickListener((event) async{
