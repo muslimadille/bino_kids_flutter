@@ -46,6 +46,6 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelpe
   }
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(body: Center(child: Image.asset("assets/images/app_icon.png",width: 15.h,height: 15.h,),),);
+    return  Scaffold(body: Center(/*Image.asset("assets/images/app_icon.png",width: 15.h,height: 15.h,)*/),);
   }
 }
