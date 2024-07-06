@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "546568219559",
+    "firebase_url": "https://binokids-679db.firebaseio.com",
+    "project_id": "binokids-679db",
+    "storage_bucket": "binokids-679db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546568219559:android:8b31edb6cfdf70af40e482",
+        "android_client_info": {
+          "package_name": "army.binoKids.website"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546568219559-24ta7okf6j59ekba7bv50d1nh9cu23la.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4RFl6TbsYKiAoGMBPFl_iTfAAUrdFbHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546568219559-24ta7okf6j59ekba7bv50d1nh9cu23la.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "546568219559-t3b88q9snv5aqok82phvrstdq55q8sr7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.BinoKids"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546568219559:android:439d62790e98c4b040e482",
+        "android_client_info": {
+          "package_name": "com.binokids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546568219559-24ta7okf6j59ekba7bv50d1nh9cu23la.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4RFl6TbsYKiAoGMBPFl_iTfAAUrdFbHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546568219559-24ta7okf6j59ekba7bv50d1nh9cu23la.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "546568219559-t3b88q9snv5aqok82phvrstdq55q8sr7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.BinoKids"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

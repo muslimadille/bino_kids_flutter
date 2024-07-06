@@ -25,9 +25,7 @@ mixin HomeHelper{
   late final StreamController<List<ProductModel>?> mostWatchedStreamController;
 
   onInit()async{
-    if(AppData.USER_NAME.isEmpty){
-      NotificationHelper().setGuest();
-    }
+    NotificationHelper().setUser();
     mainCategoryStreamController=StreamController<MainCategoriesDataModel?>.broadcast();
     mostWatchedStreamController=StreamController<List<ProductModel>?>();
     getMainCategories();

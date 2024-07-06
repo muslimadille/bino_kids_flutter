@@ -64,8 +64,6 @@ mixin LoginHelper{
         AppData.IS_VERIFIED_USER=loginModel.isVerified=="True";
         Map<String,dynamic>user=jsonDecode(loginModel.user);
         AppData.USER_NUMBER=user['Phone'].toString();
-
-        NotificationHelper().setUser(userId: AppData.USER_ID, tags:{"UserType":AppData.USER_ROLE=="2"?"Normal Users":": Company Users",} );
         FacebookAnalyticsHelper.getInstance().init(AppNavigator().currentContext());
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
       } on DioException catch (error){

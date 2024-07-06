@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/device_info_details.dart';
@@ -18,37 +19,42 @@ import 'app_navigator.dart';
 class NotificationHelper{
 
   init()async{
-    OneSignal.Debug.setLogLevel(OSLogLevel.debug);
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
     OneSignal.initialize("044fbb84-d408-479f-af85-1062e3d700d9");
-    bool canRequestPermission=await OneSignal.Notifications.canRequest();
-    if(canRequestPermission){
-      OneSignal.Notifications.requestPermission(true);
-    }
+    OneSignal.Notifications.requestPermission(true);
+
+    if(Platform.isAndroid){}
+    OneSignal.Notifications.addForegroundWillDisplayListener((event){
+      event.notification;
+      print("notification:${event.notification.body}");
+
+    });
+    OneSignal.Notifications.addPermissionObserver((permission){
+      if(permission){
+        NotificationHelper().setUser();
+      }else{
+        OneSignal.Notifications.requestPermission(true);
+      }
+
+    });
+
 
     onNotificationClick();
   }
   ///call in login
-  setUser({required String userId,Map<String,String>?tags})async{
-    await OneSignal.logout();
-    await OneSignal.login(userId);
-    if(tags!=null){
-      tags.forEach((key, value) {
-        OneSignal.User.addTagWithKey(key,value);
-      });
+  setUser()async{
+    //await OneSignal.logout();
+    String? id=await OneSignal.User.getExternalId();
+    if(id==null){
+      await OneSignal.login("DeviceInfoDetaileffdeviceId");
+      await OneSignal.User.addTagWithKey("UserType",(AppData.USER_ROLE)=="2"?"Normal Users":"Company Users");
+      await OneSignal.User.addTagWithKey("test","www");
+      print("oneSignal:  user is set");
     }
-    //await OneSignal.User.addTagWithKey("test","yes");
-    print("oneSignal: normal user is set");
+
 
   }
 
-  setGuest()async{
-    await OneSignal.logout();
-    await OneSignal.login(DeviceInfoDetails().deviceId);
-    await OneSignal.User.addTagWithKey("UserType","Normal Users");
-    //await OneSignal.User.addTagWithKey("test","yes");
-    print("oneSignal: guest user is set");
-
-  }
   onNotificationClick(){
     OneSignal.Notifications.addClickListener((event) async{
       if((event.notification.additionalData??{})["pageOrModel"]=="2"){

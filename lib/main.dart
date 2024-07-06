@@ -21,8 +21,17 @@ import 'package:sizer/sizer.dart';
 import 'common/helpers/device_info_details.dart';
 import 'common/widgets/custom_loading.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  NotificationHelper().init();
+
 
   await Future.wait([
     DeviceInfoDetails().initPlatformState().then((value) async {
@@ -71,7 +80,7 @@ class _MyAppState extends State<MyApp> with MyAppHelper {
   @override
   void initState() {
     super.initState();
-    NotificationHelper().init();
+
     AppLocalization().onInit();
     localization.onTranslatedLanguage = (local) {
       CashHelper.reset();

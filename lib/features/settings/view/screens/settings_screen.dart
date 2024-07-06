@@ -6,7 +6,6 @@ import 'package:bino_kids/common/widgets/custom_back_btn.dart';
 import 'package:bino_kids/features/settings/view/widgets/change_language_widget.dart';
 import 'package:bino_kids/features/settings/view/widgets/settinng_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
