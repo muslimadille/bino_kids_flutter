@@ -20,6 +20,7 @@ class _OtpScreenState extends State<OtpScreen> with LoginHelper {
   String code="";
   @override
   void initState() {
+    onInit();
     resendVerifyCode();
     super.initState();
   }
@@ -34,24 +35,58 @@ class _OtpScreenState extends State<OtpScreen> with LoginHelper {
           SizedBox(height: 15.h,),
           Text(tr("otp_title_hint"),textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w800),),
           SizedBox(height: 2.h,),
-          OtpTextField(
-            autoFocus: true,
-            numberOfFields: 4,
-            cursorColor:Colors.black,
-            borderColor: Colors.black,
-            enabledBorderColor:Colors.black,
-            focusedBorderColor:Colors.black,
-            //set to true to show as box or false to show as dash
-            showFieldAsBox: true,
-            //runs when a code is typed in
-            onCodeChanged: (String code) {
-              this.code=code;
-            },
-            //runs when every textfield is filled
-            onSubmit: (String verificationCode){
-              code=verificationCode;
-            }, // end onSubmit
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.w),
+            height: 5.h,
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.fromBorderSide(
+                    BorderSide(
+                        width:1,
+                        color:Colors.grey
+                    )
+                )
+            ),
+            padding: EdgeInsets.symmetric(horizontal:2.w),
+            child: Row(children: [
+              Expanded(child: TextFormField(
+                controller:passwordCotroller ,
+                maxLength: 8,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: AppFontSize.x_medium,
+                  fontWeight: FontWeight.w400,
+                ),
+                onTapOutside: (value){
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                decoration: InputDecoration(
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedErrorBorder:InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                  counter: SizedBox(),
+                  isDense:true,
+                ),
+                keyboardType: TextInputType.number ,
+                cursorColor: Colors.black,
+                onChanged: (value){
+                  code=value;
+
+                },
+                validator:(value){
+
+                },
+              )),
+            ],
+            ),
           ),
+
           SizedBox(height: 2.h,),
           Text(tr("otp_dont_receive_hint"),textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w800),),
           SizedBox(height: 2.h,),
@@ -78,7 +113,7 @@ class _OtpScreenState extends State<OtpScreen> with LoginHelper {
                 ),
               ),
               onPressed: ()async{
-                if(code.length==4){
+                if(code.length>3){
                   await verifyUser(code);
                 }
               },

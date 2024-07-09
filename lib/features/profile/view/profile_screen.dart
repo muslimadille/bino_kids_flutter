@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
         ),
         const ProfileDividerWidget(),
         Visibility(
-          visible: !AppData.IS_VERIFIED_USER,
+          visible: AppData.IS_VERIFIED_USER,
           child: Padding(
             padding:  EdgeInsets.symmetric(horizontal: 3.w,vertical: 2.h),
             child: GestureDetector(

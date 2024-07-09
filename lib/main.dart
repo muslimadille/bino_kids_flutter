@@ -30,7 +30,7 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  NotificationHelper().init();
+  await NotificationHelper().init();
 
 
   await Future.wait([

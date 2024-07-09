@@ -30,10 +30,8 @@
 
         <meta-data
             android:name="com.onesignal.NotificationOpened.DEFAULT"
-            android:value="DISABLE" />
+            android:value="ENABLE" />
 
-        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT"
-            android:value="DISABLE" />
 
         <activity
             android:name=".MainActivity"

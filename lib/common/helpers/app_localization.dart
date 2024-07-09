@@ -157,7 +157,7 @@ class AppLocalization{
     "delete_account_message":"all the account data will remove from our side and you will not able to use this account again.",
     "today_deal":"Today Deal",
     "by":"By",
-    "re_send":"re send",
+    "re_send":"resend",
     "otp_dont_receive_hint":"didn't receive the code? ",
     "no_notifications":"No notifications Found",
     "Notifications":"Notifications",

@@ -18,13 +18,17 @@ import '../repository/auth_repository.dart';
 mixin LoginHelper{
   late final TextEditingController emailCotroller;
   late final TextEditingController passwordCotroller;
+  late final TextEditingController otpCotroller;
+
   onInit(){
     emailCotroller=TextEditingController();
     passwordCotroller=TextEditingController();
+    otpCotroller=TextEditingController();
     }
     onDispose(){
       emailCotroller.dispose();
       passwordCotroller.dispose();
+      otpCotroller.dispose();
     }
   bool showIcone=false;
 
@@ -124,13 +128,7 @@ mixin LoginHelper{
     try{
       final response=await AuthRepository().resendVerifyCode();
       VerifyUserModel verifyUserModel=verifyUserModelFromJson(jsonEncode(response.data));
-      if(verifyUserModel.status!=0){
-        AppData.IS_VERIFIED_USER=true;
-        CustomSnakbar().appSnackBar(isFaild: false,text: 'تم تفعيل الحساب بنجاح');
-        AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
-      }else{
-        CustomSnakbar().appSnackBar(isFaild: true,text:verifyUserModel.message);
-      }
+
     } on DioException catch (error){
     }
 

@@ -21,9 +21,8 @@ class NotificationHelper{
   init()async{
     OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
     OneSignal.initialize("044fbb84-d408-479f-af85-1062e3d700d9");
-    OneSignal.Notifications.requestPermission(true);
+    await OneSignal.Notifications.requestPermission(true);
 
-    if(Platform.isAndroid){}
     OneSignal.Notifications.addForegroundWillDisplayListener((event){
       event.notification;
       print("notification:${event.notification.body}");
@@ -31,7 +30,7 @@ class NotificationHelper{
     });
     OneSignal.Notifications.addPermissionObserver((permission){
       if(permission){
-        NotificationHelper().setUser();
+        //NotificationHelper().setUser();
       }else{
         OneSignal.Notifications.requestPermission(true);
       }
@@ -48,7 +47,7 @@ class NotificationHelper{
     if(id==null){
       await OneSignal.login("DeviceInfoDetaileffdeviceId");
       await OneSignal.User.addTagWithKey("UserType",(AppData.USER_ROLE)=="2"?"Normal Users":"Company Users");
-      await OneSignal.User.addTagWithKey("test","www");
+      await OneSignal.User.addTagWithKey("test","MUSLIMTEST");
       print("oneSignal:  user is set");
     }
 
@@ -57,40 +56,44 @@ class NotificationHelper{
 
   onNotificationClick(){
     OneSignal.Notifications.addClickListener((event) async{
-      if((event.notification.additionalData??{})["pageOrModel"]=="2"){
-        ///navigate to model
-        AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: ProductDetailsParams(modulId:(event.notification.additionalData??{})["linkInMobile"]));
-      }
-      if((event.notification.additionalData??{})["pageOrModel"]=="1"){
-        String moduleId=(event.notification.additionalData??{})["linkInMobile"];
-        int modelAgeId=0;
+      Future.delayed(Duration(seconds: 1)).then((v)async{
+        if((event.notification.additionalData??{})["pageOrModel"].toString()=="2"){
+          ///navigate to model
+          AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: ProductDetailsParams(modulId:(event.notification.additionalData??{})["linkInMobile"]));
+        }
+        if((event.notification.additionalData??{})["pageOrModel"].toString()=="1"){
+          String moduleId=(event.notification.additionalData??{})["linkInMobile"].toString();
+          int modelAgeId=0;
 
-        try{
-          EasyLoading.show();
-          String key=AppData.hive_Model_Types+modelAgeId.toString()+moduleId.toString()+(AppLocalization.isArabic?"ar":"en");
-          SubCategoriesModel subCategoriesModel;
+          try{
+            EasyLoading.show();
+            String key=AppData.hive_Model_Types+modelAgeId.toString()+moduleId.toString()+(AppLocalization.isArabic?"ar":"en");
+            SubCategoriesModel subCategoriesModel;
 
-          if(await HiveHelper().isExists(boxName:key )){
-      subCategoriesModel=await HiveHelper().getBoxes<SubCategoriesModel>(key) as SubCategoriesModel;
-      }else{
-            final response=await HomeRepository().getSubCategories(showProgress: false,modelAgeId: modelAgeId, moduleId: int.parse(moduleId));
-            subCategoriesModel=subCategoriesModelFromJson(jsonEncode(response.data));
-            await HiveHelper().deleteBoxes(key);
-            await HiveHelper().addBoxes<SubCategoriesModel>(subCategoriesModel, key);
-          }
-          EasyLoading.dismiss();
-          AppNavigator().push(
-              routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
-              arguments: ProductsScreenArqumentsModel(
-                moduleId: int.parse(moduleId),
-                  selectedcategoryName:subCategoriesModel.data[0].name ,
-                  selectedcategoryId: subCategoriesModel.data[0].id,
-                  subcategoriesList: subCategoriesModel.data));
-      } on DioException catch (error){
-          
-      }
+            if(await HiveHelper().isExists(boxName:key )){
+        subCategoriesModel=await HiveHelper().getBoxes<SubCategoriesModel>(key) as SubCategoriesModel;
+        }else{
+        final response=await HomeRepository().getSubCategories(showProgress: false,modelAgeId: modelAgeId, moduleId: int.parse(moduleId));
+        subCategoriesModel=subCategoriesModelFromJson(jsonEncode(response.data));
+        await HiveHelper().deleteBoxes(key);
+        await HiveHelper().addBoxes<SubCategoriesModel>(subCategoriesModel, key);
+        }
+        EasyLoading.dismiss();
+        AppNavigator().push(
+        routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
+        arguments: ProductsScreenArqumentsModel(
+        moduleId: int.parse(moduleId),
+        selectedcategoryName:subCategoriesModel.data[0].name ,
+        selectedcategoryId: subCategoriesModel.data[0].id,
+        subcategoriesList: subCategoriesModel.data));
+        } on DioException catch (error){
+
+        }
 
       }
+      });
+
+
 
     });
   }
