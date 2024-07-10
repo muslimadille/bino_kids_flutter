@@ -19,6 +19,9 @@ class AppData{
   static  String CUSTOMER_SERVICE_NUMBER="";
   static  String USER_NUMBER="";
   static bool REVIEW_MODE=false;
+  static  num MOBILE_VERSION=13.0;
+
+
 
 
 

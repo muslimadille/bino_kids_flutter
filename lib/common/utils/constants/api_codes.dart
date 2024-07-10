@@ -51,6 +51,8 @@ class ApiCodes{
   static const String MESSAGES="UserMessages/returnAllUserMessage";
   static const String CHECK_THIRD_PARRTY="Users/RegisterWithThirdPartyCheck";
   static const String SOCIAL_REGISTER="Users/RegisterWithThirdParty";
+  static const String MOBILE_VERSIONS="MobileVersion/GetLatestMobileVersion";
+
 
 
 

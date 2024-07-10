@@ -221,7 +221,23 @@ class AuthRepository{
       rethrow;
     }
   }
+  Future<Response>getMobileVersion()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.MOBILE_VERSIONS,
+            networkType: NetworkRequestEnum.put,
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
 
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
 
 
 }

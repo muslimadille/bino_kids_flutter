@@ -8,6 +8,7 @@ import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/costum_bottom_sheet.dart';
 import 'package:bino_kids/features/auth/model/login_model.dart';
+import 'package:bino_kids/features/auth/model/mobilee_version_model.dart';
 import 'package:bino_kids/features/auth/model/verify_user_model.dart';
 import 'package:bino_kids/features/auth/view/screens/select_phone_botton_sheet.dart';
 import 'package:dio/dio.dart';
@@ -78,6 +79,7 @@ mixin LoginHelper{
 
   }
   Future<bool> isUserLogin()async{
+
     String id=await LocalStorage().getFromBox(key: AppData.USER_ID_STORAGE_KEY)??"";
     if(id.isNotEmpty){
       AppData.USER_ID=await LocalStorage().getFromBox(key: AppData.USER_ID_STORAGE_KEY)??"";
