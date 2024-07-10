@@ -45,9 +45,9 @@ class NotificationHelper{
     //await OneSignal.logout();
     String? id=await OneSignal.User.getExternalId();
     if(id==null){
-      await OneSignal.login("DeviceInfoDetaileffdeviceId");
+      await OneSignal.login("Normal Users");
       await OneSignal.User.addTagWithKey("UserType",(AppData.USER_ROLE)=="2"?"Normal Users":"Company Users");
-      await OneSignal.User.addTagWithKey("test","MUSLIMTEST");
+      //await OneSignal.User.addTagWithKey("test","MUSLIMTEST");
       print("oneSignal:  user is set");
     }
 
