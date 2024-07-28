@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
@@ -20,106 +22,164 @@ class HomeDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.white,
-      surfaceTintColor:Colors.white ,
-      shadowColor:Colors.white,
+      surfaceTintColor: Colors.white,
+      shadowColor: Colors.white,
       child: Column(
         children: [
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                DrawerHeader(child:
-                Column(
+                DrawerHeader(
+                    child: Column(
                   children: [
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Image.asset("assets/images/app_name_icon.png"),
                     ),
-                    SizedBox(height: 3.h,),
+                    SizedBox(
+                      height: 3.h,
+                    ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         launchUrlString('https://www.armytechgroup.com');
                       },
                       child: Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 10.w),
-                        child: Image.asset("assets/images/armytechLogo.png",width:
-                          25.w,),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: Image.asset(
+                          "assets/images/armytechLogo.png",
+                          width: 25.w,
+                        ),
                       ),
                     ),
                   ],
-                ) ),
+                )),
                 ListTile(
-                  leading: Icon(Icons.new_releases_outlined,color: Colors.black,),
+                  leading: Icon(
+                    Icons.new_releases_outlined,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("about_us")),
                   onTap: () {
                     AppNavigator().push(routeName: AppRoutes.ABOUT_US_SCREEN_ROUTE);
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.privacy_tip_outlined,color: Colors.black,),
+                  leading: Icon(
+                    Icons.privacy_tip_outlined,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("privacy_policy")),
                   onTap: () {
-                    AppNavigator().push(routeName: AppRoutes.PRIVACY_POLICY_SCREEN_ROUTE
-                    ); // Close the drawer
+                    AppNavigator().push(routeName: AppRoutes.PRIVACY_POLICY_SCREEN_ROUTE); // Close the drawer
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.refresh,color: Colors.black,),
+                  leading: Icon(
+                    Icons.refresh,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("return_policy")),
                   onTap: () {
-                    AppNavigator().push(routeName: AppRoutes.RETURN_POLICY_SCREEN_ROUTE);// Close the drawer
+                    AppNavigator().push(routeName: AppRoutes.RETURN_POLICY_SCREEN_ROUTE); // Close the drawer
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.local_shipping_outlined,color: Colors.black,),
+                  leading: Icon(
+                    Icons.local_shipping_outlined,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("shipping_pollicy")),
                   onTap: () {
                     AppNavigator().push(routeName: AppRoutes.SHIPPING_POLICY_SCREEN_ROUTE); // Close the drawer
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.store_rounded,color: Colors.black,),
+                  leading: Icon(
+                    Icons.store_rounded,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("our_braches")),
-                  onTap: () async{
+                  onTap: () async {
                     AppNavigator().push(routeName: AppRoutes.BRANCHES_SCREEN_ROUT); // Close the drawer
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.support_agent_outlined,color: Colors.black,),
+                  leading: Icon(
+                    Icons.support_agent_outlined,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("contact_us")),
-                  onTap: () async{
-                    final Uri phoneCallUri = Uri(scheme: 'tel', path:AppData.CUSTOMER_SERVICE_NUMBER);
+                  onTap: () async {
+                    final Uri phoneCallUri = Uri(scheme: 'tel', path: AppData.CUSTOMER_SERVICE_NUMBER);
                     if (await canLaunch(phoneCallUri.toString())) {
-                    await launch(phoneCallUri.toString());
+                      await launch(phoneCallUri.toString());
                     } else {
-                    throw 'Could not launch phone call';
+                      throw 'Could not launch phone call';
                     }
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.translate,color: Colors.black,),
+                  leading: Icon(
+                    Icons.translate,
+                    color: Colors.black,
+                  ),
                   title: Text(tr("CHANGE_LANGUAGE")),
                   onTap: () {
                     CustomBottomSheet().displayModalBottomSheet(widget: ChangeLanguageWidget());
                   },
                 ),
+                ListTile(
+                  leading: Icon(
+                    Icons.update,
+                    color: Colors.black,
+                  ),
+                  title: Text(tr("update")),
+                  onTap: () async{
+                    String storeUrl="";
+                    if (Platform.isAndroid) {
+                      storeUrl="https://play.google.com/store/apps/details?id=com.binokids";
+                    } else if (Platform.isIOS) {
+                      storeUrl="https://apps.apple.com/eg/app/bino-kids/id1596803198";
+                    }
+                    await _launchUrl(storeUrl);
+                  },
+                ),
               ],
             ),
           ),
-          Container(width: double.infinity,height: 1,color: Colors.grey[200],),
-          SizedBox(height: 1.h,),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: Colors.grey[200],
+          ),
+          SizedBox(
+            height: 1.h,
+          ),
           ListTile(
-            leading: Icon(Icons.logout,color: AppData.USER_NAME.isNotEmpty?Colors.red:Colors.green,),
-            title: Text(tr(AppData.USER_NAME.isNotEmpty?'Logout':'Login'),style: TextStyle(color: AppData.USER_NAME.isNotEmpty?Colors.red:Colors.green,fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w700
-            ),),
+            leading: Icon(
+              Icons.logout,
+              color: AppData.USER_NAME.isNotEmpty ? Colors.red : Colors.green,
+            ),
+            title: Text(
+              tr(AppData.USER_NAME.isNotEmpty ? 'Logout' : 'Login'),
+              style: TextStyle(color: AppData.USER_NAME.isNotEmpty ? Colors.red : Colors.green, fontSize: AppFontSize.x_x_small, fontWeight: FontWeight.w700),
+            ),
             onTap: () {
-              AppNavigator().goBack();// Close the drawer
+              AppNavigator().goBack(); // Close the drawer
               LoginProvider().logout();
             },
           ),
-          SizedBox(height: 2.h,)
+          SizedBox(
+            height: 2.h,
+          )
         ],
       ),
     );
+  }
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

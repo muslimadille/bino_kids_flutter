@@ -179,6 +179,7 @@ class AppLocalization{
     "from:":"From:",
     "to:":"To:",
     "app_signi_btn_title":"Sign in with Apple",
+    "update":"Update"
   };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
@@ -306,6 +307,7 @@ class AppLocalization{
     "from:":"من:",
     "to:":"الى:",
     "app_signi_btn_title":"تسجيل بحساب أبل",
+    "update":"تحديث"
 
 
 
