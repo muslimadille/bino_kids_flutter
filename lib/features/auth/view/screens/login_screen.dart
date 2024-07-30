@@ -5,6 +5,7 @@ import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/common/widgets/custom_back_btn.dart';
+import 'package:bino_kids/features/auth/model/facebook_login_model.dart';
 import 'package:bino_kids/features/auth/provider/login_provider.dart';
 import 'package:bino_kids/features/auth/view_model/login_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -306,8 +307,12 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
               SizedBox(height: 1.5.h,),
 
               InkWell(
-                onTap: (){
-                  LoginProvider().onSoialClick();
+                onTap: ()async{
+                  FacebookLoginModel? model=await facebookLogin();
+                  if(mounted!=null){
+                    await checkSocialLogin(email:model!.email??'',socialId:model!.id??"",name:model!.name??"");
+                  }
+                  print("facebook: id=${model!.id}");
                 },
                 child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 3.w),

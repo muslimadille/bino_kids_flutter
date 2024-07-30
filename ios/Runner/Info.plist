@@ -6,6 +6,10 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>FacebookAppID</key>
+    <string>669657660910179</string>
+    <key>FacebookClientToken</key>
+    <string>565f2567b096af6c19fed6f56ad27a0f</string>
 	<key>CFBundleDisplayName</key>
 	<string>Bino Kids</string>
 	<key>CFBundleExecutable</key>

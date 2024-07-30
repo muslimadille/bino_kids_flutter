@@ -71,7 +71,7 @@ class NetworkRequest with NetworkExceptionHandler {
           EasyLoading.dismiss();
           canBack = true;
         }
-        if(response.data["status"].toString()=="0"){
+        if(response.data["status"].toString()=="0"&&(exceptionParameters.showError??false)){
           CustomSnakbar().appSnackBar(text:response.data["message"].toString() , isFaild: true);
         }
         return response;

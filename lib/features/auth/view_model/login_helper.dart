@@ -14,7 +14,11 @@ import 'package:bino_kids/features/auth/view/screens/select_phone_botton_sheet.d
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../common/widgets/custom_snakbar.dart';
+import '../model/facebook_login_model.dart';
 import '../repository/auth_repository.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+
 
 mixin LoginHelper{
   late final TextEditingController emailCotroller;
@@ -135,6 +139,22 @@ mixin LoginHelper{
     }
 
 
+  }
+  Future <FacebookLoginModel?>facebookLogin()async{
+    FacebookLoginModel model=FacebookLoginModel();
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+    if (result.status == LoginStatus.success) {
+      final AccessToken accessToken = result.accessToken!;
+      model.token=accessToken.tokenString;
+      final userData = await FacebookAuth.instance.getUserData();
+      model.name=userData["name"].toString();
+      model.email=userData["email"].toString();
+      model.id=userData["id"].toString();
+      return model;
+    } else {
+      print(result.status);
+      print(result.message);
+    }
   }
 
 }

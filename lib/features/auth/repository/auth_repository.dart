@@ -189,7 +189,7 @@ class AuthRepository{
             dismissProgress: true,
           ),
           exceptionParameters: const NetworkExceptionModel(
-              dismissProgress: true, showError: true));
+              dismissProgress: true, showError: false));
 
       return response;
     } catch (error) {
