@@ -40,10 +40,10 @@ extension BannerModelExtention on BannerDataModel{
       String key=AppData.hive_Model_Types+modelAgeId.toString()+moduleId.toString()+(AppLocalization.isArabic?"ar":"en");
       SubCategoriesModel subCategoriesModel;
 
-      if(await HiveHelper().isExists(boxName:key )){
+      /*if(await HiveHelper().isExists(boxName:key )){
         subCategoriesModel=await HiveHelper().getBoxes<SubCategoriesModel>(key) as SubCategoriesModel;
         return subCategoriesModel;
-      }
+      }*/
       final response=await HomeRepository().getSubCategories(showProgress: showProgress,modelAgeId: modelAgeId, moduleId: moduleId);
       subCategoriesModel=subCategoriesModelFromJson(jsonEncode(response.data));
       await HiveHelper().deleteBoxes(key);

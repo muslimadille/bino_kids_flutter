@@ -82,6 +82,7 @@ class CartModelList {
   final bool? isDeletedOrHidden;
   final num? colorId;
   final dynamic? colorsList;
+  final bool? isHasBalance;
   /// local variables
   bool? isSelected;
 
@@ -100,6 +101,7 @@ class CartModelList {
     required this.isDeletedOrHidden,
     required this.colorId,
     required this.colorsList,
+    required this.isHasBalance,
     this.isSelected,
   });
 
@@ -118,6 +120,7 @@ class CartModelList {
     isDeletedOrHidden: json["IsDeletedOrHidden"],
     colorId: json["ColorId"],
     colorsList: json["ColorsList"],
+    isHasBalance: json["IsHasBalance"]
   );
 
   Map<String, dynamic> toJson() => {

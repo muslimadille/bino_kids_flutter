@@ -137,6 +137,103 @@ class ProductRepository{
       rethrow;
     }
   }
+  Future<Response> getFilter(
+      {
+        bool?showLoader,
+        String? type,
+        int? seasonType,
+        int? moduleId,
+        int?modelTypeID,
+        int?userId,
+        int?userRole,
+        int?modelAgeId,
+        int?modelGender,
+        Map<String, List<int>>? selectedFilters
+      }
+      ) async {
+    try {
+      Map<String,dynamic>data={
+        "ModelTypeId": modelTypeID,
+        "lang": AppLocalization.isArabic?2:1,
+        "UserId": AppData.USER_ID,
+        "userRole": AppData.USER_ROLE,
+      };
+      switch(moduleId){
+        case 0:
+          {
+            type = "ModelType/Filters";
+            data["moduleId"]=moduleId;
+
+          }
+          break;
+        case 1:
+          {
+            type = "Gender/Filters";
+            data["genderType"]=1;
+          }
+          break;
+        case 2:{
+          type = "Gender/Filters";
+          data["genderType"]=2;
+        }
+        break;
+        case 3:{
+          type = "Season/Filters";
+          seasonType=1;
+          data["seasonType"]=seasonType;
+        }
+        break;
+        case 4:
+          {
+            type = "Season/Filters";
+            seasonType=2;
+            data["seasonType"]=seasonType;
+          }
+          break;
+        case 6:
+          {
+            type = "Sale/Filters";
+          }
+          break;
+        case 7:
+          {
+            type = "NewArrival/Filters";
+          }
+          break;
+        case 8:
+          {
+            type = "TodaysDeal/Filters";
+          }
+          break;
+        default:
+          {
+            type = "ModelType/Filters";
+            data["moduleId"]=moduleId;
+          }
+      }
+
+
+
+      if(modelGender==1||modelGender==2){
+        data["gendertype"]=modelGender;
+      }
+
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: type,
+            networkType: NetworkRequestEnum.put,
+            data: data,
+            showProgress: showLoader??false,
+            dismissProgress: showLoader??false,
+          ),
+          exceptionParameters:  NetworkExceptionModel(
+              dismissProgress: showLoader??true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
 
   Future<Response> getModelDetails({required String modelId,bool? showLoader}) async {
     try {
@@ -154,13 +251,14 @@ class ProductRepository{
             dismissProgress: showLoader??true,
           ),
           exceptionParameters: const NetworkExceptionModel(
-              dismissProgress: true, showError: true));
+              dismissProgress: true, showError: false));
 
       return response;
     } catch (error) {
       rethrow;
     }
   }
+
 
 
   Future<Response> getWishList() async {

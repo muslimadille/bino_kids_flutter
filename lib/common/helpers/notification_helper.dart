@@ -63,28 +63,25 @@ class NotificationHelper{
         }
         if((event.notification.additionalData??{})["pageOrModel"].toString()=="1"){
           String moduleId=(event.notification.additionalData??{})["linkInMobile"].toString();
+          String genderId=(event.notification.additionalData??{})["ModelGender"].toString();
+          String modelTypeId=(event.notification.additionalData??{})["modelType"].toString();
           int modelAgeId=0;
-
           try{
-            EasyLoading.show();
-            String key=AppData.hive_Model_Types+modelAgeId.toString()+moduleId.toString()+(AppLocalization.isArabic?"ar":"en");
-            SubCategoriesModel subCategoriesModel;
-
-            if(await HiveHelper().isExists(boxName:key )){
-        subCategoriesModel=await HiveHelper().getBoxes<SubCategoriesModel>(key) as SubCategoriesModel;
-        }else{
-        final response=await HomeRepository().getSubCategories(showProgress: false,modelAgeId: modelAgeId, moduleId: int.parse(moduleId));
-        subCategoriesModel=subCategoriesModelFromJson(jsonEncode(response.data));
-        await HiveHelper().deleteBoxes(key);
-        await HiveHelper().addBoxes<SubCategoriesModel>(subCategoriesModel, key);
-        }
+            final response=await HomeRepository().getSubCategories(showProgress: false,modelAgeId: modelAgeId, moduleId: int.parse(moduleId),);
+            SubCategoriesModel subCategoriesModel=subCategoriesModelFromJson(jsonEncode(response.data));
+            bool isGender=subCategoriesModel.data.where((item)=>item.id.toString()==modelTypeId&&item.modelGenderId.toString()==genderId).isNotEmpty;
+            SubCategoryDataModel model;
+            if(isGender){
+              model=subCategoriesModel.data.where((item)=>item.id.toString()==modelTypeId&&item.modelGenderId.toString()==genderId).first;
+            }else{
+              model=subCategoriesModel.data.where((item)=>item.id.toString()==modelTypeId).first;            }
         EasyLoading.dismiss();
         AppNavigator().push(
         routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
         arguments: ProductsScreenArqumentsModel(
         moduleId: int.parse(moduleId),
-        selectedcategoryName:subCategoriesModel.data[0].name ,
-        selectedcategoryId: subCategoriesModel.data[0].id,
+        selectedcategoryName:model.name,
+        selectedcategoryId: int.parse(modelTypeId),
         subcategoriesList: subCategoriesModel.data));
         } on DioException catch (error){
 

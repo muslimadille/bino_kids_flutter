@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter_localization/flutter_localization.dart';
-
 import '../utils/constants/app_data.dart';
 import 'local_storage.dart';
 final FlutterLocalization localization = FlutterLocalization.instance;
@@ -179,7 +178,9 @@ class AppLocalization{
     "from:":"From:",
     "to:":"To:",
     "app_signi_btn_title":"Sign in with Apple",
-    "update":"Update"
+    "update":"Update",
+    "no_model_available":"this model isn't available now"
+
   };
   static const Map<String, dynamic> AR = {
     "HOME_TAB_TITLE":"تسوق",
@@ -307,7 +308,8 @@ class AppLocalization{
     "from:":"من:",
     "to:":"الى:",
     "app_signi_btn_title":"تسجيل بحساب أبل",
-    "update":"تحديث"
+    "update":"تحديث",
+    "no_model_available":"هذا الصنف غير متاح حاليا"
 
 
 

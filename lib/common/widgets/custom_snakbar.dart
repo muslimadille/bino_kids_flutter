@@ -4,7 +4,6 @@ import 'package:bino_kids/common/utils/constants/app_colors.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/widgets/top_snackbar_custom/top_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomSnakbar {

@@ -55,7 +55,7 @@ class ProductsWithFilterModel extends HiveObject {
   @HiveField(2)
   final bool? next;
   @HiveField(3)
-  final Filters? filters;
+   Filters filters;
   @HiveField(4)
   final dynamic? modelTypes;
   @HiveField(5)
@@ -91,7 +91,7 @@ class ProductsWithFilterModel extends HiveObject {
     "status": status,
     "message": message,
     "next": next,
-    "filters": filters!.toJson(),
+    "filters": filters.toJson(),
     "modelTypes": modelTypes,
     "price": price!.toJson(),
     "modelList": List<dynamic>.from(modelList!.map((x) => x.toJson())),

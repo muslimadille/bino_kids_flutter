@@ -62,7 +62,7 @@ class ProductsWithFilterModelAdapter
       status: fields[0] as num?,
       message: fields[1] as String?,
       next: fields[2] as bool?,
-      filters: fields[3] as Filters?,
+      filters: fields[3] as Filters,
       modelTypes: fields[4] as dynamic,
       price: fields[5] as Price?,
       modelList: (fields[6] as List?)?.cast<ProductModel>(),

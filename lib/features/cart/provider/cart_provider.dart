@@ -62,6 +62,7 @@ class CartProvider with ChangeNotifier{
     cartItemsResponseModel=null;
     final response=await CartRepository().getAllCartItems(showLoading:showLoading);
     cartItemsResponseModel= cartItemsResponseBaseModelFromJson(jsonEncode(response.data)).data;
+    (cartItemsResponseModel!.modelList??[]).removeWhere((element)=>(element.isHasBalance??true)==false);
     notifyListeners();
   }
   onSelectItem(int index,CartModelList item){

@@ -29,6 +29,7 @@ mixin productWithFiltersHelper{
   int?modelAgeId;
   int?modelGenderId;
 
+
   late final StreamController<int> categoryStreamController;
   late final StreamController<List<ProductModel>?> productsStreamController;
 
@@ -76,7 +77,7 @@ mixin productWithFiltersHelper{
 
     if(await HiveHelper().isExists(boxName:boxName )){
       ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
-      filters=productsWithFilterModel.filters;
+      getFilters(productsWithFilterModel.modelList);
       prices=productsWithFilterModel.price;
       productsStreamController.add(productsWithFilterModel.modelList);
       final response=await ProductRepository().getProductsWithFilter(
@@ -99,14 +100,14 @@ mixin productWithFiltersHelper{
           modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
           modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
       ProductsWithFilterModel? productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+      getFilters(productsWithFilterModel.modelList);
       await HiveHelper().deleteBoxes(boxName);
       await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
-      filters=productsWithFilterModel.filters;
       prices=productsWithFilterModel.price;
       productsStreamController.add(productsWithFilterModel.modelList);
     }
-
   }
+
    initSelectedCategory(){
     if(selectedCategoryId!=null&&subcategoriesList.isNotEmpty){
       selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName||element.arName==selectedCategoryName)).first);
@@ -117,5 +118,15 @@ mixin productWithFiltersHelper{
   }
   onItemClick({required String modelId,required int colorId}){
     AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: ProductDetailsParams(modulId:modelId,colorId:colorId ));
+  }
+  getFilters(List<ProductModel>? modelList)async{
+    final response=await ProductRepository().getFilter(modelAgeId: modelAgeId,
+      moduleId: moduleId,
+      modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
+      modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId);
+    ProductsWithFilterModel? fitersModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data;
+    filters=fitersModel!.filters;
+    productsStreamController.add(modelList);
+
   }
 }

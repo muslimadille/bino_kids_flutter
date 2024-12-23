@@ -35,7 +35,7 @@ class HomeRepository{
     }
   }
 
-  Future<Response> getMainCategories() async {
+  Future<Response> getMainCategories({bool? showProgress}) async {
     try {
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(

@@ -30,7 +30,7 @@ class NoInternetScreen extends StatelessWidget {
                   SizedBox(
                     height: 6.h,
                   ),
-                  Text(tr("NO_INTERNET"),style: TextStyle(
+                  Text(tr("NO_INTERNET"),textAlign: TextAlign.center,style: TextStyle(
                       color: Colors.black,
                       fontWeight:FontWeight.w700,
                       fontSize: AppFontSize.x_x_large

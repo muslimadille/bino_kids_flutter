@@ -1,3 +1,4 @@
+import 'package:bino_kids/common/helpers/analytics_helper.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_data.dart';

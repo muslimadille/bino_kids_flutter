@@ -56,11 +56,18 @@ class ProductDetailsProvider with ChangeNotifier{
           }}
         notifyListeners();
         final response=await ProductRepository().getModelDetails(modelId: modelId,showLoader: false);
-        ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
-        modelDetailsModel= subCategoriesModel;
-        await HiveHelper().deleteBoxes(boxName);
-        await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
-
+        
+        if(response.statusCode==200){
+          ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
+          modelDetailsModel= subCategoriesModel;
+          await HiveHelper().deleteBoxes(boxName);
+          await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
+          notifyListeners();
+        }else{
+          CustomSnakbar().appSnackBar(text: tr("no_model_available"));
+          AppNavigator().goBack();
+        }
+        
       }else{
         isDetailsLoading=true;
         notifyListeners();

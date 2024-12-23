@@ -132,14 +132,15 @@ class OrderItemWidget extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 1.h),
             width:double.infinity,height: 1,color: Colors.grey[200],),
 
+
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(Icons.monetization_on_rounded,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text(tr("Total_after_shippng"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Total_after_discount"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text(((orderDataModel.totalAfterDiscount??0)+(orderDataModel.chargeValue??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text(((orderDataModel.totalAfterDiscount??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
@@ -149,9 +150,9 @@ class OrderItemWidget extends StatelessWidget {
             children: [
               Icon(Icons.monetization_on_rounded,color: Colors.black,size:5.w,),
               SizedBox(width: 2.w,),
-              Text(tr("Total_after_discount"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+              Text(tr("Total_after_shippng"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
               SizedBox(width: 2.w,),
-              Expanded(child: Text(((orderDataModel.totalAfterDiscount??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+              Expanded(child: Text(((orderDataModel.totalAfterDiscount??0)+(orderDataModel.chargeValue??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
             ],),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1.h),
