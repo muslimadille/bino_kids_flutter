@@ -12,6 +12,7 @@ import 'package:bino_kids/features/product/model/price_model.dart';
 import 'package:bino_kids/features/product/model/products_with_filter_model.dart';
 import 'package:bino_kids/features/product/view/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
 import '../model/product_model.dart';
@@ -32,6 +33,8 @@ mixin productWithFiltersHelper{
 
   late final StreamController<int> categoryStreamController;
   late final StreamController<List<ProductModel>?> productsStreamController;
+  late final StreamController<Filters?> filtersStreamController;
+
 
   int? selectedCategoryId;
   String?selectedCategoryName;
@@ -42,6 +45,7 @@ mixin productWithFiltersHelper{
     initSelectedCategory();
     categoryStreamController=StreamController<int>.broadcast();
     productsStreamController=StreamController<List<ProductModel>?>.broadcast();
+    filtersStreamController=StreamController<Filters?>.broadcast();
     categoryController=ScrollController();
     if(subcategoriesList.isNotEmpty){
       scrollToIndex();
@@ -52,6 +56,7 @@ mixin productWithFiltersHelper{
     categoryStreamController.close();
     categoryController.dispose();
     productsStreamController.close();
+    filtersStreamController!.close();
   }
   void scrollToIndex() {
     Future.delayed(const Duration(milliseconds: 500)).then((value) {
@@ -75,7 +80,7 @@ mixin productWithFiltersHelper{
         modelAgeId.toString()+moduleId.toString()+modelGenderId.toString()+
         (subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId).toString()+jsonEncode(selectedFilters));
 
-    if(await HiveHelper().isExists(boxName:boxName )){
+    if(/*await HiveHelper().isExists(boxName:boxName )*/false){
       ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
       getFilters(productsWithFilterModel.modelList);
       prices=productsWithFilterModel.price;
@@ -92,19 +97,25 @@ mixin productWithFiltersHelper{
 
       await HiveHelper().deleteBoxes(boxName);
       await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
-
+      productsStreamController.add(productsWithFilterModel.modelList);
     }else{
+      productsStreamController.sink.add(null);
+      EasyLoading.show();
       final response=await ProductRepository().getProductsWithFilter(
+        showLoader: false,
           modelAgeId: modelAgeId,
           moduleId: moduleId,
           modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
           modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
       ProductsWithFilterModel? productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
-      getFilters(productsWithFilterModel.modelList);
-      await HiveHelper().deleteBoxes(boxName);
-      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
       prices=productsWithFilterModel.price;
+      getFilters(productsWithFilterModel.modelList);
       productsStreamController.add(productsWithFilterModel.modelList);
+      await Future.delayed(Duration(seconds: 1));
+      EasyLoading.dismiss();
+      /*await HiveHelper().deleteBoxes(boxName);
+      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);*/
+
     }
   }
 
@@ -120,13 +131,17 @@ mixin productWithFiltersHelper{
     AppNavigator().push(routeName: AppRoutes.PRUDUCT_DETAILS_SCREEN_ORUTE,arguments: ProductDetailsParams(modulId:modelId,colorId:colorId ));
   }
   getFilters(List<ProductModel>? modelList)async{
+    filters=null;
+    filtersStreamController.add(filters);
     final response=await ProductRepository().getFilter(modelAgeId: modelAgeId,
+      showLoader: false,
       moduleId: moduleId,
       modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
       modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId);
     ProductsWithFilterModel? fitersModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data;
     filters=fitersModel!.filters;
-    productsStreamController.add(modelList);
+    prices=fitersModel.price;
+    filtersStreamController.add(filters!);
 
   }
 }

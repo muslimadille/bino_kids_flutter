@@ -159,11 +159,14 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                     style: TextStyle(color: Colors.red,fontSize: AppFontSize.x_small*(widget.scale??1), fontWeight: FontWeight.w700),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.w),
-                  child: Text(
-                    (widget.productModel.priceBefore??0)>0 ? ((widget.productModel.priceBefore??0).toInt().toString() +" "+ tr("EGP")) : "",
-                    style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small*(widget.scale??1), fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough,),
+                Visibility(
+                  visible: ((widget.productModel.priceAfter??0).toInt()!=(widget.productModel.priceBefore??0).toInt()),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Text(
+                      (widget.productModel.priceBefore??0)>0 ? ((widget.productModel.priceBefore??0).toInt().toString() +" "+ tr("EGP")) : "",
+                      style: TextStyle(color: Colors.grey,fontSize: AppFontSize.small*(widget.scale??1), fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough,),
+                    ),
                   ),
                 ),
               ],

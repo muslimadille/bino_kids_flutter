@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../common/utils/constants/app_data.dart';
+import '../../model/filterResponseModel.dart';
 import '../../model/product_model.dart';
 
 class ProductWithFiltersScreen extends StatefulWidget {
@@ -60,16 +61,17 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
         return  CartFloatBtn();
         }
       ),
-      drawer:StreamBuilder<List<ProductModel>?>(
-        stream: productsStreamController.stream,
+      drawer:StreamBuilder(
+        stream: filtersStreamController.stream,
         builder: (context, snapshot) {
-          return filters!=null? FilterWidget(
+          return  FilterWidget(
             selectedFilters: selectedFilters,
-            filters:filters!,price: prices!,
+            filters:filters,
+            price: prices!,
             onDone:(values){
             selectedFilters=values;
             getProducts(selectedFilters:selectedFilters );
-          } ,):SizedBox();
+          } ,);
         }
       ),
       body: Column(

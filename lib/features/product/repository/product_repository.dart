@@ -36,7 +36,7 @@ class ProductRepository{
         "UserId": AppData.USER_ID,
         "userRole": AppData.USER_ROLE,
         "pageIndex": pageIndex??0,
-        "pageSize": 100,
+        "pageSize": 500,
       };
       switch(moduleId){
         case 0:
@@ -251,7 +251,7 @@ class ProductRepository{
             dismissProgress: showLoader??true,
           ),
           exceptionParameters: const NetworkExceptionModel(
-              dismissProgress: true, showError: false));
+              dismissProgress: false, showError: false));
 
       return response;
     } catch (error) {

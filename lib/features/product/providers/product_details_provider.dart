@@ -57,34 +57,40 @@ class ProductDetailsProvider with ChangeNotifier{
         notifyListeners();
         final response=await ProductRepository().getModelDetails(modelId: modelId,showLoader: false);
         
-        if(response.statusCode==200){
+        if(response.data["status"].toString()!="0"){
           ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
           modelDetailsModel= subCategoriesModel;
           await HiveHelper().deleteBoxes(boxName);
           await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
           notifyListeners();
         }else{
-          CustomSnakbar().appSnackBar(text: tr("no_model_available"));
-          AppNavigator().goBack();
+          CustomSnakbar().appSnackBar(text: tr("no_model_available"),isFaild: true);
+          AppNavigator().goBack(result: true);
         }
         
       }else{
         isDetailsLoading=true;
         notifyListeners();
         final response=await ProductRepository().getModelDetails(modelId: modelId);
-        ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
-        modelDetailsModel= subCategoriesModel;
-        if(colorId>0){
-          if((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==colorId).isNotEmpty){
-            selectedColorIndex=(modelDetailsModel!.modelList!.colors??[]).indexOf((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId
-                ==colorId).first);
-          }else{
-            selectedColorIndex=0;
-          }}
-        await HiveHelper().deleteBoxes(boxName);
-        await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
-        isDetailsLoading=false;
-        notifyListeners();
+        if(response.data["status"].toString()!="0"){
+          ModelDetailsModel subCategoriesModel=modelDetailsModelFromJson(jsonEncode(response.data));
+          modelDetailsModel= subCategoriesModel;
+          if(colorId>0){
+            if((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId==colorId).isNotEmpty){
+              selectedColorIndex=(modelDetailsModel!.modelList!.colors??[]).indexOf((modelDetailsModel!.modelList!.colors??[]).where((element) => element.colorId
+                  ==colorId).first);
+            }else{
+              selectedColorIndex=0;
+            }}
+          await HiveHelper().deleteBoxes(boxName);
+          await HiveHelper().addBoxes<ModelDetailsModel>(modelDetailsModel!, boxName);
+          isDetailsLoading=false;
+          notifyListeners();
+        }else{
+          CustomSnakbar().appSnackBar(text: tr("no_model_available"),isFaild: true);
+          AppNavigator().goBack(result: true);
+        }
+
       }
     } on DioException catch (error){
       return null;

@@ -1,6 +1,7 @@
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/utils/constants/app_font_size.dart';
+import 'package:bino_kids/common/widgets/custom_loading.dart';
 import 'package:bino_kids/features/product/model/filter_model.dart';
 import 'package:bino_kids/features/product/model/price_model.dart';
 import 'package:bino_kids/features/product/view/widgets/filter_item_widget.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class FilterWidget extends StatefulWidget {
-  final Filters filters;
+  final Filters? filters;
   final Price price;
   Map<String,List<int>>selectedFilters;
   final Function(Map<String,List<int>>selectedFilters) onDone;
@@ -82,28 +83,31 @@ class _FilterWidgetState extends State<FilterWidget> {
           Container(width:double.infinity,color: Colors.grey,height: 1,),
           SizedBox(height: 3.h,),
           Expanded(
-            child: ListView(
+            child: widget.filters!=null?ListView(
               padding: EdgeInsets.symmetric(horizontal: 3.w,vertical: 2.h),
               children: <Widget>[
-                FilterItemWidget(filterTypeModel: widget.filters.gender,
-                  selectedItems: (selectedFilters["Gender"]??[]) ,
-                  onSelect: (values){
-                    selectedFilters["Gender"]=values;
-                  },),
+                Visibility(
+                  visible: (widget.filters!.gender.filterList??[]).length>1,
+                  child: FilterItemWidget(filterTypeModel: widget.filters!.gender,
+                    selectedItems: (selectedFilters["Gender"]??[]) ,
+                    onSelect: (values){
+                      selectedFilters["Gender"]=values;
+                    },),
+                ),
                 FilterItemWidget(
-                  filterTypeModel: widget.filters.modelAge,
+                  filterTypeModel: widget.filters!.modelAge,
                   selectedItems: (selectedFilters["ModelAge"]??[]) ,
                   onSelect: (values){
                     selectedFilters["ModelAge"]=values;
                   },),
                 FilterItemWidget(
-                  filterTypeModel: widget.filters.material,
+                  filterTypeModel: widget.filters!.material,
                   selectedItems: (selectedFilters["Material"]??[]) ,
                   onSelect: (values){
                     selectedFilters["Material"]=values;
                   },),
                 FilterItemWidget(
-                  filterTypeModel: widget.filters.description,
+                  filterTypeModel: widget.filters!.description,
                   selectedItems: (selectedFilters["Description"]??[]) ,
                   onSelect: (values){
                     selectedFilters["Description"]=values;
@@ -129,7 +133,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                   ],
                 ),
               ],
-            ),
+            ):Center(child: CustomLoading(),),
           ),
           SizedBox(height: 2.h,),
           Container(width:double.infinity,color: Colors.grey,height: 1,),

@@ -13,6 +13,7 @@ import 'package:bino_kids/features/auth/model/verify_user_model.dart';
 import 'package:bino_kids/features/auth/view/screens/select_phone_botton_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../../../common/widgets/custom_snakbar.dart';
 import '../model/facebook_login_model.dart';
 import '../repository/auth_repository.dart';
@@ -56,6 +57,9 @@ mixin LoginHelper{
     }
   }
   login({String? socialId,String?email})async{
+    /// clear all cashes
+    await Hive.deleteFromDisk();
+     await Hive.close();
     if((emailCotroller.text.isNotEmpty&&passwordCotroller.text.isNotEmpty)||socialId!=null){
       try{
         final response=await AuthRepository().login(
