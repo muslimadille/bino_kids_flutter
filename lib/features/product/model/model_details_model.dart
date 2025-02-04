@@ -98,6 +98,10 @@ class ModelList extends HiveObject {
   num sizeId;
   @HiveField(27)
   num modelColorId;
+  @HiveField(28)
+  bool isDeletedOrHidden;
+  @HiveField(29)
+  bool isHasBalance;
 
   ModelList({
     required this.id,
@@ -128,6 +132,8 @@ class ModelList extends HiveObject {
     required this.modelId,
     required this.sizeId,
     required this.modelColorId,
+    required this.isDeletedOrHidden,
+    required this.isHasBalance,
   });
 
   factory ModelList.fromJson(Map<String, dynamic> json) => ModelList(
@@ -139,7 +145,7 @@ class ModelList extends HiveObject {
     priceAfterDiscount: json["PriceAfterDiscount"],
     priceBeforeDiscount: json["PriceBeforeDiscount"],
     minimumOrderLimitWholeSale: json["MinimumOrderLimitWholeSale"],
-    imageUrl: json["ImageUrl"],
+    imageUrl: json["imagePath"],
     modelCode: json["ModelCode"],
     modelAgeName: json["ModelAgeName"],
     modelTradeMarkName: json["ModelTradeMarkName"],
@@ -159,6 +165,8 @@ class ModelList extends HiveObject {
     modelId: json["ModelId"] ?? json["ID"],
     sizeId: json["SizeId"] ?? 0,
     modelColorId: json["modelColorId"] ?? 0,
+      isDeletedOrHidden:json["IsDeletedOrHidden"]??false,
+      isHasBalance:json["IsHasBalance"]??false
   );
 
   Map<String, dynamic> toJson() => {

@@ -9,9 +9,7 @@ class WishListProvider with ChangeNotifier{
   getWishList()async{
     final response=await ProductRepository().getWishList();
     wishlisModel=wishlisModelFromJson(jsonEncode(response.data));
-    if(wishlisModel!.modelList.isNotEmpty){
-      wishlisModel!.modelList.removeWhere((element)=>(element.colors??[]).isEmpty);
-    }
+
     notifyListeners();
   }
   deleteAllWishList()async{

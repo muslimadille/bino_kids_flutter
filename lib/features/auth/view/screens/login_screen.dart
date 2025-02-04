@@ -306,7 +306,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
               ),
               SizedBox(height: 1.5.h,),
 
-              InkWell(
+              /*InkWell(
                 onTap: ()async{
                   FacebookLoginModel? model=await facebookLogin();
                   if(mounted!=null){
@@ -339,7 +339,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                         Text(tr("Continue with Facebook"),style: TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
                       ],
                     )),
-              )
+              )*/
 
 
             ],),

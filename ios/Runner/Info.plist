@@ -70,5 +70,11 @@
         </array>
       </dict>
     </array>
+    <key>keychain-access-groups</key>
+        <array>
+            <string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
+        </array>
+    <key>GIDClientID</key>
+    	<string>546568219559-t3b88q9snv5aqok82phvrstdq55q8sr7.apps.googleusercontent.com</string>
 </dict>
 </plist>

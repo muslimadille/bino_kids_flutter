@@ -85,6 +85,8 @@ class ModelListAdapter extends TypeAdapter<ModelList> {
       modelId: fields[25] as int,
       sizeId: fields[26] as num,
       modelColorId: fields[27] as num,
+        isDeletedOrHidden:fields[28] as bool,
+        isHasBalance:fields[28] as bool
     );
   }
 

@@ -36,18 +36,73 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
   }
   @override
   void initState() {
-    selectedColor=widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).isNotEmpty?
-    widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).first:
-    widget.model.colors!.where((element) => element.colorId==widget.model.colorId).first;
+    if((widget.model.colors??[]).isNotEmpty){
+      if (widget.model.colors!.where((element) => element.colorId == widget.model.colorId).isNotEmpty) {
+        selectedColor = widget.model.colors!.where((element) => element.colorId == widget.model.modelColorId).isNotEmpty
+            ? widget.model.colors!.where((element) => element.colorId == widget.model.modelColorId).isNotEmpty
+                ? widget.model.colors!.where((element) => element.colorId == widget.model.modelColorId).first
+                : widget.model.colors![0]
+            : widget.model.colors!.where((element) => element.colorId == widget.model.colorId).first;
+      } else {
+        selectedColor = widget.model.colors![0];
+      }
+    }
 
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    selectedColor=widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).isNotEmpty?
-    widget.model.colors!.where((element) => element.colorId==widget.model.modelColorId).first:
-    widget.model.colors!.where((element) => element.colorId==widget.model.colorId).first;
-    return Container(
+
+    return (widget.model.isDeletedOrHidden||!widget.model.isHasBalance)?
+    Stack(
+      alignment: AlignmentDirectional. topEnd,
+      children: [
+        Container(
+          height: 20.h,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+
+          ),
+          padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.w),
+          margin:EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 2.w),
+          child: Row(
+            children: [
+              Image.network(widget.model.imageUrl??widget.model.imageUrl??"",
+                width:10.h,
+                height:20.h ,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(width: 2.w,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${widget.model.modelCode??""}-${widget.model.modelMaterialName??""}-${widget.model.modelDiscriptionName??""}"??'',style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight:FontWeight.w700),),
+                ],)
+
+            ],),
+        ),
+        Visibility(
+            visible:(!widget.model.isHasBalance||widget.model.isDeletedOrHidden) ,
+            child: Container(
+              width: double.infinity,
+              margin:EdgeInsets.symmetric(vertical: 0.3.h,horizontal: 2.w),
+              decoration:BoxDecoration(
+                  color: Colors.black.withOpacity(0.8),
+
+                  borderRadius: BorderRadius.all(Radius.circular(8))
+              ),
+              height: 20.h,
+              child: Center(child:Text(tr("no_model_available"),style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight:
+              FontWeight.w700),),),
+            )),
+        Positioned(child: GestureDetector(onTap: (){
+          widget.onDelete(widget.model);
+        },child:Padding(padding: EdgeInsets.all(4.w),child: Icon(Icons.cancel))),)
+      ],
+    )
+        :Container(
       width: double.infinity,
         decoration: BoxDecoration(
             color: Colors.white,
@@ -58,7 +113,7 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
       margin:EdgeInsets.symmetric(vertical: 0.5.h,horizontal: 2.w),
       child: Row(
         children: [
-          Image.network(selectedColor!.imageName??widget.model.imageUrl??"",
+          Image.network(selectedColor!=null?selectedColor!.imageName??"":widget.model.imageUrl??"",
             width:10.h,
             fit: BoxFit.cover,
           ),
@@ -80,7 +135,7 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                         child: Text("${(widget.model.priceBeforeDiscount ??0)} ${tr("EGP")}",style: TextStyle(fontSize: AppFontSize.x_small,color: Colors.grey,fontWeight: FontWeight.w500),)),
                   ],),
                 SizedBox(height:0.1.h),
-                Row(
+                selectedColor==null?SizedBox():Row(
                   crossAxisAlignment:CrossAxisAlignment.start,
                   children: [
                   Padding(
@@ -128,7 +183,7 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
                       }),),
                   ),
                 ],),
-                Row(
+                selectedColor==null?SizedBox():Row(
                   crossAxisAlignment:CrossAxisAlignment.start,
                   children: [
                   Padding(

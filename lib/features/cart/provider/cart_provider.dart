@@ -62,7 +62,6 @@ class CartProvider with ChangeNotifier{
     cartItemsResponseModel=null;
     final response=await CartRepository().getAllCartItems(showLoading:showLoading);
     cartItemsResponseModel= cartItemsResponseBaseModelFromJson(jsonEncode(response.data)).data;
-    (cartItemsResponseModel!.modelList??[]).removeWhere((element)=>(element.isHasBalance??true)==false);
     notifyListeners();
   }
   onSelectItem(int index,CartModelList item){
@@ -86,8 +85,7 @@ class CartProvider with ChangeNotifier{
       totalDiscount=0;
       totalPriceAfterDiscount=0;
       for(CartModelList item in cartItemsResponseModel!.modelList??[]){
-        if(true){
-
+        if(item.isHasBalance??true){
           totalPrice=totalPrice+((item.price??0)*(item.quantity??0));
         }
       }

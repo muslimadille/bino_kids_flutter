@@ -30,6 +30,7 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: AlignmentDirectional. topEnd,
       children: [
         Container(
           width: double.infinity,
@@ -58,9 +59,7 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
                 children: [
                   Row(children: [
                     Expanded(child: Text(widget.item.name??'',style: TextStyle(fontSize: AppFontSize.x_small,fontWeight:FontWeight.w500),)),
-                    GestureDetector(onTap: (){
-                      widget.onDelete(widget.item);
-                    },child:Icon(Icons.cancel)),
+
                   ],),
                   SizedBox(height:0.1.h),
                   Text(widget.item.coloeName??'',style: TextStyle(fontSize: AppFontSize.x_small,fontWeight:FontWeight.w500,color: Colors.grey),),
@@ -167,9 +166,14 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
               borderRadius: BorderRadius.all(Radius.circular(8))
           ),
           height: 15.h,
-          child: Center(child:Text("Not Available Now",style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight:
+          child: Center(child:Text(tr("no_model_available"),style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight:
           FontWeight.w700),),),
-        ))
+        )),
+        Positioned(
+          child: GestureDetector(onTap: (){
+            widget.onDelete(widget.item);
+          },child:Padding(padding: EdgeInsets.all(4.w),child: Icon(Icons.cancel))),
+        )
       ],
     );
   }
