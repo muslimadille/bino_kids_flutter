@@ -8,6 +8,7 @@ import 'package:bino_kids/common/widgets/custom_snakbar.dart';
 import 'package:bino_kids/features/cart/model/cart_items_respose_model.dart';
 import 'package:bino_kids/features/cart/model/goverorates_model.dart';
 import 'package:bino_kids/features/cart/model/promo_code_model.dart';
+import 'package:bino_kids/features/cart/model/promo_status_model.dart';
 import 'package:bino_kids/features/cart/model/set_order_response_model.dart';
 import 'package:bino_kids/features/cart/repository/cart_repository.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
@@ -38,7 +39,9 @@ class CartProvider with ChangeNotifier{
   List<Government> allGovernments=[];
   Government? selectedGovernment;
   TextEditingController addressController=TextEditingController();
+  bool isPromoEnable=false;
   init(){
+    isPromoEnable=false;
      totalPrice=0;
      discount=0;
      totalPriceAfterDiscount=0;
@@ -56,8 +59,15 @@ class CartProvider with ChangeNotifier{
      allGovernments.clear();
     selectedGovernment=null;
     addressController.clear();
+    checkIfPromoIsEnable();
   }
 
+  Future checkIfPromoIsEnable()async{
+    final response=await CartRepository().checkIfPromoIsEnable();
+    PromoStatusModel promoStatusModel=promoStatusModelFromJson(jsonEncode(response.data));
+    isPromoEnable=promoStatusModel.exists;
+    notifyListeners();
+  }
   Future getCartItems({bool? showLoading})async{
     cartItemsResponseModel=null;
     final response=await CartRepository().getAllCartItems(showLoading:showLoading);

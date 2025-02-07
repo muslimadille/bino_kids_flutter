@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/device_info_details.dart';
+import 'package:bino_kids/common/helpers/facebook_analytics_helper.dart';
 import 'package:bino_kids/common/helpers/network/network_request.dart';
 import 'package:bino_kids/common/models/network_exception_model.dart';
 import 'package:bino_kids/common/models/network_request_model.dart';
@@ -186,6 +187,25 @@ class CartRepository{
           ),
           exceptionParameters: const NetworkExceptionModel(
               dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
+  Future<Response>checkIfPromoIsEnable()async{
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode:ApiCodes.CHECK_IS_PROMOCODE_ENABLE,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "extinfo": FacebookAnalyticsHelper.getInstance().values
+            },
+            showProgress: false,
+            dismissProgress: false,
+          ),
+          exceptionParameters:  NetworkExceptionModel(dismissProgress: false, showError: false));
 
       return response;
     } catch (error) {

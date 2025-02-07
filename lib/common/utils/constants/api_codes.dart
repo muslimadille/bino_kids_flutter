@@ -43,6 +43,8 @@ class ApiCodes{
   static const String RESEND_VERIFICATION_CODE="Verification/ResendCode";
   static const String GET_BRANCHES="Branches/getAllBranches";
   static const String APPLY_PROMOCODE="Cart/ApplyPromocode";
+  static const String CHECK_IS_PROMOCODE_ENABLE="Cart/PromocodesExist";
+
 
   static const String RESET_PASSWORD="Users/SendNewPassword";
   static const String CHANGE_PASSWORD="Users/ChangePassword";

@@ -254,10 +254,17 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
 
 
                     SizedBox(height: 2.h,),
-                    PromoCodeWidget(onClick: (value){
-                      dataModel.checkPromoCode(value);
-                    },),
-                    SizedBox(height: 1.h,),
+                    Visibility(
+                      visible: dataModel.isPromoEnable,
+                      child: Column(
+                        children: [
+                          PromoCodeWidget(onClick: (value){
+                            dataModel.checkPromoCode(value);
+                          },),
+                          SizedBox(height: 1.h,),
+                        ],
+                      ),
+                    ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 2.w),
                         child: SizedBox(
