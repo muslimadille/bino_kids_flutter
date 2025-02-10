@@ -85,15 +85,15 @@ class ModelListAdapter extends TypeAdapter<ModelList> {
       modelId: fields[25] as int,
       sizeId: fields[26] as num,
       modelColorId: fields[27] as num,
-        isDeletedOrHidden:fields[28] as bool,
-        isHasBalance:fields[28] as bool
+      isDeletedOrHidden: fields[28]??false ,
+      isHasBalance: fields[29]??false,
     );
   }
 
   @override
   void write(BinaryWriter writer, ModelList obj) {
     writer
-      ..writeByte(28)
+      ..writeByte(30)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -149,7 +149,11 @@ class ModelListAdapter extends TypeAdapter<ModelList> {
       ..writeByte(26)
       ..write(obj.sizeId)
       ..writeByte(27)
-      ..write(obj.modelColorId);
+      ..write(obj.modelColorId)
+      ..writeByte(28)
+      ..write(obj.isDeletedOrHidden)
+      ..writeByte(29)
+      ..write(obj.isHasBalance);
   }
 
   @override

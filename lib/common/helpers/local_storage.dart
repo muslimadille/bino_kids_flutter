@@ -31,4 +31,7 @@ class LocalStorage {
   void deleteFromBox({required String key}) {
     _box.delete(key);
   }
+  Future clearData()async{
+    await _box.clear();
+  }
 }

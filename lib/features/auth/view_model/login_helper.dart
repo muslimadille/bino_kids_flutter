@@ -57,9 +57,7 @@ mixin LoginHelper{
     }
   }
   login({String? socialId,String?email})async{
-    /// clear all cashes
-    await Hive.deleteFromDisk();
-     await Hive.close();
+    await LocalStorage().clearData();
     if((emailCotroller.text.isNotEmpty&&passwordCotroller.text.isNotEmpty)||socialId!=null){
       try{
         final response=await AuthRepository().login(
