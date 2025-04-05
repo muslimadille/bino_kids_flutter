@@ -95,6 +95,12 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
                       ],),)
                   ],),
                   Expanded(child: SizedBox(),),
+                  Visibility(
+                      visible: !(widget.item.isHasBalance??false),
+                      child: Text(tr("no_model_available"),style: TextStyle(color: Colors.red,fontWeight: FontWeight.w700,fontSize:
+                      AppFontSize.x_small
+                      ),)),
+                  SizedBox(height: 0.5.h,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -102,51 +108,54 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
                       SizedBox(width: 3.w,),
                       Text("${((widget.item.priceBeforeDiscount??0)*(widget.item.quantity??0)).toInt()} ${tr("EGP")}",textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.x_x_small,color: Colors.grey,fontWeight: FontWeight.w700,decoration: TextDecoration.lineThrough),),
                       Expanded(child:SizedBox()),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.fromBorderSide(
-                                BorderSide(
-                                  width:1,
-                                  color:Colors.grey,
-                                )
-                            )
-                        ),
-                        child: Row(children: [
-                          GestureDetector(
-                            onTap: (){
-                              if((widget.item.quantity??0)>1){
-                                widget.item.quantity=(widget.item.quantity??0)-1;
+                      Visibility(
+                        visible: (widget.item.isHasBalance??true),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.fromBorderSide(
+                                  BorderSide(
+                                    width:1,
+                                    color:Colors.grey,
+                                  )
+                              )
+                          ),
+                          child: Row(children: [
+                            GestureDetector(
+                              onTap: (){
+                                if((widget.item.quantity??0)>1){
+                                  widget.item.quantity=(widget.item.quantity??0)-1;
+                                  widget.onChange(widget.item);
+                                }
+
+                              },
+                                child:Padding(
+                              padding:  EdgeInsets.symmetric(vertical:1.w,horizontal: 3.w),
+                              child: Text("-"),
+                            )),
+                            Container(
+                              height: 2.h,
+                              width: 1,
+                              color: Colors.grey[200],
+                            ),
+                            Padding(padding: EdgeInsets.symmetric(horizontal: 1.w),child: Text(widget.item.quantity.toString(),style: TextStyle(fontSize: AppFontSize.small),),),
+                            Container(
+                              height: 2.h,
+                              width: 1,
+                              color: Colors.grey[200],
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                widget.item.quantity=(widget.item.quantity??0)+1;
                                 widget.onChange(widget.item);
-                              }
-        
-                            },
-                              child:Padding(
-                            padding:  EdgeInsets.symmetric(vertical:1.w,horizontal: 3.w),
-                            child: Text("-"),
-                          )),
-                          Container(
-                            height: 2.h,
-                            width: 1,
-                            color: Colors.grey[200],
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 1.w),child: Text(widget.item.quantity.toString(),style: TextStyle(fontSize: AppFontSize.small),),),
-                          Container(
-                            height: 2.h,
-                            width: 1,
-                            color: Colors.grey[200],
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              widget.item.quantity=(widget.item.quantity??0)+1;
-                              widget.onChange(widget.item);
-                            },
-                              child:Padding(
-                            padding:  EdgeInsets.symmetric(vertical:1.w,horizontal: 3.w),
-                            child: Text("+"),
-                          ))
-                        ],),)
+                              },
+                                child:Padding(
+                              padding:  EdgeInsets.symmetric(vertical:1.w,horizontal: 3.w),
+                              child: Text("+"),
+                            ))
+                          ],),),
+                      )
                   ],)
         
                 ],),
@@ -154,21 +163,6 @@ class _CartListItemWidgetState extends State<CartListItemWidget> {
              
           ],),
         ),
-        Visibility(
-
-          visible:!(widget.item.isHasBalance??true) ,
-            child: Container(
-          width: double.infinity,
-          margin:EdgeInsets.symmetric(vertical: 0.3.h,horizontal: 2.w),
-          decoration:BoxDecoration(
-              color: Colors.black.withOpacity(0.8),
-
-              borderRadius: BorderRadius.all(Radius.circular(8))
-          ),
-          height: 15.h,
-          child: Center(child:Text(tr("no_model_available"),style: TextStyle(color: Colors.white,fontSize: 14.sp,fontWeight:
-          FontWeight.w700),),),
-        )),
         Positioned(
           child: GestureDetector(onTap: (){
             widget.onDelete(widget.item);

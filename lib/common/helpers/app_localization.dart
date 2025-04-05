@@ -65,6 +65,7 @@ class AppLocalization{
     "Suggestions":"Suggestions",
     "Wish_List":"Wish List",
     "My_orders":"My orders",
+    "order_details":"Order Details",
     "View_All":"View All >",
     "Hi":"Hi",
     "CHANGE_LANGUAGE":"Change Language",
@@ -179,7 +180,12 @@ class AppLocalization{
     "to:":"To:",
     "app_signi_btn_title":"Sign in with Apple",
     "update":"Update",
-    "no_model_available":"this model isn't available now"
+    "no_model_available":"this model isn't available now",
+    "orderId":"Order number",
+    "Quantity":"Quantity",
+    "unit_price":"Unit price",
+    "total_price":"Total price",
+    "order_date":"Order date",
 
   };
   static const Map<String, dynamic> AR = {
@@ -309,7 +315,13 @@ class AppLocalization{
     "to:":"الى:",
     "app_signi_btn_title":"تسجيل بحساب أبل",
     "update":"تحديث",
-    "no_model_available":"هذا الصنف غير متاح حاليا"
+    "no_model_available":"هذا الصنف غير متاح حاليا",
+    "order_details":"تفاصيل الطلب",
+    "orderId":"رقم الفاتورة",
+    "Quantity":"الكمية",
+    "unit_price":"سعر القطعة",
+    "total_price":"السعر الكلي",
+    "order_date":"تاريخ الطلب",
 
 
 

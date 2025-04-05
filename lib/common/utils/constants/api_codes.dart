@@ -37,6 +37,8 @@ class ApiCodes{
   static const String GET_RETURN_SHIPPING_POLICY="Policies/ReturnShippingPolicy";
 
   static const String GET_OREDERS="Requests/GetUserRequests";
+  static const String GET_OREDER_DETAILS="Requests/GetRequestDetails";
+
   static const String GET_SEARCH="Search/MainSearch";
   static const String VERIFY_USER_API="Verification/VerifyCode";
   static const String IS_USER_VERIFIED_API="Verification/IsUserVerified";

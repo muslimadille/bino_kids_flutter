@@ -202,7 +202,6 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                   ),
                   onPressed: ()async{
                     await login();
-                    //AppNavigator().pushAndRemoveAll(routeName: AppRoutes.HOME_SCREEN_ROUTE);
                   },
                   child: SizedBox(
                       width: double.infinity,
@@ -306,13 +305,9 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
               ),
               SizedBox(height: 1.5.h,),
 
-              /*InkWell(
+              InkWell(
                 onTap: ()async{
-                  FacebookLoginModel? model=await facebookLogin();
-                  if(mounted!=null){
-                    await checkSocialLogin(email:model!.email??'',socialId:model!.id??"",name:model!.name??"");
-                  }
-                  print("facebook: id=${model!.id}");
+                 privacyDialog();
                 },
                 child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 3.w),
@@ -339,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                         Text(tr("Continue with Facebook"),style: TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
                       ],
                     )),
-              )*/
+              )
 
 
             ],),
@@ -351,19 +346,90 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
              Text(tr("By continuing,you are agree to our ")),
-             Text(tr("Privacy "),style: TextStyle(color: Color(0xff003498)),),
+             InkWell(onTap: (){
+               AppNavigator().push(routeName: AppRoutes.RETURN_POLICY_SCREEN_ROUTE); // Close the drawer
+             },child: Text(tr("Privacy"),style: TextStyle(color: Color(0xff003498)),)),
            ],),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(tr("And ")),
-                Text(tr("Term&conditions"),style: TextStyle(color: Color(0xff003498))),
-              ],
-            ),
+
             ],),
           SizedBox(height: 5.h,),
 
         ],
       ),);
+  }
+  privacyDialog(){
+    showDialog(context: context,
+        barrierDismissible:false,
+        builder: (ctx){
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 30.h,horizontal: 10.w),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.w),
+              width:  double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.fromBorderSide(
+                      BorderSide(
+                          width:1,
+                          color:Colors.grey
+                      )
+                  )
+              ),
+              child: Column(children: [
+                Align(alignment: Alignment.topRight,child: InkWell(onTap: (){
+                  AppNavigator().goBack();
+                },
+                    child: Icon(Icons.cancel,color: Colors.black,)),),
+                Image.asset("assets/images/app_icon.png",width: 13.h,height: 13.h,),
+                SizedBox(height: 1.h,),
+                Text(tr("By continuing,you are agree to our ")),
+                SizedBox(height: 0.5.h,),
+                InkWell(onTap: (){
+                  AppNavigator().push(routeName: AppRoutes.PRIVACY_POLICY_SCREEN_ROUTE); // Close the drawer
+                },child: Text(tr("privacy_policy"),style: TextStyle(color: Color(0xff003498),fontWeight: FontWeight.w800),)),
+                Expanded(child: SizedBox(height: 2.h,)),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor:Colors.black,
+                      disabledBackgroundColor: Colors.grey,
+                      disabledForegroundColor: Colors.grey,
+                      disabledMouseCursor: SystemMouseCursors.forbidden,
+                      padding: EdgeInsets.symmetric(vertical:2.h),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(width: 1,color: Colors.black)
+                      ),
+                    ),
+                    onPressed: ()async{
+                      AppNavigator().goBack();
+                      FacebookLoginModel? model=await facebookLogin();
+                      if(mounted!=null){
+                        await checkSocialLogin(email:model!.email??'',socialId:model!.id??"",name:model!.name??"");
+                      }
+                      print("facebook: id=${model!.id}");
+                    },
+                    child: SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          tr("متابعة"),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: AppFontSize.x_x_small,
+                              fontWeight: FontWeight.w700
+                          ),
+                        )
+                    ),
+                  ),
+                ),
+
+              ],),
+            ),
+          );
+        });
   }
 }

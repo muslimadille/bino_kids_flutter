@@ -12,6 +12,7 @@ import 'package:bino_kids/features/cart/view/screens/complete_order_screen.dart'
 import 'package:bino_kids/features/cart/view/screens/payment_screen.dart';
 import 'package:bino_kids/features/home_tabs/view/home_tabs_screen.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
+import 'package:bino_kids/features/orders/view/screens/order_details_screen.dart';
 import 'package:bino_kids/features/product/model/model_details_model.dart';
 import 'package:bino_kids/features/product/model/product_model.dart';
 import 'package:bino_kids/features/product/model/products_screen_arquments_model.dart';
@@ -89,6 +90,9 @@ import '../widgets/no_internet_screen.dart';
 
       case AppRoutes.ALL_ORDERS_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) =>  AllOrdersScreen(params:routeSettings.arguments as OrderScreenParams,));
+
+      case AppRoutes.ORDER_DETAILS_SCREEN_ROUTE:
+        return MaterialPageRoute(builder: (_) =>  OrderDetailsScreen(orderId: routeSettings.arguments.toString() ,));
 
       case AppRoutes.SETTINGS_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => const SettingScreen());

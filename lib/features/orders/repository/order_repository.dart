@@ -31,5 +31,28 @@ class OrderRepository{
       rethrow;
     }
   }
+  Future<Response> getOrderDetails({required String requestId}) async {
+    try {
+      final response = await NetworkRequest().sendAppRequest(
+          networkParameters: NetworkRequestModel(
+            apiCode: ApiCodes.GET_OREDER_DETAILS,
+            networkType: NetworkRequestEnum.put,
+            data: {
+              "userId": AppData.USER_ID,
+              "userRole":AppData.USER_ROLE,
+              "Lang": AppLocalization.isArabic ?2:1,
+              "requestId":requestId
+            },
+            showProgress: true,
+            dismissProgress: true,
+          ),
+          exceptionParameters: const NetworkExceptionModel(
+              dismissProgress: true, showError: true));
+
+      return response;
+    } catch (error) {
+      rethrow;
+    }
+  }
 
 }
