@@ -112,7 +112,7 @@ class OrderItemWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 1.h),
               width:double.infinity,height: 1,color: Colors.grey[200],),
 
-            Row(
+            /*Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(Icons.align_horizontal_left_sharp,color: Colors.black,size:5.w,),
@@ -120,10 +120,10 @@ class OrderItemWidget extends StatelessWidget {
                 Text(tr("Total:"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
                 SizedBox(width: 2.w,),
                 Expanded(child: Text((orderDataModel.totalAmount??0).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
-              ],),
-            Container(
+              ],),*/
+            /*Container(
               margin: EdgeInsets.symmetric(vertical: 1.h),
-              width:double.infinity,height: 1,color: Colors.grey[200],),
+              width:double.infinity,height: 1,color: Colors.grey[200],),*/
 
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +138,18 @@ class OrderItemWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 1.h),
               width:double.infinity,height: 1,color: Colors.grey[200],),
 
-
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.monetization_on_rounded,color: Colors.black,size:5.w,),
+                SizedBox(width: 2.w,),
+                Text(tr("Total_before_discount"),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w700),),
+                SizedBox(width: 2.w,),
+                Expanded(child: Text(((orderDataModel.totalAmount??0)).toString(),style: TextStyle(color: Colors.black,fontSize: AppFontSize.x_small,fontWeight: FontWeight.w400),)),
+              ],),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 1.h),
+              width:double.infinity,height: 1,color: Colors.grey[200],),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

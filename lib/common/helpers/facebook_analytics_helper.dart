@@ -36,7 +36,7 @@ class FacebookAnalyticsHelper {
   List<String> values=[];
 
 
-   init(BuildContext context){
+   init(){
      if(values.isNotEmpty){
        return;
      }
@@ -58,9 +58,9 @@ class FacebookAnalyticsHelper {
      values.add(timezone_abbreviation);
      carrier=AppData.USER_NUMBER.isEmpty?"vodafone":AppData.USER_NUMBER.substring(0,2)=='010'?"vodafone":AppData.USER_NUMBER.substring(0,2)=='011'?"Etisalat":AppData.USER_NUMBER.substring(0,2)=='012'?"Mobinile":"We";
      values.add(carrier);
-     screen_width=context.size!.width.toString();
+     screen_width=AppNavigator().currentContext().size!.width.toString();
      values.add(screen_width);
-     screen_height=context.size!.height.toString();
+     screen_height=AppNavigator().currentContext().size!.height.toString();
      values.add(screen_height);
      cpu_cores='2';
      values.add(cpu_cores);

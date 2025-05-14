@@ -173,6 +173,8 @@ class AppLocalization{
     'confirm':"Confirm",
     "Total_after_shippng":"Total after shipping: ",
     "Total_after_discount":"Total after discount: ",
+    "Total_before_discount":"Total before discount: ",
+
     "promo_code":"Promo code: ",
     "select_phone":"add mobile number",
     "enter_phone":"Enter your umber",
@@ -186,6 +188,8 @@ class AppLocalization{
     "unit_price":"Unit price",
     "total_price":"Total price",
     "order_date":"Order date",
+    "Total_after_discount_details":"Total after discount",
+
 
   };
   static const Map<String, dynamic> AR = {
@@ -306,8 +310,12 @@ class AppLocalization{
     "old_password":"كلمة المرور القديمة",
     "new_password":"كلمة المرور الجديدة",
     "confirm":"تأكيد",
-    "Total_after_shippng":"السعر بعد الشحن: ",
-    "Total_after_discount":"السعر بعد الخصم: ",
+    "Total_after_shippng":"إجمالي القيمة بعد الشحن: ",
+    "Total_after_discount":"قيمة الطلب بعد الخصم: ",
+    "Total_before_discount":"قيمة الطلب قبل الخصم: ",
+    "Total_after_discount_details":"الاجمالي بعد الخصم",
+
+
     "promo_code":"كود الخصم: ",
     "select_phone":"إضافة رقم الهاتف",
     "enter_phone":"أدخل رقم هاتفك",

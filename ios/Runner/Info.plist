@@ -6,10 +6,6 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>FacebookAppID</key>
-    <string>669657660910179</string>
-    <key>FacebookClientToken</key>
-    <string>565f2567b096af6c19fed6f56ad27a0f</string>
 	<key>CFBundleDisplayName</key>
 	<string>Bino Kids</string>
 	<key>CFBundleExecutable</key>
@@ -26,8 +22,25 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>org.reactjs.native.BinoKids</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FacebookAppID</key>
+	<string>669657660910179</string>
+	<key>FacebookClientToken</key>
+	<string>565f2567b096af6c19fed6f56ad27a0f</string>
+	<key>GIDClientID</key>
+	<string>546568219559-t3b88q9snv5aqok82phvrstdq55q8sr7.apps.googleusercontent.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -59,22 +72,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>org.reactjs.native.BinoKids</string>
-        </array>
-      </dict>
-    </array>
-    <key>keychain-access-groups</key>
-        <array>
-            <string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
-        </array>
-    <key>GIDClientID</key>
-    	<string>546568219559-t3b88q9snv5aqok82phvrstdq55q8sr7.apps.googleusercontent.com</string>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
+	</array>
 </dict>
 </plist>

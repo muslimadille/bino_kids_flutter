@@ -114,7 +114,7 @@ class _OrderModelItemWidgetState extends State<OrderModelItemWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(tr("total_price"),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800),),
+                  Text(tr("Total_after_discount_details"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w800),),
                   SizedBox(height: 1.h,),
                   Text(widget.item.totalPrice.toString(),style: TextStyle(fontSize: AppFontSize.x_x_small,fontWeight: FontWeight.w800,color: Colors.red),),
               ],)

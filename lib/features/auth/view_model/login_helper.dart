@@ -75,7 +75,7 @@ mixin LoginHelper{
         AppData.IS_VERIFIED_USER=loginModel.isVerified=="True";
         Map<String,dynamic>user=jsonDecode(loginModel.user);
         AppData.USER_NUMBER=user['Phone'].toString();
-        FacebookAnalyticsHelper.getInstance().init(AppNavigator().currentContext());
+        FacebookAnalyticsHelper.getInstance().init();
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
       } on DioException catch (error){
       }

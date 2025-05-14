@@ -31,8 +31,10 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelpe
   void initState() {
     context.read<ProfileProvider>().getCustomerServiceNumber();
        checkLogin();
+    FacebookAnalyticsHelper.getInstance().init;
     super.initState();
   }
+
   checkLogin()async{
     //AppData.REVIEW_MODE =await ConfigHelper().getReviewStatus();
 
@@ -130,7 +132,6 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelpe
   }
   @override
   Widget build(BuildContext context) {
-    FacebookAnalyticsHelper.getInstance().init(context);
     return  Scaffold(body: Center(/*Image.asset("assets/images/app_icon.png",width: 15.h,height: 15.h,)*/),);
   }
 }

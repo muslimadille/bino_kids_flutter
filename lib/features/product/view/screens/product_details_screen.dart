@@ -157,12 +157,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Container(
-                                            height: 3.h,
-                                            width: 3.h,
+                                            height: 5.h,
+                                            width: 5.h,
                                             margin: EdgeInsets.all(1.w),
                                             decoration: BoxDecoration(
                                                 color: Colors.grey[200],
-                                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                                 border: index==data.selectedColorIndex?Border.fromBorderSide(
                                                     BorderSide(
                                                         width:1,
@@ -171,11 +171,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 ):null,
                                                 image:DecorationImage(
                                                     alignment:Alignment.bottomCenter,
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.fitHeight,
                                                     image: CachedNetworkImageProvider(item.imageName??''))
                                             )
                                         ),
-                                        Text(item.colorName??'')
+                                        SizedBox(height:0.5.h,),
+                                        Text(item.colorName??'',style: TextStyle(fontSize: AppFontSize.small*0.9),)
                                       ],
                                     ),
                                   ),

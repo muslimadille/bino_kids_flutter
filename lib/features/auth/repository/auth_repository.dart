@@ -131,14 +131,21 @@ class AuthRepository{
     try {
       final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
       bool isEmail=emailRegex.hasMatch(mobile);
+      final phoneBody={
+        "phone": mobile,
+        "Lang": AppLocalization.isArabic?2:1
+      };
+      final emailBody={
+        "email": mobile,
+        "lang": AppLocalization.isArabic?2:1
+      };
+
+
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
-            apiCode:ApiCodes.RESET_PASSWORD,
+            apiCode:isEmail?ApiCodes.RESET_PASSWORD_BY_EMAIL:ApiCodes.RESET_PASSWORD,
             networkType: NetworkRequestEnum.put,
-            data: {
-              "phone": mobile,
-              "Lang": AppLocalization.isArabic?2:1
-            },
+            data:isEmail?emailBody:phoneBody ,
             showProgress: true,
             dismissProgress: true,
           ),

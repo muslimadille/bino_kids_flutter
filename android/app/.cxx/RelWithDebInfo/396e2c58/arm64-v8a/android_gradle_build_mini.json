@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/mslmadl/Documents/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/mslmadl/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/mslmadl/Desktop/my_files/lab_top/my_files/flutter/bino project/binokids/android/app/.cxx/RelWithDebInfo/396e2c58/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/mslmadl/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/mslmadl/Desktop/my_files/lab_top/my_files/flutter/bino project/binokids/android/app/.cxx/RelWithDebInfo/396e2c58/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

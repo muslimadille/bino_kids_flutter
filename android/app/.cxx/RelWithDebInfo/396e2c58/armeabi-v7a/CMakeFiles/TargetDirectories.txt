@@ -1,0 +1,2 @@
+/Users/mslmadl/Desktop/my_files/lab_top/my_files/flutter/bino project/binokids/android/app/.cxx/RelWithDebInfo/396e2c58/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/mslmadl/Desktop/my_files/lab_top/my_files/flutter/bino project/binokids/android/app/.cxx/RelWithDebInfo/396e2c58/armeabi-v7a/CMakeFiles/rebuild_cache.dir

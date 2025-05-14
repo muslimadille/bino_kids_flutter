@@ -40,7 +40,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> with Forget
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(tr("mobile_number"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
+                    Text(tr("user_name_field_title"),style: TextStyle(fontSize: AppFontSize.x_small,fontWeight: FontWeight.w500,color: Colors.black),),
                     SizedBox(height:1.h),
                     Container(
                       height: 5.h,
@@ -76,7 +76,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> with Forget
                             contentPadding: EdgeInsets.zero,
                             isDense:true,
                           ),
-                          keyboardType: TextInputType.numberWithOptions(decimal: true) ,
+                          keyboardType: TextInputType.text,
                           cursorColor: Colors.black,
                           onChanged: (value){
 

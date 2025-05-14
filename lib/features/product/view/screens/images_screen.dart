@@ -37,9 +37,14 @@ class _ImagesScreenState extends State<ImagesScreen> {
               onChangeImage(index);
             },
             children:List.generate(widget.imageList.length, (index){
-              return Image(
-                image: CachedNetworkImageProvider(widget.imageList[index].imageName??""),
-                fit: BoxFit.cover,
+              return InteractiveViewer(
+                boundaryMargin: EdgeInsets.all(20),
+                minScale: 0.5,
+                maxScale: 4,
+                child: Image(
+                  image: CachedNetworkImageProvider(widget.imageList[index].imageName??""),
+                  fit: BoxFit.cover,
+                ),
               );
             }) ,
           ),
