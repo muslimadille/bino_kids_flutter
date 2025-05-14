@@ -80,26 +80,31 @@ class _ProfileScreenState extends State<ProfileScreen>with ProfileHelper {
             ],),
         ),
         const ProfileDividerWidget(),
-        Visibility(
-          visible: AppData.IS_VERIFIED_USER,
-          child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 3.w,vertical: 2.h),
-            child: GestureDetector(
-              onTap: (){
-                AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT).then((value){
-                  setState(() {
+        FutureBuilder<bool?>(
+          future: isUserVerified(),
+          builder: (context, snapshot) {
+            return Visibility(
+              visible: !(snapshot.data??true),
+              child: Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 3.w,vertical: 2.h),
+                child: GestureDetector(
+                  onTap: (){
+                    AppNavigator().push(routeName: AppRoutes.OTP_SCREEN_ROUT).then((value){
+                      setState(() {
 
-                  });
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(tr("active_account"),style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w500),),
-                  Icon(Icons.arrow_forward_ios,color: Colors.grey,size:18,)
-                ],),
-            ),
-          ),
+                      });
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(tr("active_account"),style: TextStyle(fontSize: AppFontSize.medium,fontWeight: FontWeight.w500),),
+                      Icon(Icons.arrow_forward_ios,color: Colors.grey,size:18,)
+                    ],),
+                ),
+              ),
+            );
+          }
         ),
         const ProfileDividerWidget(),
         Expanded(child: SizedBox(),),

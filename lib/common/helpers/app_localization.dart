@@ -18,7 +18,7 @@ class AppLocalization{
   }
 
    onInit() async{
-    await localization.init(
+     localization.init(
       mapLocales: [
         const MapLocale('en', AppLocalization.EN),
         const MapLocale('ar', AppLocalization.AR),

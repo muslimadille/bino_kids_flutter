@@ -52,15 +52,15 @@ class FacebookAnalyticsHelper {
      values.add(os_version);
      device_model_name=DeviceInfoDetails().deviceName;
      values.add(device_model_name);
-     locale=localization.currentLocale!.languageCode.toString();
+     locale=(localization.currentLocale??Locale("ar")).languageCode.toString();
      values.add(locale);
      timezone_abbreviation='GMT+2';
      values.add(timezone_abbreviation);
      carrier=AppData.USER_NUMBER.isEmpty?"vodafone":AppData.USER_NUMBER.substring(0,2)=='010'?"vodafone":AppData.USER_NUMBER.substring(0,2)=='011'?"Etisalat":AppData.USER_NUMBER.substring(0,2)=='012'?"Mobinile":"We";
      values.add(carrier);
-     screen_width=SizerUtil.width.toString();
+     screen_width=context.size!.width.toString();
      values.add(screen_width);
-     screen_height=SizerUtil.height.toString();
+     screen_height=context.size!.height.toString();
      values.add(screen_height);
      cpu_cores='2';
      values.add(cpu_cores);

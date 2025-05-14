@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
+import 'package:bino_kids/common/utils/constants/app_data.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
+import 'package:bino_kids/features/auth/model/verify_user_model.dart';
+import 'package:bino_kids/features/auth/repository/auth_repository.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
 import 'package:bino_kids/features/profile/repository/profile_repository.dart';
+import 'package:dio/dio.dart';
 
 mixin ProfileHelper{
 
@@ -28,6 +34,15 @@ mixin ProfileHelper{
   }
 
 }
+Future<bool?>isUserVerified()async{
+  try{
+    final response=await AuthRepository().isUserVerified();
+    VerifyUserModel verifyUserModel=verifyUserModelFromJson(jsonEncode(response.data));
+    AppData.IS_VERIFIED_USER=verifyUserModel.isUserVerified??false;
+    return AppData.IS_VERIFIED_USER;
+  } on DioException catch (error){
+    false;
+  }}
 
 class OrderTabType{
   final String title;

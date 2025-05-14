@@ -13,6 +13,7 @@ import 'package:bino_kids/features/product/view_model/product_with_filters_helpe
 import 'package:bino_kids/features/user_messages/view/widgets/no_data_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -183,27 +184,50 @@ class _ProductWithFiltersScreenState extends State<ProductWithFiltersScreen>with
               stream: productsStreamController.stream,
               builder: (context, snapshot) {
                 return snapshot.hasData?
-                snapshot.data!.isNotEmpty?Container(
-                  color:Colors.grey[200],
-                  child: MasonryGridView.count(
-                    padding: EdgeInsets.only(top: 1.h),
-                      shrinkWrap: true,
-                      itemCount:snapshot.data!.length ,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing:0,
-                      crossAxisCount: 2,
-                      addAutomaticKeepAlives:false,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: (){
-                            onItemClick(modelId: snapshot.data![index].guId.toString(),colorId:(snapshot.data![index].colorId??0).toInt());
-                          },
-                            child:  ProductItemWidget(key:UniqueKey(),index: index, productModel: snapshot.data![index],));
-                      }),
+                snapshot.data!.isNotEmpty?Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        color:Colors.grey[200],
+                        child: MasonryGridView.count(
+                          controller:productsController ,
+                          padding: EdgeInsets.only(top: 1.h),
+                            shrinkWrap: true,
+                            itemCount:snapshot.data!.length ,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing:0,
+                            crossAxisCount: 2,
+                            addAutomaticKeepAlives:false,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: (){
+                                  onItemClick(modelId: snapshot.data![index].guId.toString(),colorId:(snapshot.data![index].colorId??0).toInt());
+                                },
+                                  child:  ProductItemWidget(key:UniqueKey(),index: index, productModel: snapshot.data![index],));
+                            }),
+                      ),
+                    ),
+                    showLoadMore?SizedBox(height: 5.h, child:
+                    SpinKitThreeBounce(
+                      size: 5.h,
+                      itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle
+                          ),
+                        );
+                      },
+                    )
+                    ):SizedBox()
+                  ],
                 ):NoDataWidget()
                     :SizedBox();
               }
             ),
+          ),
+          SizedBox(
+            height: 2.h,
           )
     ],),);
   }

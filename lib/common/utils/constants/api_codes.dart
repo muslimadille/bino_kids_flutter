@@ -49,6 +49,7 @@ class ApiCodes{
 
 
   static const String RESET_PASSWORD="Users/SendNewPassword";
+  static const String RESET_PASSWORD_BY_EMAIL="Users/SendNewPasswordByEmail";
   static const String CHANGE_PASSWORD="Users/ChangePassword";
   static const String GET_USER_DATA="Users/GetUserData";
   static const String UPDATE_PROFILE="Users/UpdateProfile";

@@ -125,8 +125,12 @@ class AuthRepository{
       rethrow;
     }
   }
+
+
   Future<Response>forgetPassword({required String mobile})async{
     try {
+      final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+      bool isEmail=emailRegex.hasMatch(mobile);
       final response = await NetworkRequest().sendAppRequest(
           networkParameters: NetworkRequestModel(
             apiCode:ApiCodes.RESET_PASSWORD,
@@ -146,6 +150,7 @@ class AuthRepository{
       rethrow;
     }
   }
+
 
   Future<Response>changePassword({required String oldPassword,required String newPassword,})async{
     try {

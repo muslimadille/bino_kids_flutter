@@ -36,7 +36,7 @@ class ProductRepository{
         "UserId": AppData.USER_ID,
         "userRole": AppData.USER_ROLE,
         "pageIndex": pageIndex??0,
-        "pageSize": 500,
+        "pageSize": 20,
       };
       switch(moduleId){
         case 0:

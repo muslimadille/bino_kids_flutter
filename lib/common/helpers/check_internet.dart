@@ -19,17 +19,17 @@ class CheckInternet {
   Stream get connectionChange => _connectionChangeController.stream;
 
   void initialize() async{
-    final ConnectivityResult result = await (Connectivity().checkConnectivity());
+    final List<ConnectivityResult> result = await (Connectivity().checkConnectivity());
     await _checkConnection(result);
     _connectionChangeController.add(_hasConnection);
     _connectivity.onConnectivityChanged.listen(_connectionChange);
 
   }
 
-  _checkConnection(ConnectivityResult result) async {
-    if (result == ConnectivityResult.mobile ||
-        result == ConnectivityResult.wifi) {
-      final result = await InternetConnectionChecker().hasConnection;
+  _checkConnection(List<ConnectivityResult> result) async {
+    if (result[0] == ConnectivityResult.mobile ||
+        result[0] == ConnectivityResult.wifi) {
+      final result = await InternetConnectionChecker.instance.hasConnection;
       if (result??false) {
         _hasConnection = true;
       } else {
@@ -40,7 +40,7 @@ class CheckInternet {
     }
   }
 
-  _connectionChange(ConnectivityResult result) async {
+  _connectionChange(List<ConnectivityResult> result) async {
     bool previousConnection = _hasConnection;
     await _checkConnection(result);
     if (previousConnection != _hasConnection) {

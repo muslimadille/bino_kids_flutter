@@ -34,6 +34,7 @@ mixin productWithFiltersHelper{
   late final StreamController<int> categoryStreamController;
   late final StreamController<List<ProductModel>?> productsStreamController;
   late final StreamController<Filters?> filtersStreamController;
+  late final ScrollController  productsController=ScrollController();
 
 
   int? selectedCategoryId;
@@ -41,6 +42,8 @@ mixin productWithFiltersHelper{
   int selectedIndex=0;
   int pageIndex=0;
   int pageSize=20;
+  bool showLoadMore=false;
+  List<ProductModel> productsList=[];
   onInit()async{
     initSelectedCategory();
     categoryStreamController=StreamController<int>.broadcast();
@@ -51,6 +54,30 @@ mixin productWithFiltersHelper{
       scrollToIndex();
     }
     getProducts(selectedFilters: {});
+
+    productsController.addListener(()async{
+      bool isBottom = productsController.position.pixels ==
+          productsController.position.maxScrollExtent;
+      if(isBottom){
+        showLoadMore=true;
+        productsStreamController.add(productsList);
+        pageIndex++;
+        final response=await ProductRepository().getProductsWithFilter(
+          pageIndex: pageIndex,
+            showLoader: false,
+            modelAgeId: modelAgeId,
+            moduleId: moduleId,
+            modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
+            modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
+        ProductsWithFilterModel? productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+        prices=productsWithFilterModel.price;
+        productsList.addAll(productsWithFilterModel.modelList??[]);
+        getFilters(productsWithFilterModel.modelList);
+        showLoadMore=false;
+        productsStreamController.add(productsList);
+      }
+
+    });
   }
   onDispose(){
     categoryStreamController.close();
@@ -75,12 +102,12 @@ mixin productWithFiltersHelper{
   }
   getProducts({required Map<String, List<int>> selectedFilters})async{
 
-    productsStreamController.add(null);
+    /*productsStreamController.add(null);
     String boxName= (AppData.hive_Models_list_Types+(AppLocalization.isArabic?"ar":"en")+
         modelAgeId.toString()+moduleId.toString()+modelGenderId.toString()+
         (subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId).toString()+jsonEncode(selectedFilters));
 
-    if(/*await HiveHelper().isExists(boxName:boxName )*/false){
+    if(*//*await HiveHelper().isExists(boxName:boxName )*//*false){
       ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
       getFilters(productsWithFilterModel.modelList);
       prices=productsWithFilterModel.price;
@@ -113,10 +140,28 @@ mixin productWithFiltersHelper{
       productsStreamController.add(productsWithFilterModel.modelList);
       await Future.delayed(Duration(seconds: 1));
       EasyLoading.dismiss();
-      /*await HiveHelper().deleteBoxes(boxName);
-      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);*/
+      *//*await HiveHelper().deleteBoxes(boxName);
+      await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);*//*
 
-    }
+    }*/
+    pageIndex=0;
+    productsList.clear();
+    productsStreamController.sink.add(null);
+    EasyLoading.show();
+    final response=await ProductRepository().getProductsWithFilter(
+      pageIndex: pageIndex,
+        showLoader: false,
+        modelAgeId: modelAgeId,
+        moduleId: moduleId,
+        modelGender: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].modelGenderId:null,
+        modelTypeID: subcategoriesList.isNotEmpty?subcategoriesList[selectedIndex].id:selectedCategoryId,selectedFilters: selectedFilters);
+    ProductsWithFilterModel? productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+    prices=productsWithFilterModel.price;
+    productsList.addAll(productsWithFilterModel.modelList??[]);
+
+    getFilters(productsList);
+    productsStreamController.add(productsList);
+    EasyLoading.dismiss();
   }
 
    initSelectedCategory(){
