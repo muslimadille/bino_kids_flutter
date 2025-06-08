@@ -63,7 +63,7 @@ onDispose();
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: widget.columns??4, // Number of columns in the grid
             crossAxisSpacing: 0.1.w, // Spacing between columns
-            mainAxisSpacing: 0.1.w, // Spacing between rows
+            mainAxisSpacing: 0.1.h, // Spacing between rows
           ),
           itemCount: snapshot.data!.data.length, // Number of items in the grid
           itemBuilder: (BuildContext context, int subCategoryIndex) {
@@ -102,7 +102,7 @@ onDispose();
                       ),),
                     SizedBox(height: 0.4.h,),
                     Text(snapshot.data!.data[subCategoryIndex].name
-                      ,textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.small*1.2,fontWeight:FontWeight.w700))
+                      ,textAlign: TextAlign.center,style: TextStyle(fontSize: AppFontSize.small*1.15,fontWeight:FontWeight.w700))
                   ],
                 ),
               );

@@ -90,7 +90,7 @@ class HomeRepository{
               "lang": AppLocalization.isArabic?2:1,
               "userRole": 2,
               "pageIndex": 0,
-              "pageSize": 150,
+              "pageSize": 50,
             },
             showProgress: false,
             dismissProgress: true,

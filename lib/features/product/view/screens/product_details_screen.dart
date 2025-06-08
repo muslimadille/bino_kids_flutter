@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
+import 'images_screen.dart';
+
 class ProductDetailsScreen extends StatelessWidget {
   final ProductDetailsParams productParams;
   const ProductDetailsScreen({
@@ -65,8 +67,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                   children:List.generate(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList().length, (index){
                                     return InkWell(
                                       onTap: (){
-                                        AppNavigator().push(routeName: AppRoutes.IMAGES_SCREEN_ROUTE,arguments:data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList() );
-                                      },
+                                        AppNavigator().push(routeName: AppRoutes.IMAGES_SCREEN_ROUTE,
+                                            arguments:ImagesScreenModel(colorIndex: data.selectedColorIndex, colorsList:data.modelDetailsModel!.modelList!.colors??[], imageList: data.modelDetailsModel!.modelList!.imageList??[], imageIndex: 0));},
                                       child: Image(
                                         image: CachedNetworkImageProvider(data.modelDetailsModel!.modelList!.imageList!.where((element) => element.colorId==data.modelDetailsModel!.modelList!.colors![data.selectedColorIndex].colorId).toList()[index].imageName??''),
                                         fit: BoxFit.cover,

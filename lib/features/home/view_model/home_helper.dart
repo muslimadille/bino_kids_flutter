@@ -23,17 +23,23 @@ mixin HomeHelper{
   late final StreamController<MainCategoriesDataModel?>mainCategoryStreamController;
   List<MainCategoriesDataModel> categories=[];
   late final StreamController<List<ProductModel>?> mostWatchedStreamController;
+  late final StreamController<List<ProductModel>?> sugestionsStreamController;
+
 
   onInit()async{
     NotificationHelper().setUser();
     mainCategoryStreamController=StreamController<MainCategoriesDataModel?>.broadcast();
     mostWatchedStreamController=StreamController<List<ProductModel>?>();
+    sugestionsStreamController=StreamController<List<ProductModel>?>();
+
     getMainCategories();
     getMostWatched();
+    getSuggestions();
   }
   onDispose(){
     mainCategoryStreamController.close();
     mostWatchedStreamController.close();
+    sugestionsStreamController.close();
   }
   onSelectCategory(int index){
     selectedCategoryIndex=index;
@@ -81,7 +87,7 @@ mixin HomeHelper{
       }else {
       final response=await HomeRepository().getMostWatched();
       ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
-      await HiveHelper().deleteBoxes(boxName);
+      //await HiveHelper().deleteBoxes(boxName);
       await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
       mostWatchedStreamController.add(productsWithFilterModel.modelList);
       }} on DioException catch (error){
@@ -90,14 +96,21 @@ mixin HomeHelper{
   }
   Future <List<ProductModel>?>getSuggestions()async{
     try{
-      if(CashHelper.homeSuggestions !=null){
-        return CashHelper.homeSuggestions!.modelList;
-      }
-      final response=await HomeRepository().getSuggestions();
-      ProductsWithFilterModel productsWithFilterModel=productsWithFilterModeFromJson(jsonEncode(response.data));
-      CashHelper.homeSuggestions=productsWithFilterModel;
-      return productsWithFilterModel.modelList;
-    } on DioException catch (error){
+      String boxName=AppData.hive_most_suggestions+(AppLocalization.isArabic?"ar":"en");
+      if(await HiveHelper().isExists(boxName:boxName )){
+        ProductsWithFilterModel productsWithFilterModel= await HiveHelper().getBoxes<ProductsWithFilterModel>(boxName) as ProductsWithFilterModel;
+        sugestionsStreamController.add(productsWithFilterModel.modelList);
+        final response=await HomeRepository().getSuggestions();
+        productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+        await HiveHelper().deleteBoxes(boxName);
+        await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
+      }else {
+        final response=await HomeRepository().getSuggestions();
+        ProductsWithFilterModel productsWithFilterModel=productsWithFilterBaseModelFromJson(jsonEncode(response.data)).data!;
+        await HiveHelper().deleteBoxes(boxName);
+        await HiveHelper().addBoxes<ProductsWithFilterModel>(productsWithFilterModel, boxName);
+        sugestionsStreamController.add(productsWithFilterModel.modelList);
+      }} on DioException catch (error){
       return null;
     }
   }

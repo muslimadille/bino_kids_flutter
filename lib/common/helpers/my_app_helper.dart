@@ -102,7 +102,7 @@ import '../widgets/no_internet_screen.dart';
       case AppRoutes.REGISTER_SCREEN_ROUTE:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case AppRoutes.IMAGES_SCREEN_ROUTE:
-        return MaterialPageRoute(builder: (_) =>  ImagesScreen(imageList: routeSettings.arguments as List<ImageList>));
+        return MaterialPageRoute(builder: (_) =>  ImagesScreen(model: routeSettings.arguments as ImagesScreenModel));
       case AppRoutes.PAYMENT_SCREEN_ROUT:
         return MaterialPageRoute(builder: (_) =>  PaymentScreen(url: routeSettings.arguments as String));
       case AppRoutes.OTP_SCREEN_ROUT:

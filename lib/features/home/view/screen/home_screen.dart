@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper,AutomaticKeepAli
                       }),),
                       SliverToBoxAdapter(child:Visibility(
                         visible: AppData.USER_NAME.isNotEmpty,
-                        child: FutureBuilder(future: getSuggestions(), builder: (context,snapshot){
+                        child: StreamBuilder(stream: sugestionsStreamController.stream,builder: (context,snapshot){
                           return snapshot.hasData?
                           Visibility(
                             visible:(snapshot.data??[]).isNotEmpty,

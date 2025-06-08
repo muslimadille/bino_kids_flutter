@@ -37,7 +37,7 @@ class PromoStatusModel {
     totalAfterDiscount: json["totalAfterDiscount"]??0,
     totalBeforeDiscount: json["totalBeforeDiscount"]??0,
     discountValue: json["DiscountValue"]??0,
-    promocodeId: json["promocodeId"]??0,
+    promocodeId: json["promocodeId"]??"",
     exists: json["exists"]??false,
     returnedUrlToPayment: json["returnedURLToPayment"]??"",
     allGovernments: json["allGovernments"],
