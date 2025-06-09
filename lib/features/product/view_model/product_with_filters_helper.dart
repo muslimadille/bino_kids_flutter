@@ -92,13 +92,16 @@ mixin productWithFiltersHelper{
     });
   }
   onSelectCategory(int index){
-    selectedIndex=index;
-    selectedFilters={};
-    selectedCategoryId=subcategoriesList[index].id;
-    modelGenderId=subcategoriesList[index].modelGenderId;
-    categoryStreamController.add(index);
-    getProducts(selectedFilters: {});
-    scrollToIndex();
+    if(!showLoadMore){
+      selectedIndex=index;
+      selectedFilters={};
+      selectedCategoryId=subcategoriesList[index].id;
+      modelGenderId=subcategoriesList[index].modelGenderId;
+      categoryStreamController.add(index);
+      getProducts(selectedFilters: {});
+      scrollToIndex();
+    }
+
   }
   getProducts({required Map<String, List<int>> selectedFilters})async{
 

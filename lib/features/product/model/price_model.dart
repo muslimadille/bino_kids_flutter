@@ -19,8 +19,8 @@ class Price extends HiveObject {
 
   factory Price.fromJson(Map<String, dynamic> json) => Price(
     filterName: json["filterName"] ?? '',
-    minPrice: json["minPrice"] ?? -1,
-    maxPrice: json["maxPrice"] ?? -1,
+    minPrice: (json["minPrice"] ?? -1),
+    maxPrice: (json["maxPrice"] ?? -1),
   );
 
   Map<String, dynamic> toJson() => {

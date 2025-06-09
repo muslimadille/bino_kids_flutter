@@ -46,7 +46,11 @@ class WishListScreen extends StatelessWidget {
   }
   Widget _list(){
     return Consumer<WishListProvider>(builder: (context,dataModel,_){
-      return ListView.builder(
+      return SingleChildScrollView(
+        child: Column(children: List.generate(dataModel.wishlisModel!.modelList.length, (index){
+          return item(context,index);
+        }),),
+      );ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 0.7.h),
             itemCount:dataModel.wishlisModel!.modelList.length ,
             itemBuilder: (context,index){
@@ -56,7 +60,9 @@ class WishListScreen extends StatelessWidget {
     );
   }
   Widget item(BuildContext context,int index){
-    return WishListItemWidget(model:context.read<WishListProvider>().wishlisModel!.modelList[index],
+    return WishListItemWidget(
+      key: ValueKey(context.read<WishListProvider>().wishlisModel!.modelList[index]),
+      model:context.read<WishListProvider>().wishlisModel!.modelList[index],
       onAddToCard: (model){
         context.read<ProductDetailsProvider>().addItemToCart(
             colorId: (model.colorId??0).toInt(),

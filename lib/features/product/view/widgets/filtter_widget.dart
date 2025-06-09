@@ -5,6 +5,7 @@ import 'package:bino_kids/common/widgets/custom_loading.dart';
 import 'package:bino_kids/features/product/model/filter_model.dart';
 import 'package:bino_kids/features/product/model/price_model.dart';
 import 'package:bino_kids/features/product/view/widgets/filter_item_widget.dart';
+import 'package:bino_kids/features/product/view/widgets/price_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -116,19 +117,21 @@ class _FilterWidgetState extends State<FilterWidget> {
                 Text(tr("price"),style: TextStyle(fontWeight: FontWeight.w500,fontSize: AppFontSize.x_small),),
                 Row(
                   children: [
-                    Text(rangeValues.start.toInt().toString()),
+                    Text((rangeValues.start).toInt().toString()),
+                    SizedBox(width: 4.w,),
                     Expanded(
-                      child: RangeSlider(
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.grey,
-                        labels: RangeLabels(rangeValues.start.toString(),rangeValues.end.toString()),
-                        max: (widget.price.maxPrice??0).toDouble(),min:(widget.price.minPrice??0).toDouble(),onChanged: (values){
-                        selectedFilters["Price"]=[values.start.toInt(),values.end.toInt()];
-                        rangeValues=values;
-                        setState(() {});
-                      }, values: rangeValues,),
+                      child: CustomPriceSliderDemo(
+                        width: 20.w,
+                        maxValue: ((widget.price.maxPrice??0)).toDouble(),
+                        minValue: (widget.price.minPrice??0).toDouble(),
+                          onChange: (start,end){
+                            selectedFilters["Price"]=[(start).toInt(),(end).toInt()];
+                            rangeValues=RangeValues(double.parse((start.toString())),double.parse((end.toString())));
+                            setState(() {});
+                          }),
                     ),
-                    Text(rangeValues.end.toInt().toString()),
+                    SizedBox(width: 4.w,),
+                    Text((rangeValues.end).toInt().toString()),
 
                   ],
                 ),

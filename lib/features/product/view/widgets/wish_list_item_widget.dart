@@ -35,6 +35,13 @@ class _WishListItemWidgetState extends State<WishListItemWidget> {
     super.didChangeDependencies();
   }
   @override
+  void didUpdateWidget(covariant WishListItemWidget oldWidget) {
+    setState(() {
+
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
   void initState() {
     if((widget.model.colors??[]).isNotEmpty){
       if (widget.model.colors!.where((element) => element.colorId == widget.model.colorId).isNotEmpty) {
