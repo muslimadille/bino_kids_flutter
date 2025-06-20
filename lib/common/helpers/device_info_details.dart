@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
@@ -25,7 +24,6 @@ class DeviceInfoDetails {
   AndroidDeviceInfo? androidInfo;
   IosDeviceInfo? iosInfo;
 
-  final networkInfo = NetworkInfo();
 
   Map<String, dynamic> deviceInfoMap = {};
   String deviceType='';
@@ -57,7 +55,6 @@ class DeviceInfoDetails {
   }
 
   Future<void> getDeviceInfoMap() async {
-    var wifiIP = await networkInfo.getWifiIP();
     if (Platform.isAndroid) {
       deviceInfoMap = {
         "platform": "android",
@@ -66,7 +63,6 @@ class DeviceInfoDetails {
         "appName": packageInfo.appName,
         "appVersion": packageInfo.version,
         "deviceId": androidInfo?.id,
-        "ip": wifiIP,
       };
     } else if (Platform.isIOS) {
       deviceInfoMap = {
@@ -76,7 +72,6 @@ class DeviceInfoDetails {
         "appName": packageInfo.appName,
         "appVersion": packageInfo.version,
         "deviceId": iosInfo?.identifierForVendor,
-        "ip": wifiIP,
       };
     }
   }

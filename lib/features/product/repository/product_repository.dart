@@ -215,7 +215,7 @@ class ProductRepository{
 
 
       if(modelGender==1||modelGender==2){
-        data["gendertype"]=modelGender;
+        data["gender"]=modelGender;
       }
 
       final response = await NetworkRequest().sendAppRequest(

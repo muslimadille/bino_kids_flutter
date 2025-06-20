@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/Users/mslmadl/.shorebird/bin/cache/flutter/7c1c25e48e6dd849c3264588346aa63652d5e426/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/mslmadl/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/mslmadl/Desktop/my_files/lab_top/my_files/flutter/bino project/binokids/android/app/.cxx/RelWithDebInfo/6f4a5ip6/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/mslmadl/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/mslmadl/Desktop/my_files/lab_top/my_files/flutter/bino project/binokids/android/app/.cxx/RelWithDebInfo/6f4a5ip6/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/mslmadl/Library/Android/sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/mslmadl/Library/Android/sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}
