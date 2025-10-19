@@ -114,7 +114,7 @@ class HomeRepository{
               "userId": AppData.USER_ID,///required
               "userRole": AppData.USER_ROLE,
               "pageIndex": 0,
-              "pageSize": 150,
+              "pageSize": 50,
             },
             showProgress: true,
             dismissProgress: true,

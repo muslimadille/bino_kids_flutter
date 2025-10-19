@@ -169,8 +169,15 @@ mixin productWithFiltersHelper{
 
    initSelectedCategory(){
     if(selectedCategoryId!=null&&subcategoriesList.isNotEmpty){
-      selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName||element.arName==selectedCategoryName)).first);
-      modelGenderId=subcategoriesList[selectedIndex].modelGenderId;
+      final bool isModelFound=subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName||element.arName==selectedCategoryName)).isNotEmpty;
+      if(isModelFound){
+        selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&(element.name==selectedCategoryName||element.enName==selectedCategoryName||element.arName==selectedCategoryName)).first);
+        modelGenderId=modelGenderId==0?subcategoriesList[selectedIndex].modelGenderId:modelGenderId;
+      }else{
+        selectedIndex=subcategoriesList.indexOf(subcategoriesList.where((element) => element.id==selectedCategoryId&&element.modelGenderId==modelGenderId).first);
+        modelGenderId=modelGenderId==0?subcategoriesList[selectedIndex].modelGenderId:modelGenderId;
+      }
+
     } else{
       selectedIndex=0;
     }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
@@ -32,9 +33,9 @@ mixin HomeHelper{
     mostWatchedStreamController=StreamController<List<ProductModel>?>();
     sugestionsStreamController=StreamController<List<ProductModel>?>();
 
-    getMainCategories();
-    getMostWatched();
-    getSuggestions();
+    await getMainCategories();
+    await getMostWatched();
+    await getSuggestions();
   }
   onDispose(){
     mainCategoryStreamController.close();

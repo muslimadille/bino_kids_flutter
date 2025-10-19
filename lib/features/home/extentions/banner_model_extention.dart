@@ -26,7 +26,7 @@ extension BannerModelExtention on BannerDataModel{
             EasyLoading.dismiss();
             AppNavigator().push(
                 routeName: AppRoutes.PRODUCTS_WITH_FILTER_SCREEN_ROUTE,
-                arguments: ProductsScreenArqumentsModel(subcategoriesList: value!.data,selectedcategoryId: modelTypeId ?? 0, selectedcategoryName: modelTypeName ?? "",moduleId:int.parse(firstPage??"0") ));
+                arguments: ProductsScreenArqumentsModel(subcategoriesList: value!.data,selectedcategoryId: modelTypeId ?? 0, selectedcategoryName: modelTypeName ?? "",moduleId:int.parse(firstPage??"0"),modelGenderId: modelGenderId ));
           });
 
         }

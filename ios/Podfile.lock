@@ -116,8 +116,6 @@ PODS:
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
-  - network_info_plus (0.0.1):
-    - Flutter
   - onesignal_flutter (5.3.0):
     - Flutter
     - OneSignalXCFramework (= 5.2.10)
@@ -197,7 +195,6 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - OneSignalXCFramework (< 6.0, >= 5.0.0)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -244,8 +241,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_localization/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  network_info_plus:
-    :path: ".symlinks/plugins/network_info_plus/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info_plus:
@@ -285,7 +280,6 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 36684bfb3ee034e2b42b4321eb19da3a1b81e65d
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
-  network_info_plus: 6613d9d7cdeb0e6f366ed4dbe4b3c51c52d567a9
   onesignal_flutter: c4442bab25faaf3a3ab77cdcd33f4507f10b05b8
   OneSignalXCFramework: 1a3b28dfbff23aabce585796d23c1bef37772774
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4

@@ -10,6 +10,8 @@ import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
 import 'package:bino_kids/features/profile/repository/profile_repository.dart';
 import 'package:dio/dio.dart';
 
+import '../../auth/provider/login_provider.dart';
+
 mixin ProfileHelper{
 
   List<OrderTabType> orderTaps=[
@@ -30,7 +32,7 @@ mixin ProfileHelper{
   }
   deleteAccount()async{
     await ProfileRepository().deleteAccount();
-    AppNavigator().pushAndRemoveAll(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);
+    LoginProvider().logout();
   }
 
 }

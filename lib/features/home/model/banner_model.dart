@@ -51,6 +51,7 @@ class BannerDataModel {
   final int? modelTypeId;
   final String modelTypeName;
   final String firstPageName;
+  final int modelGenderId;
 
   BannerDataModel({
     required this.id,
@@ -71,6 +72,7 @@ class BannerDataModel {
     required this.modelTypeId,
     required this.modelTypeName,
     required this.firstPageName,
+    required this.modelGenderId
   });
 
   factory BannerDataModel.fromJson(Map<String, dynamic> json) => BannerDataModel(
@@ -92,6 +94,7 @@ class BannerDataModel {
     modelTypeId: json["ModelTypeId"],
     modelTypeName: json["ModelTypeName"],
     firstPageName: json["FirstPageName"],
+    modelGenderId: json['ModelGenderId']??0
   );
 
   Map<String, dynamic> toJson() => {

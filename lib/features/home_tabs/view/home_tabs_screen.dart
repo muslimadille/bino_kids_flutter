@@ -5,6 +5,10 @@ import 'package:bino_kids/common/utils/constants/app_font_size.dart';
 import 'package:bino_kids/common/utils/constants/app_routes.dart';
 import 'package:bino_kids/features/home_tabs/view_model/home_tabs_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../cart/provider/cart_provider.dart';
 
 class HomeTabsScreen extends StatefulWidget {
   final int? selectedIndex;
@@ -99,9 +103,22 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> with HomeTabsHelper {
         ),
 
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.shopping_cart_outlined,
-            color: Colors.grey[400],
+          icon: Consumer<CartProvider>(builder: (context,dataModel,_){
+            if(dataModel.cartItemsResponseModel==null){
+              dataModel.getCartItems(showLoading:false);
+            }
+            return  Badge(
+              backgroundColor: Colors.black,
+                label:Padding(
+                  padding: EdgeInsets.all(0.7.w),
+                  child: Text((dataModel.cartItemsResponseModel!=null?
+                dataModel.cartItemsResponseModel!.modelList!.length:0).toString(),style:TextStyle(fontSize: 10.sp,color: Colors.white),),) ,
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.grey[400],
+                ),
+              );
+            }
           ),
           label: AppLocalization.translate("CART_TAB_TITLE"),
           activeIcon: const Icon(

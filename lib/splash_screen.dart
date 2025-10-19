@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelpe
   }
 
   checkLogin()async{
-    //AppData.REVIEW_MODE =await ConfigHelper().getReviewStatus();
+    AppData.REVIEW_MODE =await ConfigHelper().getReviewStatus();
 
     final  response=await AuthRepository().getMobileVersion();
     MobileVersionModel mobileVersionResponse =mobileVersionModelFromJson(jsonEncode(response.data));
