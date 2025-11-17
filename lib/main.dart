@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bino_kids/applications/mainApplication.dart';
 import 'package:bino_kids/common/helpers/app_localization.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
@@ -25,8 +27,17 @@ import 'common/widgets/custom_loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
-
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 void main() async{
+  HttpOverrides.global = MyHttpOverrides();
+
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterLocalization.instance.ensureInitialized();
   await Firebase.initializeApp(
