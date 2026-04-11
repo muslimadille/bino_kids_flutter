@@ -11,6 +11,7 @@ import 'package:bino_kids/features/cart/repository/cart_repository.dart';
 import 'package:bino_kids/features/orders/model/chage_favorite_model.dart';
 import 'package:bino_kids/features/product/model/model_details_model.dart';
 import 'package:bino_kids/features/product/repository/product_repository.dart';
+import 'package:bino_kids/common/helpers/analytics_helper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -126,6 +127,20 @@ class ProductDetailsProvider with ChangeNotifier{
     if(response.data['status'].toString()=="1"){
       CustomSnakbar().appSnackBar(text:response.data['message'].toString());
       await AppNavigator().currentContext().read<CartProvider>().getCartItems();
+
+      // GA4: add_to_cart event
+      final model = modelDetailsModel?.modelList;
+      if (model != null) {
+        final selectedColor = (model.colors ?? [])[selectedColorIndex];
+        final selectedSize = (selectedColor.sizesOfThisColorList ?? [])[selectedSizeIndex];
+        AnalyticsHelper().logAddToCart(
+          itemId: (model.id ?? 0).toString(),
+          itemName: model.productData ?? '',
+          itemCategory: model.modelTypeName ?? '',
+          price: (model.priceAfterDiscount ?? 0).toDouble(),
+          quantity: 1,
+        );
+      }
     }
 
     //AppNavigator().goBack();

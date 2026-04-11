@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bino_kids/common/helpers/analytics_helper.dart';
 import 'package:bino_kids/common/helpers/app_navigator.dart';
 import 'package:bino_kids/common/helpers/facebook_analytics_helper.dart';
 import 'package:bino_kids/common/helpers/local_storage.dart';
@@ -13,6 +14,7 @@ import 'package:bino_kids/features/auth/model/verify_user_model.dart';
 import 'package:bino_kids/features/auth/view/screens/select_phone_botton_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import '../../../common/widgets/custom_snakbar.dart';
 import '../model/facebook_login_model.dart';
@@ -53,7 +55,7 @@ mixin LoginHelper{
 
       );
     }else{
-      await login(socialId:socialId);
+      await login(socialId:socialId,email: email);
     }
   }
   login({String? socialId,String?email})async{
@@ -66,6 +68,10 @@ mixin LoginHelper{
             socailId: socialId);
 
         LoginModel loginModel=loginModelFromJson(jsonEncode(response.data));
+        if(loginModel.accessToken.isEmpty||loginModel.userId.isEmpty){
+          CustomSnakbar().appSnackBar(isFaild: true,text: loginModel.message.isNotEmpty?loginModel.message:'Login failed');
+          return;
+        }
         LocalStorage().putInBox(key: AppData.USER_ID_STORAGE_KEY, value: loginModel.userId);
         LocalStorage().putInBox(key: AppData.USER_ROLE_STORAGE_KEY, value: loginModel.userRole);
         LocalStorage().putInBox(key: AppData.USER_NAME_STORAGE_KEY, value: loginModel.userName);
@@ -73,11 +79,16 @@ mixin LoginHelper{
         AppData.USER_NAME=loginModel.userName;
         AppData.USER_ROLE=loginModel.userRole;
         AppData.IS_VERIFIED_USER=loginModel.isVerified=="True";
-        Map<String,dynamic>user=jsonDecode(loginModel.user);
-        AppData.USER_NUMBER=user['Phone'].toString();
+        if(loginModel.user.isNotEmpty){
+          Map<String,dynamic>user=jsonDecode(loginModel.user);
+          AppData.USER_NUMBER=user['Phone'].toString();
+        }
         FacebookAnalyticsHelper.getInstance().init();
+        await AnalyticsHelper().setUserData();
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
       } on DioException catch (error){
+      } catch (error){
+        debugPrint('login error: $error');
       }
     }else{
       CustomSnakbar().appSnackBar(isFaild: true,text: 'Enter valid Email and password');
@@ -92,6 +103,7 @@ mixin LoginHelper{
       AppData.USER_NAME=await LocalStorage().getFromBox(key: AppData.USER_NAME_STORAGE_KEY)??"";
       AppData.USER_ROLE=await LocalStorage().getFromBox(key: AppData.USER_ROLE_STORAGE_KEY)??"";
       await isUserVerified();
+      await AnalyticsHelper().setUserData();
     }
     return id.isNotEmpty;
   }
@@ -142,21 +154,67 @@ mixin LoginHelper{
 
 
   }
-  Future <FacebookLoginModel?>facebookLogin()async{
-    FacebookLoginModel model=FacebookLoginModel();
-    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
-    if (result.status == LoginStatus.success) {
-      final AccessToken accessToken = result.accessToken!;
-      model.token=accessToken.tokenString;
-      final userData = await FacebookAuth.instance.getUserData();
-      model.name=userData["name"].toString();
-      model.email=userData["email"].toString();
-      model.id=userData["id"].toString();
-      return model;
-    } else {
-      print(result.status);
-      print(result.message);
+  Future<FacebookLoginModel?> facebookLogin() async {
+    try {
+      await FacebookAuth.instance.logOut();
+      final LoginResult result = await FacebookAuth.instance.login(
+
+
+        permissions: ["public_profile","email"]
+      );
+
+      if (result.status != LoginStatus.success ||
+          result.accessToken == null) {
+        if (result.status == LoginStatus.cancelled) {
+          debugPrint('Facebook login cancelled');
+        } else {
+          debugPrint('Facebook login failed: ${result.message}');
+        }
+        return null;
+      }
+
+      final userData = await FacebookAuth.instance.getUserData(
+        fields: 'id,name,email',
+      );
+
+      return FacebookLoginModel(
+        id: userData['id']?.toString() ?? '',
+        name: userData['name']?.toString() ?? '',
+        email: userData['email']?.toString() ?? '',
+        token: result.accessToken!.tokenString,
+      );
+    } catch (e, st) {
+      debugPrint('facebookLogin error: $e');
+      debugPrintStack(stackTrace: st);
+      return null;
     }
   }
+  Future<FacebookLoginModel?> googleLogin() async {
+    try {
+      final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: "546568219559-24ta7okf6j59ekba7bv50d1nh9cu23la.apps.googleusercontent.com");
+        await _googleSignIn.signOut();
+        final account = await _googleSignIn.signIn();
+        if (account == null) return null;
+        final auth = await account.authentication;
+      debugPrint('googleLogin token: ${auth.idToken}');
+
+      FacebookLoginModel model=FacebookLoginModel(
+          token: auth.idToken,
+        name: account.displayName,
+        email: account.email
+        );
+      await checkSocialLogin(email:account.email,socialId:auth.idToken??"",name:account.displayName);
+
+      return model;
+
+    } catch (e, st) {
+      debugPrint('facebookLogin error: $e');
+      debugPrintStack(stackTrace: st);
+      return null;
+    }
+  }
+
+
+
 
 }

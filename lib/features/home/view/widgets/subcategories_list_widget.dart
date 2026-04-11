@@ -60,6 +60,8 @@ onDispose();
         padding:  EdgeInsets.symmetric(horizontal: 2.w),
         child: GridView.builder(
           padding: EdgeInsets.only(top: 1.h) ,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: widget.columns??4, // Number of columns in the grid
             crossAxisSpacing: 0.1.w, // Spacing between columns

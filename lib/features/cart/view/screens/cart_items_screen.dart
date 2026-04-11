@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../common/helpers/analytics_helper.dart';
 import '../../../../common/helpers/app_localization.dart';
 import '../../../../common/helpers/app_navigator.dart';
 import '../../provider/cart_provider.dart';
@@ -21,6 +22,16 @@ class CartItemsScreen extends StatelessWidget {
     context.read<CartProvider>().getCartItems().then((value) {
       context.read<CartProvider>().setTotalPrice();
       context.read<CartProvider>().getShippingAddresses();
+
+      // GA4: view_cart event
+      final cartProvider = context.read<CartProvider>();
+      final items = cartProvider.cartItemsResponseModel?.modelList ?? [];
+      if (items.isNotEmpty) {
+        AnalyticsHelper().logViewCart(
+          value: cartProvider.totalPrice.toDouble(),
+          items: AnalyticsHelper.cartItemsToAnalyticsItems(items),
+        );
+      }
     });
     return SafeArea(
       child: Consumer<CartProvider>(builder: (context,dataModel,_){
@@ -103,6 +114,14 @@ class CartItemsScreen extends StatelessWidget {
                       ),
                       onPressed: ()async{
                         if(AppData.USER_NAME.isNotEmpty){
+                          // GA4: begin_checkout event
+                          final items = dataModel.cartItemsResponseModel?.modelList ?? [];
+                          if (items.isNotEmpty) {
+                            AnalyticsHelper().logBeginCheckout(
+                              value: dataModel.totalPrice.toDouble(),
+                              items: AnalyticsHelper.cartItemsToAnalyticsItems(items),
+                            );
+                          }
                           AppNavigator().push(routeName: AppRoutes.COMPLETE_ORDER_SCREEN_ROUT);
                         }else{
                           AppNavigator().push(routeName: AppRoutes.LOGIN_SCREEN_ROUTE);

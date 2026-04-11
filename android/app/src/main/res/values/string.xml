@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">669657660910179</string>
-    <string name="facebook_client_token">565f2567b096af6c19fed6f56ad27a0f</string>
+    <string name="app_name">Bino Kids</string>
+    <string name="facebook_app_id">27046285758328883</string>
+    <string name="facebook_client_token">37f7553b97ec2cef642e8e73387dfcca</string>
+    <string name="fb_login_protocol_scheme">fb27046285758328883</string>
+
 </resources>

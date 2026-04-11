@@ -39,20 +39,24 @@ import '../widgets/no_internet_screen.dart';
    initConnection({ required Function onConnectionBack}){
 
      bool isConnectionShowing = false;
-     CheckInternet connectionStatus = CheckInternet();
-     connectionStatus.initialize();
-     connectionStatus.connectionChange.listen((hasConnection){
-       if (hasConnection) {
+     InternetService connectionStatus = InternetService();
+     connectionStatus.start();
+     connectionStatus.onStatusChange.listen((hasData){
+       debugPrint("network status:$hasData");
+       if (hasData) {
          if (isConnectionShowing) {
+           isConnectionShowing=false;
            AppNavigator().goBack();
            onConnectionBack();
          }
        } else {
-         isConnectionShowing = true;
-         AppNavigator().push(routeName: AppRoutes.NO_INTERNET_ROUT);
-
+         if (!isConnectionShowing) {
+           isConnectionShowing = true;
+           AppNavigator().push(routeName: AppRoutes.NO_INTERNET_ROUT);
+         }
        }
      });
+
    }
   Route onGenerateRoute(RouteSettings routeSettings) {
     AppNavigator().routeSettings=routeSettings;

@@ -13,6 +13,7 @@ import 'package:flutter/Material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../common/helpers/analytics_helper.dart';
 import '../../../../common/helpers/app_localization.dart';
 import '../../../../common/models/custom_dropdown_model.dart';
 import '../widgets/payment_method_item_widget.dart';
@@ -170,6 +171,13 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
                               onSelect:(){
                                 dataModel.selectedPaymentMethod=0;
                                 dataModel.notifyListeners();
+                                // GA4: add_payment_info event
+                                final items = dataModel.cartItemsResponseModel?.modelList ?? [];
+                                AnalyticsHelper().logAddPaymentInfo(
+                                  paymentType: 'COD',
+                                  value: dataModel.totalPriceAfterDiscount.toDouble(),
+                                  items: AnalyticsHelper.cartItemsToAnalyticsItems(items),
+                                );
                               },
                               model: PaymentMethodItemModel(
                                   title: tr("cash_on_delivery"),
@@ -181,6 +189,13 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
                                  onSelect:(){
                                    dataModel.selectedPaymentMethod=1;
                                    dataModel.notifyListeners();
+                                   // GA4: add_payment_info event
+                                   final items = dataModel.cartItemsResponseModel?.modelList ?? [];
+                                   AnalyticsHelper().logAddPaymentInfo(
+                                     paymentType: 'Card',
+                                     value: dataModel.totalPriceAfterDiscount.toDouble(),
+                                     items: AnalyticsHelper.cartItemsToAnalyticsItems(items),
+                                   );
                                  },
                                  model: PaymentMethodItemModel(
                                      title: tr("online_payment"),

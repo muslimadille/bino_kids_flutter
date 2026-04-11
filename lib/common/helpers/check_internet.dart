@@ -1,52 +1,98 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-class CheckInternet {
-  static CheckInternet? _instance;
+import 'package:flutter/widgets.dart';
 
-  CheckInternet._internal();
+class InternetService with WidgetsBindingObserver {
+  static final InternetService _instance = InternetService._internal();
 
-  factory CheckInternet() {
-    return _instance??=CheckInternet._internal();
-  }
+  factory InternetService() => _instance;
 
-  bool _hasConnection = false;
-  final StreamController _connectionChangeController = StreamController.broadcast();
-  final Connectivity _connectivity = Connectivity();
+  InternetService._internal();
 
-  Stream get connectionChange => _connectionChangeController.stream;
+  final StreamController<bool> _controller =
+  StreamController<bool>.broadcast();
 
-  void initialize() async{
-    final List<ConnectivityResult> result = await (Connectivity().checkConnectivity());
-    await _checkConnection(result);
-    _connectionChangeController.add(_hasConnection);
-    _connectivity.onConnectivityChanged.listen(_connectionChange);
+  Stream<bool> get onStatusChange => _controller.stream;
 
-  }
+  bool _hasConnection = true;
+  bool _isPaused = false;
 
-  _checkConnection(List<ConnectivityResult> result) async {
-    if (result[0] == ConnectivityResult.mobile ||
-        result[0] == ConnectivityResult.wifi) {
-      final result = await InternetConnectionChecker.instance.hasConnection;
-      if (result??false) {
-        _hasConnection = true;
-      } else {
-        _hasConnection = false;
+  Timer? _timer;
+
+  bool get hasConnection => _hasConnection;
+
+  void start({Duration interval = const Duration(seconds: 5)}) {
+    _timer?.cancel();
+    _isPaused = false;
+
+    WidgetsBinding.instance.addObserver(this);
+
+    _checkConnection(); // initial check
+
+    _timer = Timer.periodic(interval, (_) {
+      if (!_isPaused) {
+        _checkConnection();
       }
-    } else {
-      _hasConnection = false;
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      _isPaused = true;
+    } else if (state == AppLifecycleState.resumed) {
+      _isPaused = false;
+      // Re-check connection on resume with a small delay
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _checkConnection();
+      });
     }
   }
 
-  _connectionChange(List<ConnectivityResult> result) async {
-    bool previousConnection = _hasConnection;
-    await _checkConnection(result);
-    if (previousConnection != _hasConnection) {
-      _connectionChangeController.add(_hasConnection);
-    }
+  void stop() {
+    _timer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  Future<bool> checkNow() async {
+    await _checkConnection();
     return _hasConnection;
   }
 
+  Future<void> _checkConnection() async {
+    if (_isPaused) return;
+
+    final previous = _hasConnection;
+
+    _hasConnection = await _hasInternetSocket();
+
+    // Only emit when status actually changes
+    if (previous != _hasConnection) {
+      _controller.add(_hasConnection);
+    }
+  }
+
+  Future<bool> _hasInternetSocket() async {
+    try {
+      final socket = await Socket.connect(
+        'google.com',
+        443,
+        timeout: const Duration(seconds: 5),
+      );
+
+      socket.destroy();
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void dispose() {
+    _timer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    _controller.close();
+  }
 }

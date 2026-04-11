@@ -29,7 +29,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.binokids"
-    compileSdk = 35  // استخدام 35 لتوافق كامل حتى الآن
+    compileSdk = 36
 
     ndkVersion "29.0.14033849"
 
@@ -102,10 +102,12 @@ flutter {
 }
 
 dependencies {
+
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.window:window:1.2.0'
     implementation 'androidx.window:window-java:1.2.0'
     implementation 'com.google.firebase:firebase-messaging:24.0.0'
     implementation 'com.onesignal:OneSignal:[5.0.0, 5.99.99]'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+
 }

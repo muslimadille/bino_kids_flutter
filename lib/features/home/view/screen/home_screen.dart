@@ -96,7 +96,9 @@ class _HomeScreenState extends State<HomeScreen>with HomeHelper,AutomaticKeepAli
               child:Padding(
                 padding:  EdgeInsets.all(2.w),
                 child: CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     slivers: [
                     SliverToBoxAdapter(child:SliderWidget()),
                       SliverToBoxAdapter(child:StreamBuilder<MainCategoriesDataModel?>(

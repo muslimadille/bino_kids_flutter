@@ -44,21 +44,21 @@ class LoginModel {
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-    accessToken: json["access_token"],
-    tokenType: json["token_type"],
-    expiresIn: json["expires_in"],
-    userId: json["UserID"],
-    profileImageUrl: json["ProfileImageURL"],
-    userName: json["userName"],
-    status: json["status"],
-    userRole: json["userRole"],
-    message: json["message"],
-    isVerified: json["IsVerified"],
-    isFirstTimeToVerify: json["IsFirstTimeToVerify"],
-    isRedirectedToCart: json["IsRedirectedToCart"],
-    user: json["user"],
-    issued: json[".issued"],
-    expires: json[".expires"],
+    accessToken: json["access_token"]??"",
+    tokenType: json["token_type"]??"",
+    expiresIn: json["expires_in"]??0,
+    userId: json["UserID"]??"",
+    profileImageUrl: json["ProfileImageURL"]??"",
+    userName: json["userName"]??"",
+    status: json["status"]?.toString()??"",
+    userRole: json["userRole"]??"",
+    message: json["message"]??json["Message"]??"",
+    isVerified: json["IsVerified"]??"",
+    isFirstTimeToVerify: json["IsFirstTimeToVerify"]??"",
+    isRedirectedToCart: json["IsRedirectedToCart"]??"",
+    user: json["user"]??"",
+    issued: json[".issued"]??"",
+    expires: json[".expires"]??"",
   );
 
   Map<String, dynamic> toJson() => {

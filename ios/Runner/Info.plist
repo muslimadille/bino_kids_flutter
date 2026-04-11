@@ -29,6 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb27046285758328883</string>
 				<string>org.reactjs.native.BinoKids</string>
 			</array>
 		</dict>
@@ -36,9 +37,11 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
-	<string>669657660910179</string>
+	<string>27046285758328883</string>
 	<key>FacebookClientToken</key>
-	<string>565f2567b096af6c19fed6f56ad27a0f</string>
+	<string>37f7553b97ec2cef642e8e73387dfcca</string>
+	<key>FacebookDisplayName</key>
+	<string>bino kids mobile</string>
 	<key>GIDClientID</key>
 	<string>546568219559-t3b88q9snv5aqok82phvrstdq55q8sr7.apps.googleusercontent.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -46,6 +49,10 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

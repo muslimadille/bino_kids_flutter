@@ -108,14 +108,7 @@ class _SplashScreenState extends State<SplashScreen> with LoginHelper,MyAppHelpe
         );
           });
     }else{
-      await initConnection(onConnectionBack: ()async{
-        bool isLogin=await isUserLogin();
-        if(isLogin){
-          AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
-        }else{
-          AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
-        }
-      });
+
       bool isLogin=await isUserLogin();
       if(isLogin){
         AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);

@@ -334,6 +334,38 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                         Text(tr("Continue with Facebook"),style: TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
                       ],
                     )),
+              ),
+              SizedBox(height: 1.5.h,),
+
+              InkWell(
+                onTap: ()async{
+                  googleLogin();
+                },
+                child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 3.w),
+                    padding: EdgeInsets.all(3.w),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.fromBorderSide(
+                            BorderSide(
+                                width:1,
+                                color:Colors.grey
+                            )
+                        )
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width:20.w),
+                        Image.asset("assets/images/google.png",
+                          height: 3.h,
+                          width: 3.h,
+                        ),
+                        SizedBox(width: 5.w,),
+                        Text(tr("signin with google"),style: TextStyle(fontSize:AppFontSize.x_small,fontWeight: FontWeight.w700),)
+                      ],
+                    )),
               )
 
 
@@ -407,10 +439,9 @@ class _LoginScreenState extends State<LoginScreen> with LoginHelper{
                     onPressed: ()async{
                       AppNavigator().goBack();
                       FacebookLoginModel? model=await facebookLogin();
-                      if(mounted!=null){
-                        await checkSocialLogin(email:model!.email??'',socialId:model!.id??"",name:model!.name??"");
+                      if(model!=null&&mounted){
+                        await checkSocialLogin(email:model.email??'',socialId:model.id??"",name:model.name??"");
                       }
-                      print("facebook: id=${model!.id}");
                     },
                     child: SizedBox(
                         width: double.infinity,

@@ -14,6 +14,7 @@ import 'package:bino_kids/features/cart/repository/cart_repository.dart';
 import 'package:bino_kids/features/orders/view/screens/all_orders_screen.dart';
 import 'package:bino_kids/features/profile/model/addresses_list_model.dart';
 import 'package:bino_kids/features/profile/repository/profile_repository.dart';
+import 'package:bino_kids/common/helpers/analytics_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -167,8 +168,23 @@ class CartProvider with ChangeNotifier{
             totalAfterDiscount: (totalPriceAfterDiscount-shippingPrice).toString(),
             governmentId: selectedGovernment!.id.toString(),
             addressName: addressController.text);
+        // Save cart items before order is placed (for purchase event)
+        final cartItemsBeforeOrder = cartItemsResponseModel?.modelList ?? [];
+        final purchaseValue = totalPriceAfterDiscount.toDouble();
+        final purchaseShipping = shippingPrice.toDouble();
+        final purchasePaymentType = selectedPaymentMethod == 0 ? 'COD' : 'Card';
+
         SetOrderResponseModel model=setOrderResponseModelFromJson(jsonEncode(response.data)) ;
         if(model.status==1){
+          // GA4: purchase event (sent once after order confirmed)
+          AnalyticsHelper().logPurchase(
+            transactionId: model.sessionId.isNotEmpty ? model.sessionId : DateTime.now().millisecondsSinceEpoch.toString(),
+            value: purchaseValue,
+            shipping: purchaseShipping,
+            paymentType: purchasePaymentType,
+            items: AnalyticsHelper.cartItemsToAnalyticsItems(cartItemsBeforeOrder),
+          );
+
           await getCartItems();
           if(model.returnedUrlToPayment.isNotEmpty&&(cartItemsResponseModel!.isOnlinePayment??false)){
             AppNavigator().push(

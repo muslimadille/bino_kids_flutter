@@ -16,11 +16,12 @@ class ModelTypesGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 32.h,
       margin: EdgeInsets.only(top: 1.h),
       padding:  EdgeInsets.symmetric(horizontal: 2.w),
       child: GridView.builder(
         padding: EdgeInsets.only(top: 1.h,bottom: 1.h),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4, // Number of columns in the grid
           crossAxisSpacing: 2.w, // Spacing between columns

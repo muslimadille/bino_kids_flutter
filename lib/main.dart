@@ -22,10 +22,12 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'common/helpers/device_info_details.dart';
+import 'common/utils/constants/app_routes.dart';
 import 'common/widgets/custom_loading.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'features/auth/view_model/login_helper.dart';
 import 'firebase_options.dart';
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -87,13 +89,22 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with MyAppHelper {
+class _MyAppState extends State<MyApp> with MyAppHelper,LoginHelper {
 
 
   @override
   void initState() {
     super.initState();
+     initConnection(onConnectionBack: (){
+       isUserLogin().then((v){
+         if(v){
+           AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+         }else{
+           AppNavigator().pushReplacement(routeName: AppRoutes.HOME_SCREEN_ROUTE);
+         }
+       });
 
+    });
     AppLocalization().onInit();
     localization.onTranslatedLanguage = (local) {
       CashHelper.reset();
